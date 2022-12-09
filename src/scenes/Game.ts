@@ -20,6 +20,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.image('bullet', '../assets/bullets/bullet.png');
     this.load.image('background', '../assets/skies/underwater1.png');
     this.load.image('enemy', '../assets/necromancer/necromancer_idle_anim_f0.png');
+    this.load.image('crosshair', '../assets/crosshair.png')
   }
 
   create() {
