@@ -15,16 +15,16 @@ export default class GameScene extends Phaser.Scene {
 
   // preloading sprites 
   preload() {
-    this.load.atlas('knight', '../assets/spritesheet/spritesheeet.png', '../assets/spritesheet/spritesheet.json')
+    // this.load.atlas('spritesheet', '../assets/spritesheet/spritesheeet.png', '../assets/spritesheet/spritesheet.json')
     this.load.image('logo', '../assets/phaser3-logo.png');
-    this.load.image('player', '../assets/knight/knight_f_idle_anim_f0.png');
     this.load.image('bullet', '../assets/bullets/bullet.png');
     this.load.image('background', '../assets/skies/underwater1.png');
     this.load.image('enemy', '../assets/necromancer/necromancer_idle_anim_f0.png');
+    this.load.image('player', '../assets/knight/knight_idle.png') // texture
+    this.load.atlas('knight', '../assets/knight/knight.png', '../assets/knight/knight.json'); // atlas
   }
 
   create() {
-
     // world bounds
     this.physics.world.setBounds(0, 0, 1600, 1200);
 
@@ -46,7 +46,6 @@ export default class GameScene extends Phaser.Scene {
 
     // -- Camera -- //
     this.setupCamera();
-
   }
 
   update(time: number, delta: number): void{
