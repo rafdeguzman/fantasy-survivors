@@ -11,6 +11,8 @@ export default class GameScene extends Phaser.Scene {
   private playerBullets: BulletGroup;
   private crosshair: Crosshair;
 
+  private timerEvents: Phaser.Time.TimerEvent[] = [];
+
   constructor() {
     super('GameScene');
   }
@@ -50,6 +52,8 @@ export default class GameScene extends Phaser.Scene {
 
     // -- Camera -- //
     this.setupCamera();
+
+    // this.timerEvents.push(this.time.addEvent({ delay: 250, callback: this.playerBullets.fireAimedBullet, callbackScope: this.playerBullets, loop: true, args: [this.player, this.crosshair] }));
   }
 
   update(time: number, delta: number): void{
@@ -80,5 +84,7 @@ export default class GameScene extends Phaser.Scene {
     this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
       this.playerBullets.fireAimedBullet(this.player, this.crosshair);
     });
+
+    
   }
 }
