@@ -8,6 +8,7 @@ import Crosshair from '../objects/Crosshair';
 export default class GameScene extends Phaser.Scene {
   private player: Player;
   private enemy: Enemy;
+
   private playerBullets: BulletGroup;
   private crosshair: Crosshair;
 
@@ -39,7 +40,7 @@ export default class GameScene extends Phaser.Scene {
 
     // -- Entities -- //
     this.addPlayer(this, 100, 100);
-    this.addEnemy();
+    this.addEnemy(this, 800, 500);
 
     // -- Groups -- //
     this.playerBullets = new BulletGroup(this);
@@ -54,11 +55,14 @@ export default class GameScene extends Phaser.Scene {
     this.setupCamera();
 
     // this.timerEvents.push(this.time.addEvent({ delay: 250, callback: this.playerBullets.fireAimedBullet, callbackScope: this.playerBullets, loop: true, args: [this.player, this.crosshair] }));
+
+    this.timerEvents.push(this.time.addEvent({ delay: 1000, callback: this.playerBullets.fireAimedBullet, callbackScope: this.playerBullets, loop: true, args: [this.player, this.crosshair] }));
   }
 
   update(time: number, delta: number): void{
     this.crosshair.update(time, delta);
     this.player.update(time, delta);
+    this.enemy.update(time, delta);
   }
 
   setupCamera(): void{
@@ -70,14 +74,8 @@ export default class GameScene extends Phaser.Scene {
     this.crosshair = new Crosshair(scene, 0, 0);
   }
 
-  addEnemy(): void{
-    // Enemy
-    this.enemy = new Enemy({
-      scene: this,
-      x: 1200,
-      y: 800,
-      texture: 'enemy',
-    });
+  addEnemy(scene: Phaser.Scene, x: number, y: number): void{
+    this.enemy = new Enemy(scene, x, y);
   }
 
   addEvents(): void{

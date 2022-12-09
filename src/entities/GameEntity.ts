@@ -9,6 +9,6 @@ export default class GameEntity extends Phaser.Physics.Arcade.Sprite{
        scene.add.existing(this);
        scene.physics.add.existing(this);
    
-       this.body.setCollideWorldBounds(true);
+    //    this.body.setCollideWorldBounds(true);
     }
 }

@@ -1,10 +1,7 @@
-import ISpriteConstructor from "../interfaces/ISprite";
 import PlayerStateName from "../enums/PlayerStateName";
 import GameEntity from "./GameEntity";
 export default class Player extends GameEntity {
     readonly SPEED: number = 800;
-
-    
 
     private keyW: Phaser.Input.Keyboard.Key;
     private keyA: Phaser.Input.Keyboard.Key;
