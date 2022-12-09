@@ -8,7 +8,9 @@ export default class Player extends GameEntity {
     private keyA: Phaser.Input.Keyboard.Key;
     private keyS: Phaser.Input.Keyboard.Key;
     private keyD: Phaser.Input.Keyboard.Key;
-
+    private keyQ: Phaser.Input.Keyboard.Key;
+    private keyE: Phaser.Input.Keyboard.Key;
+    private keyX: Phaser.Input.Keyboard.Key;
 
     private movementKeys = {
         up: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
@@ -24,9 +26,13 @@ export default class Player extends GameEntity {
         this.keyA = this.scene.input.keyboard.addKey('A');
         this.keyS = this.scene.input.keyboard.addKey('S');
         this.keyD = this.scene.input.keyboard.addKey('D');
+        this.keyQ = this.scene.input.keyboard.addKey('Q');
+        this.keyE = this.scene.input.keyboard.addKey('E');
+        this.keyX = this.scene.input.keyboard.addKey('X');
 
 
         this.scene.add.existing(this);
+        
         this.initState();
         this.initPhysics();
         this.initAnimations();
@@ -61,28 +67,53 @@ export default class Player extends GameEntity {
         this.body.setVelocity(0);
 
         if (this.keyW?.isDown) {
-            this.body.velocity.y = -this.SPEED;
+            this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation - Math.PI / 2, this.SPEED, this.body.velocity)
+            // this.body.velocity.y = -this.SPEED;
+            
             !this.anims.isPlaying && this.anims.play('run', true);
         }
 
         if (this.keyA?.isDown) {
-            this.body.velocity.x = -this.SPEED;
+            this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation - Math.PI, this.SPEED, this.body.velocity)
             this.flipX = true;
             // this.body.setOffset(48, 15);
             !this.anims.isPlaying && this.anims.play('run', true);
         }
 
         if (this.keyS?.isDown) {
-            this.body.velocity.y = this.SPEED;
+            this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation + Math.PI / 2, this.SPEED, this.body.velocity)
+            // this.body.velocity.y = this.SPEED;
             !this.anims.isPlaying && this.anims.play('run', true);
         }
-
         if (this.keyD?.isDown) {
-            this.body.velocity.x = this.SPEED;
+            this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation, this.SPEED, this.body.velocity)
+            // this.body.velocity.x = this.SPEED;
             this.flipX = false;
             !this.anims.isPlaying && this.anims.play('run', true);
         }
 
+        if (this.keyD.isDown && this.keyW.isDown){
+            this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation - Math.PI / 4, this.SPEED, this.body.velocity)
+        }
+        if (this.keyA.isDown && this.keyW.isDown){
+            this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation - Math.PI * 3 / 4, this.SPEED, this.body.velocity)
+        }
+        if (this.keyA.isDown && this.keyS.isDown){
+            this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation + Math.PI * 3 / 4, this.SPEED, this.body.velocity)
+        }
+        if (this.keyD.isDown && this.keyS.isDown){
+            this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation + Math.PI / 4, this.SPEED, this.body.velocity)
+        }
+
+        if (this.keyQ?.isDown) {
+            this.scene.cameras.main.rotation += 0.05;
+        }
+        if (this.keyE?.isDown) {
+            this.scene.cameras.main.rotation -= 0.05;
+        }
+        if (this.keyX?.isDown) {
+            this.scene.cameras.main.rotation = 0;
+        }
         // if no key is down
         if (this.keyD?.isUp && this.keyA?.isUp && this.keyS?.isUp && this.keyW?.isUp) {
             !this.anims.isPlaying && this.anims.play('idle', true);
@@ -91,5 +122,6 @@ export default class Player extends GameEntity {
 
     update(time: number, delta: number): void {
         this.handleInput();
+        this.rotation = -this.scene.cameras.main.rotation;
     }    
 }
