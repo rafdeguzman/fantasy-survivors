@@ -17,8 +17,6 @@ export default class GameScene extends Phaser.Scene {
   preload() {
     this.load.image('player', '../assets/knight/knight_idle.png') // texture
     this.load.atlas('knight', '/assets/knight/knight.png', '/assets/knight/knight.json'); // atlas
-
-    this.load.image('logo', '../assets/phaser3-logo.png');
     this.load.image('bullet', '../assets/bullets/bullet.png');
     this.load.image('background', '../assets/skies/underwater1.png');
     this.load.image('enemy', '../assets/necromancer/necromancer_idle_anim_f0.png');
@@ -76,6 +74,11 @@ export default class GameScene extends Phaser.Scene {
     this.input.keyboard.on('keydown-SPACE', () => {
       this.playerBullets.fireBullet(this.player.x, this.player.y);
     });
+    this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
+      this.playerBullets.fireBullet(this.player.x, this.player.y);
+    });
+    this.input.mouse.disableContextMenu();
+
   }
 
 }
