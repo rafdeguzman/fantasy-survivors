@@ -15,6 +15,7 @@ export default class GameScene extends Phaser.Scene {
 
   // preloading sprites 
   preload() {
+    this.load.atlas('knight', '../assets/spritesheet/spritesheeet.png', '../assets/spritesheet/spritesheet.json')
     this.load.image('logo', '../assets/phaser3-logo.png');
     this.load.image('player', '../assets/knight/knight_f_idle_anim_f0.png');
     this.load.image('bullet', '../assets/bullets/bullet.png');
@@ -43,16 +44,20 @@ export default class GameScene extends Phaser.Scene {
     // -- Events -- //
     this.addEvents();
 
+    // -- Camera -- //
+    this.setupCamera();
 
-    // Set sprite variables
   }
 
   update(time: number, delta: number): void{
     this.player.update(time, delta);
   }
 
+  setupCamera(): void{
+    this.cameras.main.startFollow(this.player);
+  }
+
   addPlayer(): void{
-    // Player
     this.player = new Player({
       scene: this,
       x: 400,

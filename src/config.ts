@@ -10,6 +10,8 @@ export default {
     mode: Phaser.Scale.Center,
     autoCenter: Phaser.Scale.CENTER_BOTH
   },
+  pixelArt: true,
+  zoom: 4,
   physics: {
     default: 'arcade',
     arcade: {

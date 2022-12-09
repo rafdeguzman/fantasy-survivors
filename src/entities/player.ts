@@ -22,6 +22,30 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.initSprite();
         this.initPhysics();
         this.initState();
+
+        // animation
+        this.anims.create({
+            key: 'knight-idle',
+            frames: [{
+            key: 'knight',
+            frame: 'knight_f_idle_anim_f0'
+            },
+            {
+                key: 'knight',
+                frame: 'knight_f_idle_anim_f1'
+            },
+            {
+                key: 'knight',
+                frame: 'knight_f_idle_anim_f2'
+            },
+            {
+                key: 'knight',
+                frame: 'knight_f_idle_anim_f3'
+            }],
+            frameRate: 10,
+            repeat: -1
+        });
+        this.play('knight');
     }
 
     initState(): void{
@@ -40,7 +64,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
     }
 
     handleInput(): void {
-
         this.movementKeys.up.on('down', () => {
             this.body.setVelocityY(-this.SPEED);
         });
