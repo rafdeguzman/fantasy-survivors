@@ -15,13 +15,13 @@ export default class GameScene extends Phaser.Scene {
 
   // preloading sprites 
   preload() {
-    // this.load.atlas('spritesheet', '../assets/spritesheet/spritesheeet.png', '../assets/spritesheet/spritesheet.json')
+    this.load.image('player', '../assets/knight/knight_idle.png') // texture
+    this.load.atlas('knight', '/assets/knight/knight.png', '/assets/knight/knight.json'); // atlas
+
     this.load.image('logo', '../assets/phaser3-logo.png');
     this.load.image('bullet', '../assets/bullets/bullet.png');
     this.load.image('background', '../assets/skies/underwater1.png');
     this.load.image('enemy', '../assets/necromancer/necromancer_idle_anim_f0.png');
-    this.load.image('player', '../assets/knight/knight_idle.png') // texture
-    this.load.atlas('knight', '../assets/knight/knight.png', '../assets/knight/knight.json'); // atlas
   }
 
   create() {
@@ -32,7 +32,7 @@ export default class GameScene extends Phaser.Scene {
     var background = this.add.image(800, 600, 'background');
 
     // -- Entities -- //
-    this.addPlayer();
+    this.addPlayer(this, 100, 100);
     this.addEnemy();
 
     // -- Groups -- //
@@ -56,13 +56,8 @@ export default class GameScene extends Phaser.Scene {
     this.cameras.main.startFollow(this.player);
   }
 
-  addPlayer(): void{
-    this.player = new Player({
-      scene: this,
-      x: 400,
-      y: 300,
-      texture: 'player',
-    });
+  addPlayer(scene: Phaser.Scene, x: number, y: number): void{
+    this.player = new Player(scene, x, y);
   }
 
   addEnemy(): void{

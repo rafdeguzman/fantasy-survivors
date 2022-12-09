@@ -1,13 +1,14 @@
 import ISpriteConstructor from "../interfaces/ISprite";
 import PlayerStateName from "../enums/PlayerStateName";
-export default class Player extends Phaser.GameObjects.Sprite {
+import GameEntity from "./GameEntity";
+export default class Player extends GameEntity {
     readonly SPEED: number = 800;
 
-    declare body: Phaser.Physics.Arcade.Body;
+    private keyW: Phaser.Input.Keyboard.Key;
+    private keyA: Phaser.Input.Keyboard.Key;
+    private keyS: Phaser.Input.Keyboard.Key;
+    private keyD: Phaser.Input.Keyboard.Key;
 
-    public getBody(){
-        return this.body;
-    }
 
     private movementKeys = {
         up: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
@@ -16,27 +17,39 @@ export default class Player extends Phaser.GameObjects.Sprite {
         right: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
     };
 
-    constructor(aParams: ISpriteConstructor) {
-        super(aParams.scene, aParams.x, aParams.y, aParams.texture, aParams.frame);
+    constructor(scene: Phaser.Scene, x: number, y: number) {
+        super(scene, x, y, 'knight');
+
+        this.keyW = this.scene.input.keyboard.addKey('W');
+        this.keyA = this.scene.input.keyboard.addKey('A');
+        this.keyS = this.scene.input.keyboard.addKey('S');
+        this.keyD = this.scene.input.keyboard.addKey('D');
+
+
         this.scene.add.existing(this);
-        this.initSprite();
-        this.initPhysics();
         this.initState();
+        this.initPhysics();
         this.initAnimations();
+    }
+
+    initPhysics(){
+        this.body.setSize(32, 32);
+        this.body.setOffset(0, 0);
+        this.setDisplaySize(72, 112);
     }
 
     initAnimations(): void{
         this.scene.anims.create({
             key: 'idle',
-            frames: this.scene.anims.generateFrameNames('knight', {prefix: 'knight_idle_anim_f', start: 0, end: 3, zeroPad: 0}),
+            frames: this.scene.anims.generateFrameNames('knight', {prefix: 'idle', start: 0, end: 3}),
             frameRate: 10,
-            repeat: -1
+            repeat: 0
         });
         this.scene.anims.create({
             key: 'run',
-            frames: this.scene.anims.generateFrameNames('knight', {prefix: 'knight_run_anim_f', start: 0, end: 7, zeroPad: 0}),
+            frames: this.scene.anims.generateFrameNames('knight', {prefix: 'run', start: 0, end: 3}),
             frameRate: 10,
-            repeat: -1
+            repeat: 0
         });
     }
 
@@ -44,42 +57,38 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.setState(PlayerStateName.Idle);
     }
 
-    initSprite(): void{
-        this.setDisplayOrigin(0.5, 0.5);
-        this.setDisplaySize(72, 112);
-    }
-
-    initPhysics(): void{
-        this.scene.physics.add.existing(this);
-        this.scene.physics.world.enable(this);
-        this.body.setCollideWorldBounds(true);
-    }
-
     handleInput(): void {
-        this.movementKeys.up.on('down', () => {
-            this.body.setVelocityY(-this.SPEED);
-            !this.anims.isPlaying &&
-                this.anims.play('run', true);
-        });
-        this.movementKeys.down.on('down', () => {
-            this.body.setVelocityY(this.SPEED);
-            !this.anims.isPlaying && this.anims.play('run', true);
-        });
-        this.movementKeys.left.on('down', () => {
-            this.body.setVelocityX(-this.SPEED);
-            !this.anims.isPlaying && this.anims.play('run', true);
-        });
-        this.movementKeys.right.on('down', () => {
-            this.body.setVelocityX(this.SPEED);
-            !this.anims.isPlaying && this.anims.play('run', true);
-        });
-        if (this.body.velocity.x === 0 && this.body.velocity.y === 0) {
+        this.body.setVelocity(0);
+
+        if (this.keyW?.isDown) {
+        this.body.velocity.y = -this.SPEED;
+        !this.anims.isPlaying && this.anims.play('run', true);
+        }
+
+        if (this.keyA?.isDown) {
+        this.body.velocity.x = -this.SPEED;
+        !this.anims.isPlaying && this.anims.play('run', true);
+        }
+
+        if (this.keyS?.isDown) {
+        this.body.velocity.y = this.SPEED;
+        !this.anims.isPlaying && this.anims.play('run', true);
+        }
+
+        if (this.keyD?.isDown) {
+        this.body.velocity.x = this.SPEED;
+        !this.anims.isPlaying && this.anims.play('run', true);
+        }
+
+        // if no key is down
+        if (this.keyD?.isUp && this.keyA?.isUp && this.keyS?.isUp && this.keyW?.isUp) {
             !this.anims.isPlaying && this.anims.play('idle', true);
         }
     }
 
     update(time: number, delta: number): void {
-        this.body.setVelocity(0);
         this.handleInput();
+
+        
     }    
 }
