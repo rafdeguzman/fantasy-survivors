@@ -3,11 +3,13 @@ import Player from '../entities/Player';
 import Bullet from '../objects/Bullet';
 import Enemy from '../entities/Enemy';
 import BulletGroup from '../groups/BulletGroup';
+import Crosshair from '../objects/Crosshair';
 
 export default class GameScene extends Phaser.Scene {
   private player: Player;
   private enemy: Enemy;
   private playerBullets: BulletGroup;
+  private crosshair: Crosshair;
 
   constructor() {
     super('GameScene');
@@ -20,10 +22,13 @@ export default class GameScene extends Phaser.Scene {
     this.load.image('bullet', '../assets/bullets/bullet.png');
     this.load.image('background', '../assets/skies/underwater1.png');
     this.load.image('enemy', '../assets/necromancer/necromancer_idle_anim_f0.png');
-    this.load.image('crosshair', '../assets/crosshair.png')
+    this.load.image('crosshair', '../assets/crosshair/crosshair.png')
   }
 
   create() {
+    this.input.setPollAlways();
+    this.input.setPollRate(0);
+
     // world bounds
     this.physics.world.setBounds(0, 0, 1600, 1200);
 
@@ -48,6 +53,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update(time: number, delta: number): void{
+    this.crosshair.update(time, delta);
     this.player.update(time, delta);
   }
 
@@ -57,6 +63,7 @@ export default class GameScene extends Phaser.Scene {
 
   addPlayer(scene: Phaser.Scene, x: number, y: number): void{
     this.player = new Player(scene, x, y);
+    this.crosshair = new Crosshair(scene, 0, 0);
   }
 
   addEnemy(): void{
@@ -76,10 +83,8 @@ export default class GameScene extends Phaser.Scene {
       this.playerBullets.fireBullet(this.player.x, this.player.y);
     });
     this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-      this.playerBullets.fireBullet(this.player.x, this.player.y);
+      this.playerBullets.fireAimedBullet(this.player, this.crosshair);
     });
-    this.input.mouse.disableContextMenu();
-
   }
 
 }
