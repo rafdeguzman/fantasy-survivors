@@ -6,8 +6,10 @@ import BulletGroup from '../groups/BulletGroup';
 import Crosshair from '../objects/Crosshair';
 
 export default class GameScene extends Phaser.Scene {
-  private player: Player;
-  private enemy: Enemy;
+  public player: Player;
+  public enemy: Enemy;
+
+  private enemyList: Enemy[] = [];
 
   private playerBullets: BulletGroup;
   private crosshair: Crosshair;
@@ -40,7 +42,7 @@ export default class GameScene extends Phaser.Scene {
 
     // -- Entities -- //
     this.addPlayer(this, 100, 100);
-    this.addEnemy(this, 800, 500);
+    // this.addEnemy(this, 800, 500);
 
     // -- Groups -- //
     this.playerBullets = new BulletGroup(this);
@@ -56,13 +58,15 @@ export default class GameScene extends Phaser.Scene {
 
     // this.timerEvents.push(this.time.addEvent({ delay: 250, callback: this.playerBullets.fireAimedBullet, callbackScope: this.playerBullets, loop: true, args: [this.player, this.crosshair] }));
 
-    this.timerEvents.push(this.time.addEvent({ delay: 1000, callback: this.playerBullets.fireAimedBullet, callbackScope: this.playerBullets, loop: true, args: [this.player, this.crosshair] }));
+    this.timerEvents.push(this.time.addEvent({ delay: 1000, callback: this.addEnemyToList, callbackScope: this, loop: true }));
   }
 
   update(time: number, delta: number): void{
     this.crosshair.update(time, delta);
     this.player.update(time, delta);
-    this.enemy.update(time, delta);
+    this.enemyList.forEach(enemy => {
+      enemy.update();
+    });
   }
 
   setupCamera(): void{
@@ -78,11 +82,13 @@ export default class GameScene extends Phaser.Scene {
     this.enemy = new Enemy(scene, x, y);
   }
 
+  addEnemyToList(enemy: Enemy): void{
+    this.enemyList.push(new Enemy(this, Math.random() * 1600, Math.random() * 1200));
+  }
+
   addEvents(): void{
     this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
       this.playerBullets.fireAimedBullet(this.player, this.crosshair);
-    });
-
-    
+    });    
   }
 }
