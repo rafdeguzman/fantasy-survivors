@@ -6,6 +6,8 @@ export default class Crosshair extends Phaser.Physics.Arcade.Sprite {
         this.scene.add.existing(this);
 
         this.initPhysics();
+
+        this.alpha = 0; // set alpha to 0 because crosshair is buggy
     }
 
     initPhysics(){
