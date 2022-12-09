@@ -1,7 +1,7 @@
-import { IImageConstructor } from "../interfaces/IIMage";
+import { IImageConstructor } from "../interfaces/IImage";
 import GLOBALS from "../Globals";
 
-export class Bullet extends Phaser.GameObjects.Image{
+export default class Bullet extends Phaser.GameObjects.Image {
     speed: number;
     born: number;
     direction: number;
@@ -9,7 +9,8 @@ export class Bullet extends Phaser.GameObjects.Image{
     ySpeed: number;
 
     constructor(aParams: IImageConstructor){
-        super(aParams.scene, aParams.x, aParams.y, aParams.texture = "../assets/bullets/bullet6.png", aParams.frame);
+        super(aParams.scene, aParams.x, aParams.y, aParams.texture = "../assets/bullets/bullet6.png", aParams.frame = 0);
+        console.log(this.scene);
         // set fields
         this.speed = GLOBALS.BULLET_SPEED;
         this.born = 0;
