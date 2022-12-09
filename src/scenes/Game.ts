@@ -74,7 +74,7 @@ export default class GameScene extends Phaser.Scene {
     // Events
     // add arrow keys
     this.input.keyboard.on('keydown-SPACE', () => {
-      this.playerBullets.fireBullet(this.player.x + (72 / 2), this.player.y + (112 / 2));
+      this.playerBullets.fireBullet(this.player.x, this.player.y);
     });
   }
 
