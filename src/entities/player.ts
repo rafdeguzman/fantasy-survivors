@@ -1,11 +1,9 @@
-import { ISpriteConstructor } from "../interfaces/ISprite";
+import ISpriteConstructor from "../interfaces/ISprite";
 import PlayerStateName from "../enums/PlayerStateName";
 export default class Player extends Phaser.GameObjects.Sprite {
     readonly SPEED: number = 800;
 
     declare body: Phaser.Physics.Arcade.Body;
-
-    playerBullets: Phaser.Physics.Arcade.Group;
 
     public getBody(){
         return this.body;
