@@ -39,7 +39,7 @@ export class Player extends Phaser.GameObjects.Sprite {
     }
 
     initMouseInput(): void{
-        this.scene.input.on('pointerdown',  (pointer: Phaser.Input.Pointer, time, lastFired) => {
+        this.scene.input.on('pointerdown',  (pointer: Phaser.Input.Pointer, time: number, lastFired: number) => {
             // Get bullet from bullets group
             var bullet = this.playerBullets.get().setActive(true).setVisible(true);
     
