@@ -1,5 +1,5 @@
 export default class Bullet extends Phaser.Physics.Arcade.Sprite {
-    private SPEED: number = 1200;
+    private SPEED: number = 1400;
     private activeTime: number = 0;
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'bullet');
@@ -22,7 +22,7 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 
         this.scene.physics.moveToObject(this, target, this.SPEED);
     }
-
+    
     preUpdate(time: number, delta: number): void {
         super.preUpdate(time, delta);
 

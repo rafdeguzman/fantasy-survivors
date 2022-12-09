@@ -4,6 +4,8 @@ import GameEntity from "./GameEntity";
 export default class Player extends GameEntity {
     readonly SPEED: number = 800;
 
+    
+
     private keyW: Phaser.Input.Keyboard.Key;
     private keyA: Phaser.Input.Keyboard.Key;
     private keyS: Phaser.Input.Keyboard.Key;
@@ -11,6 +13,7 @@ export default class Player extends GameEntity {
     private keyQ: Phaser.Input.Keyboard.Key;
     private keyE: Phaser.Input.Keyboard.Key;
     private keyX: Phaser.Input.Keyboard.Key;
+    private keySpace: Phaser.Input.Keyboard.Key;
 
     private movementKeys = {
         up: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
@@ -29,6 +32,7 @@ export default class Player extends GameEntity {
         this.keyQ = this.scene.input.keyboard.addKey('Q');
         this.keyE = this.scene.input.keyboard.addKey('E');
         this.keyX = this.scene.input.keyboard.addKey('X');
+        this.keySpace = this.scene.input.keyboard.addKey('SPACE');
 
 
         this.scene.add.existing(this);
@@ -68,8 +72,6 @@ export default class Player extends GameEntity {
 
         if (this.keyW?.isDown) {
             this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation - Math.PI / 2, this.SPEED, this.body.velocity)
-            // this.body.velocity.y = -this.SPEED;
-            
             !this.anims.isPlaying && this.anims.play('run', true);
         }
 
