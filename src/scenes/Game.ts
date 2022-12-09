@@ -1,21 +1,25 @@
 import Phaser from 'phaser';
 import Player from '../entities/Player';
 import Bullet from '../objects/Bullet';
+import Enemy from '../entities/Enemy';
+import BulletGroup from '../groups/BulletGroup';
 
 export default class GameScene extends Phaser.Scene {
-
   private player: Player;
-  private playerBullets: any;
+  private enemy: Enemy;
+  private playerBullets: BulletGroup;
 
   constructor() {
     super('GameScene');
   }
 
+  // preloading sprites 
   preload() {
     this.load.image('logo', '../assets/phaser3-logo.png');
     this.load.image('player', '../assets/knight/knight_f_idle_anim_f0.png');
-    this.load.image('bullet', '../assets/bullets/bullet6.png');
+    this.load.image('bullet', '../assets/bullets/bullet.png');
     this.load.image('background', '../assets/skies/underwater1.png');
+    this.load.image('enemy', '../assets/necromancer/necromancer_idle_anim_f0.png');
   }
 
   create() {
@@ -27,50 +31,18 @@ export default class GameScene extends Phaser.Scene {
     var background = this.add.image(800, 600, 'background');
 
     // -- Entities -- //
-
-    // Player
-    this.player = new Player({
-      scene: this,
-      x: 400,
-      y: 300,
-      texture: 'player',
-    });
-
-    this.playerBullets = this.add.group({
-      classType: Bullet,
-      maxSize: 10,
-      runChildUpdate: true,
-    })
-
-    // Enemy
-    // var enemy = this.physics.add.sprite(800, 600, 'player');
+    this.addPlayer();
+    this.addEnemy();
 
     // -- Groups -- //
-
-    // Player Bullets
-    this.playerBullets = this.physics.add.group({
-      classType: Bullet,
-      maxSize: 10,
-      runChildUpdate: true,
-    });
-
-    this.input.on('pointerdown', (pointer: Phaser.Input.Pointer, time: number, lastFired: number) => {
-      if (this.player.active === false) {
-        return;
-      }
-
-      // Get bullet from bullets group
-      var bullet = this.playerBullets.get().setActive(true).setVisible(true);
-
-      if (bullet) {
-        bullet.fire(this.player, pointer);
-      }
-    });
-
+    this.playerBullets = new BulletGroup(this);
 
     // Image and Sprite properties
     background.setOrigin(0.5, 0.5).setDisplaySize(1600, 1200);
-    // enemy.setOrigin(0.5, 0.5).setDisplaySize(100, 100).setCollideWorldBounds(true);
+
+    // -- Events -- //
+    this.addEvents();
+
 
     // Set sprite variables
   }
@@ -78,4 +50,33 @@ export default class GameScene extends Phaser.Scene {
   update(time: number, delta: number): void{
     this.player.update(time, delta);
   }
+
+  addPlayer(): void{
+    // Player
+    this.player = new Player({
+      scene: this,
+      x: 400,
+      y: 300,
+      texture: 'player',
+    });
+  }
+
+  addEnemy(): void{
+    // Enemy
+    this.enemy = new Enemy({
+      scene: this,
+      x: 1200,
+      y: 800,
+      texture: 'enemy',
+    });
+  }
+
+  addEvents(): void{
+    // Events
+    // add arrow keys
+    this.input.keyboard.on('keydown-SPACE', () => {
+      this.playerBullets.fireBullet(this.player.x + (72 / 2), this.player.y + (112 / 2));
+    });
+  }
+
 }
