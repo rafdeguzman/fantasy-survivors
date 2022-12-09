@@ -33,7 +33,7 @@ export default class Player extends GameEntity {
     }
 
     initPhysics(){
-        this.body.setSize(32, 32);
+        this.body.setSize(72 / 2, 112 / 4);
         this.body.setOffset(0, 0);
         this.setDisplaySize(72, 112);
     }
@@ -61,23 +61,26 @@ export default class Player extends GameEntity {
         this.body.setVelocity(0);
 
         if (this.keyW?.isDown) {
-        this.body.velocity.y = -this.SPEED;
-        !this.anims.isPlaying && this.anims.play('run', true);
+            this.body.velocity.y = -this.SPEED;
+            !this.anims.isPlaying && this.anims.play('run', true);
         }
 
         if (this.keyA?.isDown) {
-        this.body.velocity.x = -this.SPEED;
-        !this.anims.isPlaying && this.anims.play('run', true);
+            this.body.velocity.x = -this.SPEED;
+            this.flipX = true;
+            // this.body.setOffset(48, 15);
+            !this.anims.isPlaying && this.anims.play('run', true);
         }
 
         if (this.keyS?.isDown) {
-        this.body.velocity.y = this.SPEED;
-        !this.anims.isPlaying && this.anims.play('run', true);
+            this.body.velocity.y = this.SPEED;
+            !this.anims.isPlaying && this.anims.play('run', true);
         }
 
         if (this.keyD?.isDown) {
-        this.body.velocity.x = this.SPEED;
-        !this.anims.isPlaying && this.anims.play('run', true);
+            this.body.velocity.x = this.SPEED;
+            this.flipX = false;
+            !this.anims.isPlaying && this.anims.play('run', true);
         }
 
         // if no key is down
@@ -88,7 +91,5 @@ export default class Player extends GameEntity {
 
     update(time: number, delta: number): void {
         this.handleInput();
-
-        
     }    
 }
