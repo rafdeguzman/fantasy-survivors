@@ -1,4 +1,5 @@
-import { IImageConstructor } from "../interfaces/image.interface";
+import { IImageConstructor } from "../interfaces/IIMage";
+import GLOBALS from "../Globals";
 
 export class Bullet extends Phaser.GameObjects.Image{
     speed: number;
@@ -7,11 +8,10 @@ export class Bullet extends Phaser.GameObjects.Image{
     xSpeed: number;
     ySpeed: number;
 
-
     constructor(aParams: IImageConstructor){
-        super(aParams.scene, aParams.x, aParams.y, aParams.texture, aParams.frame);
+        super(aParams.scene, aParams.x, aParams.y, aParams.texture = "../assets/bullets/bullet6.png", aParams.frame);
         // set fields
-        this.speed = 1;
+        this.speed = GLOBALS.BULLET_SPEED;
         this.born = 0;
         this.direction = 0;
         this.xSpeed = 0;

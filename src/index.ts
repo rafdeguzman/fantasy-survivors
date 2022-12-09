@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import config from './config';
+import config from './Config';
 import GameScene from './scenes/Game';
 
 new Phaser.Game(

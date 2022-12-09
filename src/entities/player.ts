@@ -1,17 +1,15 @@
-import { ISpriteConstructor } from "../interfaces/sprite.interface";
-import { Bullet } from "../objects/bullet";
+import { ISpriteConstructor } from "../interfaces/ISprite";
+import PlayerStateName from "../enums/PlayerStateName";
+import { Bullet } from "../objects/Bullet";
+
 export class Player extends Phaser.GameObjects.Sprite {
     readonly SPEED: number = 800;
 
     declare body: Phaser.Physics.Arcade.Body;
 
-    private shootKey: Phaser.Input.Keyboard.Key;
+    playerBullets: Phaser.Physics.Arcade.Group;
 
-    private bullets: Bullet[];
-    private isShooting: boolean;
-    public getBullets(){
-        return this.bullets;
-    }
+    bullet: Bullet;
 
     public getBody(){
         return this.body;
@@ -29,12 +27,33 @@ export class Player extends Phaser.GameObjects.Sprite {
         this.scene.add.existing(this);
         this.initSprite();
         this.initPhysics();
-        this.body.setCollideWorldBounds(true);
+        this.initState();
+        this.initBullets();
+        this.initMouseInput();
 
-        this.bullets = [];
-        this.isShooting = false;
+    }
 
-        this.shootKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    initBullets(): void{
+        this.bullet = new Bullet({ scene: this.scene, x: 0, y: 0, texture: '/assets/bullets/bullet6.png', frame: 0 })
+        this.playerBullets = this.scene.physics.add.group({ classType: Bullet, runChildUpdate: true });
+    }
+
+    initMouseInput(): void{
+        this.scene.input.on('pointerdown',  (pointer: Phaser.Input.Pointer, time, lastFired) => {
+            // Get bullet from bullets group
+            var bullet = this.playerBullets.get().setActive(true).setVisible(true);
+    
+            if (bullet)
+            {
+                console.log('fired!');
+                bullet.fire(this, pointer);
+                // this.physics.add.collider(enemy, bullet, enemyHitCallback);
+            }
+        }, this.scene);
+    }
+
+    initState(): void{
+        this.setState(PlayerStateName.Idle);
     }
 
     initSprite(): void{
@@ -49,6 +68,7 @@ export class Player extends Phaser.GameObjects.Sprite {
     }
 
     handleInput(): void {
+
         this.movementKeys.up.on('down', () => {
             this.body.setVelocityY(-this.SPEED);
         });
@@ -72,15 +92,6 @@ export class Player extends Phaser.GameObjects.Sprite {
 
     update(): void {
         this.handleInput();
-    }
-    
-    private shoot(): void {
-        this.bullets.push(
-            new Bullet({
-                scene: this.scene,
-                x: this.x,
-                y: this.y,
-        )
 
-
+    }    
 }

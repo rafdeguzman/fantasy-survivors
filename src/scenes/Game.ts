@@ -1,11 +1,13 @@
 import Phaser from 'phaser';
-import { Player } from '../entities/player';
-import { Bullet } from '../objects/bullet';
+import { Player } from '../entities/Player';
+import { Bullet } from '../objects/Bullet';
 
-export default class Demo extends Phaser.Scene {
+export default class GameScene extends Phaser.Scene {
 
   private player: Player;
-
+  private playerBullets: Phaser.Physics.Arcade.Group;
+  private bullet: Bullet;
+  
   constructor() {
     super('GameScene');
   }
@@ -18,32 +20,15 @@ export default class Demo extends Phaser.Scene {
   }
 
   create() {
-    // const logo = this.add.image(400, 70, 'logo');
-
-    // this.tweens.add({
-    //   targets: logo,
-    //   y: 350,
-    //   duration: 1500,
-    //   ease: 'Sine.inOut',
-    //   yoyo: true,
-    //   repeat: -1
-    // });
-
-    var mouse = this.input.activePointer;
-    var input = this.input;
 
     // world bounds
     this.physics.world.setBounds(0, 0, 1600, 1200);
 
-    // Player bullets and enemy bullet groups
-    var playerBullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true });
-    var enemyBullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true });
-
     // Background
     var background = this.add.image(800, 600, 'background');
-    
 
     // -- Entities -- //
+
     // Player
     this.player = new Player({
       scene: this,
@@ -51,6 +36,11 @@ export default class Demo extends Phaser.Scene {
       y: 300,
       texture: 'player',
     });
+
+    // Bullets
+    this.playerBullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true });
+    
+
     // Enemy
     var enemy = this.physics.add.sprite(800, 600, 'player');
 
