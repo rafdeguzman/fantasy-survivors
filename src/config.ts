@@ -5,9 +5,16 @@ export default {
   parent: 'game',
   backgroundColor: '#33A5E7',
   scale: {
-    width: 800,
-    height: 600,
-    mode: Phaser.Scale.FIT,
+    width: 1600,
+    height: 1200,
+    mode: Phaser.Scale.Center,
     autoCenter: Phaser.Scale.CENTER_BOTH
+  },
+  physics: {
+    default: 'arcade',
+    arcade: {
+      gravity: { y: 0 },
+      debug: false
+    }
   }
 };
