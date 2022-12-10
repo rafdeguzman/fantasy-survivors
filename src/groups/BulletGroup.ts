@@ -7,34 +7,19 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
 
         this.createMultiple({
             classType: Bullet,
-            frameQuantity: 50,
+            frameQuantity: 5,
             key: 'bullet',
             active: false,
             visible: false,
         });
     }
 
-    fireBullet(x: number, y: number): void {
-        const bullet = this.getFirstDead(false);
-
-        if (bullet) {
-            bullet.shoot(x, y);
-        }
-    }
-
     fireAimedBullet(shooter: Phaser.GameObjects.GameObject, target: Phaser.GameObjects.GameObject): void {
+        this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
         const bullet = this.getFirstDead(false);
 
         if (bullet) {
             bullet.shootAimed(shooter, target);
         }
     }
-
-    onBulletHitEnemy(bullet: Bullet, enemy: Enemy): void {
-        enemy.takeDamage(1, bullet);
-        bullet.setActive(false);
-        bullet.setVisible(false);
-        // bullet.destroy();
-    }
-
 }

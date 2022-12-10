@@ -5,6 +5,7 @@ import Enemy from '../entities/Enemy';
 import BulletGroup from '../groups/BulletGroup';
 import Crosshair from '../objects/Crosshair';
 import EnemyGroup from '../groups/EnemyGroup';
+import GLOBALS from '../Globals';
 
 export default class GameScene extends Phaser.Scene {
   public player: Player;
@@ -37,7 +38,6 @@ export default class GameScene extends Phaser.Scene {
 
   create() {
     this.input.setPollAlways();
-    this.input.setPollRate(0);
 
     // world bounds
     this.physics.world.setBounds(0, 0, 1600, 1200);
@@ -70,9 +70,15 @@ export default class GameScene extends Phaser.Scene {
   }
 
   setupCollisions(){
-    this.bulletCollider = this.physics.add.collider(this.playerBullets, this.enemyGroup, this.playerBullets.onBulletHitEnemy, undefined, this.playerBullets);
-    this.physics.add.collider(this.player, this.enemyGroup);
+    this.physics.add.overlap(this.playerBullets, this.enemyGroup, (bullet: Bullet, enemy: Enemy) => {
+      if (!bullet.active || !enemy.active) 
+        return;
 
+      bullet.destroy();
+      enemy.takeDamage(GLOBALS.BULLET_DAMAGE);
+    });
+      
+    this.physics.add.collider(this.player, this.enemyGroup);
   }
 
   update(time: number, delta: number): void{
@@ -107,8 +113,6 @@ export default class GameScene extends Phaser.Scene {
     let bottom = cameraBounds.bottom;
     let left = cameraBounds.left;
     let right = cameraBounds.right;
-
-    console.log('spawning')
 
     this.enemyGroup.spawnEnemy(Phaser.Math.Between(0, 1600), Phaser.Math.Between(0, 1200));
 
