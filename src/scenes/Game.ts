@@ -50,6 +50,8 @@ export default class GameScene extends Phaser.Scene {
     // -- Groups -- //
     this.playerBullets = new BulletGroup(this);
     this.enemyGroup = new EnemyGroup(this);
+    
+    this.setupCollisions();
 
     // Image and Sprite properties
     background.setOrigin(0.5, 0.5).setDisplaySize(1600, 1200);
@@ -63,8 +65,6 @@ export default class GameScene extends Phaser.Scene {
     // this.timerEvents.push(this.time.addEvent({ delay: 250, callback: this.playerBullets.fireAimedBullet, callbackScope: this.playerBullets, loop: true, args: [this.player, this.crosshair] }));
 
     this.timerEvents.push(this.time.addEvent({ delay: 1000, callback: this.addEnemyToList, callbackScope: this, loop: true }));
-
-    this.setupCollisions();
   }
 
   setupCollisions(){

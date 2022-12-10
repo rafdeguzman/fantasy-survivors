@@ -32,8 +32,10 @@ export default class Player extends GameEntity {
     }
 
     initPhysics(){
-        this.body.setSize(72 / 2, 112 / 4);
-        this.body.setOffset(0, 0);
+        // this.body.setSize(10, 10);
+        this.originY = 0.6
+        this.body.setCircle(3);
+        this.body.setOffset(5, 16);
         this.setDisplaySize(72, 112);
     }
 
@@ -101,9 +103,11 @@ export default class Player extends GameEntity {
         }
         if (this.keyE?.isDown) {
             this.scene.cameras.main.rotation -= 0.025;
+        
         }
         if (this.keyX?.isDown) {
             this.scene.cameras.main.rotation = 0;
+        
         }
         if (this.keySpace?.isDown){
             

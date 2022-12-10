@@ -15,7 +15,9 @@ export default class Enemy extends GameEntity{
     }
 
     initSprite(): void{
-        this.setDisplayOrigin(0.5, 0.5);
+        this.originY = 0.7;
+        this.body.setCircle(9);
+        this.body.setOffset(0, 3);
         this.setDisplaySize(72, 112);
     }
 
