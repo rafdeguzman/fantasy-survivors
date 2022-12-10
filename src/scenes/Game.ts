@@ -4,6 +4,7 @@ import Bullet from '../objects/Bullet';
 import Enemy from '../entities/Enemy';
 import BulletGroup from '../groups/BulletGroup';
 import Crosshair from '../objects/Crosshair';
+import EnemyGroup from '../groups/EnemyGroup';
 
 export default class GameScene extends Phaser.Scene {
   public player: Player;
@@ -13,6 +14,8 @@ export default class GameScene extends Phaser.Scene {
 
   private playerBullets: BulletGroup;
   private crosshair: Crosshair;
+
+  private enemyGroup: EnemyGroup;
 
   private timerEvents: Phaser.Time.TimerEvent[] = [];
 
@@ -46,6 +49,7 @@ export default class GameScene extends Phaser.Scene {
 
     // -- Groups -- //
     this.playerBullets = new BulletGroup(this);
+    this.enemyGroup = new EnemyGroup(this);
 
     // Image and Sprite properties
     background.setOrigin(0.5, 0.5).setDisplaySize(1600, 1200);
@@ -59,6 +63,8 @@ export default class GameScene extends Phaser.Scene {
     // this.timerEvents.push(this.time.addEvent({ delay: 250, callback: this.playerBullets.fireAimedBullet, callbackScope: this.playerBullets, loop: true, args: [this.player, this.crosshair] }));
 
     this.timerEvents.push(this.time.addEvent({ delay: 1000, callback: this.addEnemyToList, callbackScope: this, loop: true }));
+
+    this.physics.add.collider
   }
 
   update(time: number, delta: number): void{
@@ -67,6 +73,7 @@ export default class GameScene extends Phaser.Scene {
     this.enemyList.forEach(enemy => {
       enemy.update();
     });
+    this.enemyGroup.update(time, delta);
   }
 
   setupCamera(): void{
@@ -96,8 +103,11 @@ export default class GameScene extends Phaser.Scene {
     let left = cameraBounds.left;
     let right = cameraBounds.right;
 
+    console.log('spawning')
 
-    this.enemyList.push(new Enemy(this, Phaser.Math.Between(0, 1600), Phaser.Math.Between(0, 1200)));
+    this.enemyGroup.spawnEnemy(Phaser.Math.Between(left, right), Phaser.Math.Between(top, bottom));
+
+    // this.enemyList.push(new Enemy(this, Phaser.Math.Between(0, 1600), Phaser.Math.Between(0, 1200)));
   }
 
   addEvents(): void{

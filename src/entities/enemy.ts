@@ -27,9 +27,9 @@ export default class Enemy extends GameEntity{
 
     // walk towards the player
     update(): void {
-        this.scene.physics.moveToObject(this, this.scene.player,
-             this.SPEED);
+        this.scene.physics.moveToObject(this, this.scene.player, this.SPEED);
 
+        
         if (this.body.velocity.x > 0) {
             this.setFlipX(false);
         } else if (this.body.velocity.x < 0) {
@@ -37,5 +37,13 @@ export default class Enemy extends GameEntity{
         }
         
         this.rotation = -this.scene.cameras.main.rotation;
+    }
+
+
+    spawn(x: number, y: number): void {
+        this.body.reset(x, y);
+        this.setActive(true);
+        this.setVisible(true);
+        this.initSprite();
     }
 }
