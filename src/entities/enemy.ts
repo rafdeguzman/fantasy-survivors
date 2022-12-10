@@ -35,10 +35,10 @@ export default class Enemy extends GameEntity{
         } else if (this.body.velocity.x < 0) {
             this.setFlipX(true);
         }
+
         
         this.rotation = -this.scene.cameras.main.rotation;
     }
-
 
     spawn(x: number, y: number): void {
         this.body.reset(x, y);

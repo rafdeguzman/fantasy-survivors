@@ -64,15 +64,18 @@ export default class GameScene extends Phaser.Scene {
 
     this.timerEvents.push(this.time.addEvent({ delay: 1000, callback: this.addEnemyToList, callbackScope: this, loop: true }));
 
-    this.physics.add.collider
+    this.setupCollisions();
+  }
+
+  setupCollisions(){
+    this.physics.add.collider(this.playerBullets, this.enemyGroup);
+    this.physics.add.collider(this.player, this.enemyGroup);
+
   }
 
   update(time: number, delta: number): void{
     this.crosshair.update(time, delta);
     this.player.update(time, delta);
-    this.enemyList.forEach(enemy => {
-      enemy.update();
-    });
     this.enemyGroup.update(time, delta);
   }
 
@@ -105,7 +108,7 @@ export default class GameScene extends Phaser.Scene {
 
     console.log('spawning')
 
-    this.enemyGroup.spawnEnemy(Phaser.Math.Between(left, right), Phaser.Math.Between(top, bottom));
+    this.enemyGroup.spawnEnemy(Phaser.Math.Between(0, 1600), Phaser.Math.Between(0, 1200));
 
     // this.enemyList.push(new Enemy(this, Phaser.Math.Between(0, 1600), Phaser.Math.Between(0, 1200)));
   }
