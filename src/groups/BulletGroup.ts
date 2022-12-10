@@ -5,24 +5,20 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
     constructor(scene: Phaser.Scene) {
         super(scene.physics.world, scene);
 
+        // this.create(0, 0, 'bullet', 0, false, false);
+
+
         this.createMultiple({
             classType: Bullet,
-            frameQuantity: 50,
+            frameQuantity: 5,
             key: 'bullet',
             active: false,
             visible: false,
         });
     }
 
-    fireBullet(x: number, y: number): void {
-        const bullet = this.getFirstDead(false);
-
-        if (bullet) {
-            bullet.shoot(x, y);
-        }
-    }
-
     fireAimedBullet(shooter: Phaser.GameObjects.GameObject, target: Phaser.GameObjects.GameObject): void {
+        this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
         const bullet = this.getFirstDead(false);
 
         if (bullet) {
@@ -34,7 +30,5 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
         enemy.takeDamage(1, bullet);
         bullet.setActive(false);
         bullet.setVisible(false);
-        // bullet.destroy();
     }
-
 }

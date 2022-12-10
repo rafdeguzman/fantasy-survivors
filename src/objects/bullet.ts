@@ -11,15 +11,6 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
         this.scene.physics.world.disable(this);
     }
 
-    shoot(x: number, y: number): void {
-        this.body.reset(x, y);
-
-        this.setActive(true);
-        this.setVisible(true);
-
-        this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation - Math.PI / 2, this.SPEED, this.body.velocity);
-    }
-
     shootAimed(shooter: Phaser.GameObjects.GameObject, target: Phaser.GameObjects.GameObject): void {
         this.scene.physics.world.enable(this);
         this.body.reset(shooter.x, shooter.y);

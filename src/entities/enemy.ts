@@ -5,7 +5,6 @@ export default class Enemy extends GameEntity{
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 100;
     private health: number = 1;
-    
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
@@ -44,8 +43,10 @@ export default class Enemy extends GameEntity{
     spawn(x: number, y: number): void {
         this.scene.physics.world.enable(this);
         this.body.reset(x, y);
+
         this.setActive(true);
         this.setVisible(true);
+        
         this.initSprite();
     }
 
@@ -54,7 +55,7 @@ export default class Enemy extends GameEntity{
 
         bullet.destroy();
         if (this.health <= 0) {
-            this.scene.physics.world.disable(this);
+            this.destroy();
             this.setActive(false);
             this.setVisible(false);
             // this.scene.player.addScore(100);
