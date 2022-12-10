@@ -50,16 +50,11 @@ export default class Enemy extends GameEntity{
         this.initSprite();
     }
 
-    takeDamage(damage: number, bullet: Bullet): void {
+    takeDamage(damage: number): void {
         this.health -= damage;
 
-        bullet.disableBody(true, true);
-
         if (this.health <= 0) {
-            this.disableBody(true, true);
-            this.disableInteractive();
-            this.setActive(false);
-            this.setVisible(false);
+            this.destroy();
         }
     }
 }

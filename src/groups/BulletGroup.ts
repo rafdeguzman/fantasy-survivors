@@ -5,9 +5,6 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
     constructor(scene: Phaser.Scene) {
         super(scene.physics.world, scene);
 
-        // this.create(0, 0, 'bullet', 0, false, false);
-
-
         this.createMultiple({
             classType: Bullet,
             frameQuantity: 5,
@@ -24,17 +21,5 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
         if (bullet) {
             bullet.shootAimed(shooter, target);
         }
-    }
-
-    onBulletHitEnemy(bullet: Bullet, enemy: Enemy): void {
-        if (bullet.active === false || enemy.active === false){
-            console.log("bullet or enemy not active")
-            return;
-        }
-            
-        console.log("bullet hit enemy");
-        enemy.takeDamage(1, bullet);
-        bullet.setActive(false);
-        bullet.setVisible(false);
     }
 }
