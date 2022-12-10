@@ -1,14 +1,15 @@
+import Bullet from "../objects/Bullet";
 import GameEntity from "./GameEntity";
 
 export default class Enemy extends GameEntity{
-    readonly SPEED: number = 100;
     declare body: Phaser.Physics.Arcade.Body;
+    readonly SPEED: number = 100;
+    private health: number = 1;
+    
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
         super(scene, x, y, 'enemy')
-
-        scene.add.existing(this);
         
         this.initSprite();
         this.initPhysics();
@@ -23,7 +24,7 @@ export default class Enemy extends GameEntity{
 
     initPhysics(): void{
         this.scene.physics.add.existing(this);
-        this.scene.physics.world.enable(this);
+        this.scene.physics.world.disable(this);
     }
 
 
@@ -31,21 +32,32 @@ export default class Enemy extends GameEntity{
     update(): void {
         this.scene.physics.moveToObject(this, this.scene.player, this.SPEED);
 
-        
         if (this.body.velocity.x > 0) {
             this.setFlipX(false);
         } else if (this.body.velocity.x < 0) {
             this.setFlipX(true);
         }
 
-        
         this.rotation = -this.scene.cameras.main.rotation;
     }
 
     spawn(x: number, y: number): void {
+        this.scene.physics.world.enable(this);
         this.body.reset(x, y);
         this.setActive(true);
         this.setVisible(true);
         this.initSprite();
+    }
+
+    takeDamage(damage: number, bullet: Bullet): void {
+        this.health -= damage;
+
+        bullet.destroy();
+        if (this.health <= 0) {
+            this.scene.physics.world.disable(this);
+            this.setActive(false);
+            this.setVisible(false);
+            // this.scene.player.addScore(100);
+        }
     }
 }

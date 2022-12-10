@@ -1,4 +1,5 @@
 import Bullet from "../objects/Bullet";
+import Enemy from "../entities/Enemy";
 export default class BulletGroup extends Phaser.Physics.Arcade.Group {
 
     constructor(scene: Phaser.Scene) {
@@ -28,4 +29,12 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
             bullet.shootAimed(shooter, target);
         }
     }
+
+    onBulletHitEnemy(bullet: Bullet, enemy: Enemy): void {
+        enemy.takeDamage(1, bullet);
+        bullet.setActive(false);
+        bullet.setVisible(false);
+        // bullet.destroy();
+    }
+
 }

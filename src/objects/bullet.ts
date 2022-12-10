@@ -3,6 +3,12 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
     private activeTime: number = 0;
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'bullet');
+        this.initPhysics();
+    }
+
+    initPhysics(){
+        this.scene.physics.add.existing(this);
+        this.scene.physics.world.disable(this);
     }
 
     shoot(x: number, y: number): void {
@@ -15,6 +21,7 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
     }
 
     shootAimed(shooter: Phaser.GameObjects.GameObject, target: Phaser.GameObjects.GameObject): void {
+        this.scene.physics.world.enable(this);
         this.body.reset(shooter.x, shooter.y);
 
         this.setActive(true);

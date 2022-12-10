@@ -19,6 +19,8 @@ export default class GameScene extends Phaser.Scene {
 
   private timerEvents: Phaser.Time.TimerEvent[] = [];
 
+  private bulletCollider: Phaser.Physics.Arcade.Collider;
+
   constructor() {
     super('GameScene');
   }
@@ -68,7 +70,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   setupCollisions(){
-    this.physics.add.collider(this.playerBullets, this.enemyGroup);
+    this.bulletCollider = this.physics.add.collider(this.playerBullets, this.enemyGroup, this.playerBullets.onBulletHitEnemy, undefined, this.playerBullets);
     this.physics.add.collider(this.player, this.enemyGroup);
 
   }
