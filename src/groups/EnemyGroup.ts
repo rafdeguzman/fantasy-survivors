@@ -15,6 +15,7 @@ export default class EnemyGroup extends Phaser.Physics.Arcade.Group {
 
     spawnEnemy(x: number, y: number): void {
         this.create(x, y, 'enemy', 0, false, false);
+        
         const enemy = this.getFirstDead(false);
 
         if (enemy) {

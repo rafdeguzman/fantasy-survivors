@@ -27,6 +27,12 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
     }
 
     onBulletHitEnemy(bullet: Bullet, enemy: Enemy): void {
+        if (bullet.active === false || enemy.active === false){
+            console.log("bullet or enemy not active")
+            return;
+        }
+            
+        console.log("bullet hit enemy");
         enemy.takeDamage(1, bullet);
         bullet.setActive(false);
         bullet.setVisible(false);

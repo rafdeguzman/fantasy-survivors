@@ -70,7 +70,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   setupCollisions(){
-    this.bulletCollider = this.physics.add.collider(this.playerBullets, this.enemyGroup, this.playerBullets.onBulletHitEnemy, undefined, this.playerBullets);
+    this.physics.add.collider(this.playerBullets, this.enemyGroup, this.playerBullets.onBulletHitEnemy, undefined, this.playerBullets);
     this.physics.add.collider(this.player, this.enemyGroup);
 
   }
@@ -107,8 +107,6 @@ export default class GameScene extends Phaser.Scene {
     let bottom = cameraBounds.bottom;
     let left = cameraBounds.left;
     let right = cameraBounds.right;
-
-    console.log('spawning')
 
     this.enemyGroup.spawnEnemy(Phaser.Math.Between(0, 1600), Phaser.Math.Between(0, 1200));
 
