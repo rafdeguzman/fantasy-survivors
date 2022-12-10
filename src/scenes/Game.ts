@@ -30,9 +30,13 @@ export default class GameScene extends Phaser.Scene {
   preload() {
     this.load.image('player', '../assets/knight/knight_idle.png') // texture
     this.load.atlas('knight', '/assets/knight/knight.png', '/assets/knight/knight.json'); // atlas
+
+    this.load.image('enemy', '../assets/necromancer/necromancer_idle_anim_f0.png');
+    this.load.atlas('orc', '/assets/orc/orc.png', '/assets/orc/orc.json'); // atlas
+
     this.load.image('bullet', '../assets/bullets/bullet.png');
     this.load.image('background', '../assets/skies/underwater1.png');
-    this.load.image('enemy', '../assets/necromancer/necromancer_idle_anim_f0.png');
+    
     this.load.image('crosshair', '../assets/crosshair/crosshair.png');
   }
 
@@ -78,7 +82,7 @@ export default class GameScene extends Phaser.Scene {
       enemy.takeDamage(GLOBALS.BULLET_DAMAGE);
     });
       
-    this.physics.add.collider(this.player, this.enemyGroup);
+    this.physics.add.overlap(this.player, this.enemyGroup, this.enemyPlayerCollision, null, this);
   }
 
   update(time: number, delta: number): void{
@@ -123,5 +127,10 @@ export default class GameScene extends Phaser.Scene {
     this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
       this.playerBullets.fireAimedBullet(this.player, this.crosshair);
     });    
+  }
+
+  enemyPlayerCollision(player: Player, enemy: Enemy): void{
+    console.log("Player hit!")
+    player.takeDamage(GLOBALS.ENEMY_DAMAGE);
   }
 }

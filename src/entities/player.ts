@@ -2,6 +2,8 @@ import PlayerStateName from "../enums/PlayerStateName";
 import GameEntity from "./GameEntity";
 export default class Player extends GameEntity {
     readonly SPEED: number = 800;
+    private isInvulnerable: boolean = false;
+    private health: number = 100000;
 
     private keyW: Phaser.Input.Keyboard.Key;
     private keyA: Phaser.Input.Keyboard.Key;
@@ -41,13 +43,13 @@ export default class Player extends GameEntity {
 
     initAnimations(): void{
         this.scene.anims.create({
-            key: 'idle',
+            key: 'knight_idle',
             frames: this.scene.anims.generateFrameNames('knight', {prefix: 'idle', start: 0, end: 3}),
             frameRate: 10,
             repeat: 0
         });
         this.scene.anims.create({
-            key: 'run',
+            key: 'knight_run',
             frames: this.scene.anims.generateFrameNames('knight', {prefix: 'run', start: 0, end: 3}),
             frameRate: 10,
             repeat: 0
@@ -63,26 +65,26 @@ export default class Player extends GameEntity {
 
         if (this.keyW?.isDown) {
             this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation - Math.PI / 2, this.SPEED, this.body.velocity)
-            !this.anims.isPlaying && this.anims.play('run', true);
+            !this.anims.isPlaying && this.anims.play('knight_run', true);
         }
 
         if (this.keyA?.isDown) {
             this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation - Math.PI, this.SPEED, this.body.velocity)
             this.flipX = true;
             // this.body.setOffset(48, 15);
-            !this.anims.isPlaying && this.anims.play('run', true);
+            !this.anims.isPlaying && this.anims.play('knight_run', true);
         }
 
         if (this.keyS?.isDown) {
             this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation + Math.PI / 2, this.SPEED, this.body.velocity)
             // this.body.velocity.y = this.SPEED;
-            !this.anims.isPlaying && this.anims.play('run', true);
+            !this.anims.isPlaying && this.anims.play('knight_run', true);
         }
         if (this.keyD?.isDown) {
             this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation, this.SPEED, this.body.velocity)
             // this.body.velocity.x = this.SPEED;
             this.flipX = false;
-            !this.anims.isPlaying && this.anims.play('run', true);
+            !this.anims.isPlaying && this.anims.play('knight_run', true);
         }
 
         if (this.keyD.isDown && this.keyW.isDown){
@@ -114,7 +116,7 @@ export default class Player extends GameEntity {
         }
         // if no key is down
         if (this.keyD?.isUp && this.keyA?.isUp && this.keyS?.isUp && this.keyW?.isUp) {
-            !this.anims.isPlaying && this.anims.play('idle', true);
+            !this.anims.isPlaying && this.anims.play('knight_idle', true);
         }
     }
 
@@ -122,4 +124,24 @@ export default class Player extends GameEntity {
         this.handleInput();
         this.rotation = -this.scene.cameras.main.rotation;
     }    
+
+    takeDamage(damage: number): void{
+        if (this.isInvulnerable){
+            console.log('invulnerable')
+            return;
+        } 
+
+        this.health -= damage;
+
+        if (this.health <= 0){
+            console.log('dead')
+        }
+        else{
+            this.setTint(0xff0000);
+            this.tintFill = true;
+        }
+    }
+
+    spriteFlicker(): void{
+    }
 }

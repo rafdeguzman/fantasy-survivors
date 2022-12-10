@@ -1,0 +1,104 @@
+{
+	"textures": [
+		{
+			"image": "orc",
+			"format": "RGBA8888",
+			"size": {
+				"w": 32,
+				"h": 59
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "orc_run_1.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 20
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 1,
+						"w": 15,
+						"h": 18
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 15,
+						"h": 18
+					}
+				},
+				{
+					"filename": "orc_run_0.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 20
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 2,
+						"w": 14,
+						"h": 18
+					},
+					"frame": {
+						"x": 1,
+						"y": 21,
+						"w": 14,
+						"h": 18
+					}
+				},
+				{
+					"filename": "orc_run_2.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 20
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 2,
+						"w": 14,
+						"h": 18
+					},
+					"frame": {
+						"x": 17,
+						"y": 21,
+						"w": 14,
+						"h": 18
+					}
+				},
+				{
+					"filename": "orc_run_3.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 20
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 3,
+						"w": 14,
+						"h": 17
+					},
+					"frame": {
+						"x": 1,
+						"y": 41,
+						"w": 14,
+						"h": 17
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:bf050f0f20def14d75c3f47838793dad:64f6ac56fc475acd72826bb3e87433fe:8d2f034a042f5e42d835b3511e9c1732$"
+	}
+}
