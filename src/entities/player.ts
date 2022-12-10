@@ -12,13 +12,6 @@ export default class Player extends GameEntity {
     private keyX: Phaser.Input.Keyboard.Key;
     private keySpace: Phaser.Input.Keyboard.Key;
 
-    private movementKeys = {
-        up: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
-        down: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
-        left: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
-        right: this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
-    };
-
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'knight');
 
@@ -30,7 +23,6 @@ export default class Player extends GameEntity {
         this.keyE = this.scene.input.keyboard.addKey('E');
         this.keyX = this.scene.input.keyboard.addKey('X');
         this.keySpace = this.scene.input.keyboard.addKey('SPACE');
-
 
         this.scene.add.existing(this);
         
@@ -105,13 +97,16 @@ export default class Player extends GameEntity {
         }
 
         if (this.keyQ?.isDown) {
-            this.scene.cameras.main.rotation += 0.05;
+            this.scene.cameras.main.rotation += 0.025;
         }
         if (this.keyE?.isDown) {
-            this.scene.cameras.main.rotation -= 0.05;
+            this.scene.cameras.main.rotation -= 0.025;
         }
         if (this.keyX?.isDown) {
             this.scene.cameras.main.rotation = 0;
+        }
+        if (this.keySpace?.isDown){
+            
         }
         // if no key is down
         if (this.keyD?.isUp && this.keyA?.isUp && this.keyS?.isUp && this.keyW?.isUp) {

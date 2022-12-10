@@ -3,10 +3,10 @@ import Phaser from 'phaser';
 export default {
   type: Phaser.AUTO,
   parent: 'game',
-  backgroundColor: '#33A5E7',
+  backgroundColor: '#2d2d2d',
   scale: {
-    width: 1600,
-    height: 1200,
+    width: 1280,
+    height: 800,
     mode: Phaser.Scale.Center,
     autoCenter: Phaser.Scale.CENTER_BOTH
   },

@@ -27,7 +27,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.image('bullet', '../assets/bullets/bullet.png');
     this.load.image('background', '../assets/skies/underwater1.png');
     this.load.image('enemy', '../assets/necromancer/necromancer_idle_anim_f0.png');
-    this.load.image('crosshair', '../assets/crosshair/crosshair.png')
+    this.load.image('crosshair', '../assets/crosshair/crosshair.png');
   }
 
   create() {
@@ -71,6 +71,7 @@ export default class GameScene extends Phaser.Scene {
 
   setupCamera(): void{
     this.cameras.main.startFollow(this.player);
+    this.cameras.main.zoom = 0.8;
   }
 
   addPlayer(scene: Phaser.Scene, x: number, y: number): void{
@@ -83,7 +84,20 @@ export default class GameScene extends Phaser.Scene {
   }
 
   addEnemyToList(enemy: Enemy): void{
-    this.enemyList.push(new Enemy(this, Math.random() * 1600, Math.random() * 1200));
+    let camera = this.cameras.main;
+
+    let cameraWidth = this.cameras.main.width;
+    let cameraHeight = this.cameras.main.height;
+
+    let cameraBounds = camera.getBounds();
+
+    let top = cameraBounds.top;
+    let bottom = cameraBounds.bottom;
+    let left = cameraBounds.left;
+    let right = cameraBounds.right;
+
+
+    this.enemyList.push(new Enemy(this, Phaser.Math.Between(0, 1600), Phaser.Math.Between(0, 1200)));
   }
 
   addEvents(): void{

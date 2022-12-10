@@ -27,7 +27,8 @@ export default class Enemy extends GameEntity{
 
     // walk towards the player
     update(): void {
-        this.scene.physics.moveToObject(this, this.scene.player, this.SPEED);
+        this.scene.physics.moveToObject(this, this.scene.player,
+             this.SPEED);
 
         if (this.body.velocity.x > 0) {
             this.setFlipX(false);
