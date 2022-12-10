@@ -4,12 +4,18 @@ import Bullet from '../objects/Bullet';
 import Enemy from '../entities/Enemy';
 import BulletGroup from '../groups/BulletGroup';
 import Crosshair from '../objects/Crosshair';
+import EnemyGroup from '../groups/EnemyGroup';
 
 export default class GameScene extends Phaser.Scene {
-  private player: Player;
-  private enemy: Enemy;
+  public player: Player;
+  public enemy: Enemy;
+
+  private enemyList: Enemy[] = [];
+
   private playerBullets: BulletGroup;
   private crosshair: Crosshair;
+
+  private enemyGroup: EnemyGroup;
 
   private timerEvents: Phaser.Time.TimerEvent[] = [];
 
@@ -24,7 +30,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.image('bullet', '../assets/bullets/bullet.png');
     this.load.image('background', '../assets/skies/underwater1.png');
     this.load.image('enemy', '../assets/necromancer/necromancer_idle_anim_f0.png');
-    this.load.image('crosshair', '../assets/crosshair/crosshair.png')
+    this.load.image('crosshair', '../assets/crosshair/crosshair.png');
   }
 
   create() {
@@ -39,10 +45,13 @@ export default class GameScene extends Phaser.Scene {
 
     // -- Entities -- //
     this.addPlayer(this, 100, 100);
-    this.addEnemy();
+    // this.addEnemy(this, 800, 500);
 
     // -- Groups -- //
     this.playerBullets = new BulletGroup(this);
+    this.enemyGroup = new EnemyGroup(this);
+    
+    this.setupCollisions();
 
     // Image and Sprite properties
     background.setOrigin(0.5, 0.5).setDisplaySize(1600, 1200);
@@ -54,15 +63,25 @@ export default class GameScene extends Phaser.Scene {
     this.setupCamera();
 
     // this.timerEvents.push(this.time.addEvent({ delay: 250, callback: this.playerBullets.fireAimedBullet, callbackScope: this.playerBullets, loop: true, args: [this.player, this.crosshair] }));
+
+    this.timerEvents.push(this.time.addEvent({ delay: 1000, callback: this.addEnemyToList, callbackScope: this, loop: true }));
+  }
+
+  setupCollisions(){
+    this.physics.add.collider(this.playerBullets, this.enemyGroup);
+    this.physics.add.collider(this.player, this.enemyGroup);
+
   }
 
   update(time: number, delta: number): void{
     this.crosshair.update(time, delta);
     this.player.update(time, delta);
+    this.enemyGroup.update(time, delta);
   }
 
   setupCamera(): void{
     this.cameras.main.startFollow(this.player);
+    this.cameras.main.zoom = 0.8;
   }
 
   addPlayer(scene: Phaser.Scene, x: number, y: number): void{
@@ -70,21 +89,33 @@ export default class GameScene extends Phaser.Scene {
     this.crosshair = new Crosshair(scene, 0, 0);
   }
 
-  addEnemy(): void{
-    // Enemy
-    this.enemy = new Enemy({
-      scene: this,
-      x: 1200,
-      y: 800,
-      texture: 'enemy',
-    });
+  addEnemy(scene: Phaser.Scene, x: number, y: number): void{
+    this.enemy = new Enemy(scene, x, y);
+  }
+
+  addEnemyToList(enemy: Enemy): void{
+    let camera = this.cameras.main;
+
+    let cameraWidth = this.cameras.main.width;
+    let cameraHeight = this.cameras.main.height;
+
+    let cameraBounds = camera.getBounds();
+
+    let top = cameraBounds.top;
+    let bottom = cameraBounds.bottom;
+    let left = cameraBounds.left;
+    let right = cameraBounds.right;
+
+    console.log('spawning')
+
+    this.enemyGroup.spawnEnemy(Phaser.Math.Between(0, 1600), Phaser.Math.Between(0, 1200));
+
+    // this.enemyList.push(new Enemy(this, Phaser.Math.Between(0, 1600), Phaser.Math.Between(0, 1200)));
   }
 
   addEvents(): void{
     this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
       this.playerBullets.fireAimedBullet(this.player, this.crosshair);
-    });
-
-    
+    });    
   }
 }
