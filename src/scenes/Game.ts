@@ -25,6 +25,8 @@ export default class GameScene extends Phaser.Scene {
   private firerateTick: number = GLOBALS.HEAVY_MACHINE_GUN_FIRERATE;
   private tick: number = 0;
 
+  private backgroundMusic: Phaser.Sound.BaseSound;
+
   constructor() {
     super('GameScene');
   }
@@ -42,9 +44,19 @@ export default class GameScene extends Phaser.Scene {
     this.load.image('map', '../assets/map/map.png');
     
     this.load.image('crosshair', '../assets/crosshair/crosshair.png');
+
+    this.load.audio('music', '../assets/sound/music/abc.mp3');
   }
 
   create() {
+    this.backgroundMusic = this.sound.add('music');
+    this.backgroundMusic.play({
+      loop: true,
+      volume: 0.25
+    });
+
+
+
     this.input.setPollAlways();
 
     // -- Map -- //
@@ -83,7 +95,7 @@ export default class GameScene extends Phaser.Scene {
       if (!bullet.active || !enemy.active) 
         return;
 
-      bullet.destroy();
+      bullet.disableBody(true, true);
       enemy.takeDamage(GLOBALS.BULLET_DAMAGE);
     });
       

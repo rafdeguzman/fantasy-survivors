@@ -39,11 +39,12 @@ export default class Enemy extends GameEntity{
     update(): void {
         this.scene.physics.moveToObject(this, this.scene.player, this.SPEED);
 
-        if (this.body.velocity.x > 0) {
+        if (this.body.velocity.x > 0) { // walking right, facing rght
             this.setFlipX(false);
-        } else if (this.body.velocity.x < 0) {
+        } else if (this.body.velocity.x < 0) {  // walking left, facing left
             this.setFlipX(true);
-        }
+        } 
+        
 
         this.rotation = -this.scene.cameras.main.rotation;
 
@@ -51,12 +52,14 @@ export default class Enemy extends GameEntity{
     }
 
     spawn(x: number, y: number): void {
-        this.scene.physics.world.enable(this);
-        this.body.reset(x, y);
+        this.initEnemy(x, y);
+    }
 
-        this.setActive(true);
-        this.setVisible(true);
-        
+    initEnemy(x: number, y: number): void {
+        this.health = 2;
+        this.enableBody(true, x, y, true, true);
+        this.scene.physics.world.enable(this);
+        this.body.reset(this.x, this.y);
         this.initSprite();
     }
 
@@ -64,7 +67,8 @@ export default class Enemy extends GameEntity{
         this.health -= damage;
         this.spriteFlicker();
         if (this.health <= 0) {
-            this.destroy();
+            // this.destroy();
+            this.disableBody(true, true);
         }
     }
 
