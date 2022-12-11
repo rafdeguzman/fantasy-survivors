@@ -13,6 +13,8 @@ export default class Player extends GameEntity {
     private keyE: Phaser.Input.Keyboard.Key;
     private keyX: Phaser.Input.Keyboard.Key;
     private keySpace: Phaser.Input.Keyboard.Key;
+    private key1: Phaser.Input.Keyboard.Key;
+    private key2: Phaser.Input.Keyboard.Key;
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'knight');
@@ -24,6 +26,8 @@ export default class Player extends GameEntity {
         this.keyQ = this.scene.input.keyboard.addKey('Q');
         this.keyE = this.scene.input.keyboard.addKey('E');
         this.keyX = this.scene.input.keyboard.addKey('X');
+        this.key1 = this.scene.input.keyboard.addKey('1');
+        this.key2 = this.scene.input.keyboard.addKey('2');
         this.keySpace = this.scene.input.keyboard.addKey('SPACE');
 
         this.scene.add.existing(this);
@@ -118,6 +122,11 @@ export default class Player extends GameEntity {
         if (this.keyD?.isUp && this.keyA?.isUp && this.keyS?.isUp && this.keyW?.isUp) {
             !this.anims.isPlaying && this.anims.play('knight_idle', true);
         }
+
+        if (this.key1?.isDown){
+            console.log('heavy machine gun')
+            this.scene.firerateTick = GLOBALS.HEAVY_MACHINE_GUN_FIRERATE;
+        }
     }
 
     update(time: number, delta: number): void {
@@ -137,11 +146,14 @@ export default class Player extends GameEntity {
             console.log('dead')
         }
         else{
-            this.setTint(0xff0000);
-            this.tintFill = true;
+            this.spriteFlicker();
         }
     }
 
     spriteFlicker(): void{
+        this.setTint(0xff0000);
+        this.scene.time.delayedCall(100, () => {
+            this.clearTint();
+        });
     }
 }

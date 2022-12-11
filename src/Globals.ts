@@ -2,6 +2,9 @@ const GLOBALS = {
     PLAYER_SPEED: 800,
     BULLET_DAMAGE: 1,
     ENEMY_DAMAGE: 1,
+    PISTOL_FIRERATE: 50,
+    HEAVY_MACHINE_GUN_FIRERATE: 15,
+
 }
 
 export default GLOBALS;

@@ -22,7 +22,7 @@ export default class GameScene extends Phaser.Scene {
 
   private bulletCollider: Phaser.Physics.Arcade.Collider;
 
-  private firerateTick: number = 20;
+  private firerateTick: number = GLOBALS.HEAVY_MACHINE_GUN_FIRERATE;
   private tick: number = 0;
 
   constructor() {
@@ -137,6 +137,15 @@ export default class GameScene extends Phaser.Scene {
     // this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
     //   this.playerBullets.fireAimedBullet(this.player, this.crosshair);
     // });    
+
+    this.input.keyboard.addKey('1').onDown = () => {
+      console.log(this.firerateTick)
+      this.firerateTick = GLOBALS.HEAVY_MACHINE_GUN_FIRERATE;
+    }
+    this.input.keyboard.addKey('2').onDown = () => {
+      console.log(this.firerateTick)
+      this.firerateTick = GLOBALS.PISTOL_FIRERATE;
+    }
   }
 
   enemyPlayerCollision(player: Player, enemy: Enemy): void{

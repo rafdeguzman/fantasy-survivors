@@ -4,7 +4,7 @@ import GameEntity from "./GameEntity";
 export default class Enemy extends GameEntity{
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 100;
-    private health: number = 1;
+    private health: number = 3;
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
@@ -62,9 +62,16 @@ export default class Enemy extends GameEntity{
 
     takeDamage(damage: number): void {
         this.health -= damage;
-
-        if (this.health <= 0) {
+        this.spriteFlicker();
+        if (this.health < 0) {
             this.destroy();
         }
+    }
+
+    spriteFlicker(): void{
+        this.setTint(0xff0000);
+        this.scene.time.delayedCall(100, () => {
+            this.clearTint();
+        });
     }
 }

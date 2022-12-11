@@ -16,7 +16,7 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
 
     fireAimedBullet(shooter: Phaser.GameObjects.GameObject, target: Phaser.GameObjects.GameObject): void {
         this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
-        this.scene.cameras.main.shake(100, 0.01);
+        this.scene.cameras.main.shake(100, 0.005);
         const bullet = this.getFirstDead(false);
 
         if (bullet) {
