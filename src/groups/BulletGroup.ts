@@ -20,14 +20,19 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
         let recoilX = target.x + Phaser.Math.Between(-25, 25);
         let recoilY = target.y + Phaser.Math.Between(-25, 25);
 
-        let temp = {x: recoilX, y: recoilY};
+        let userRecoil = {
+            x: shooter.x + Phaser.Math.Between(-25, 25), 
+            y: shooter.y + Phaser.Math.Between(-25, 25)
+        }
+
+        let temp = {x: recoilX, y: recoilY};    // this temp is supposed to be the target with recoil
 
         this.scene.cameras.main.shake(100, 0.005);
         const bullet = this.getFirstDead(false);
 
         if (bullet) {
             // bullet.shootAimed(shooter, target);
-            bullet.shootAimed(shooter, temp);
+            bullet.shootAimed(userRecoil, temp);
         }
     }
 }
