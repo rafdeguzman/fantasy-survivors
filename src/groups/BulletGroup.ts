@@ -7,7 +7,7 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
 
         this.createMultiple({
             classType: Bullet,
-            frameQuantity: 150,
+            frameQuantity: 5,
             key: 'bullet',
             active: false,
             visible: false,
@@ -15,7 +15,8 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
     }
 
     fireAimedBullet(shooter: Phaser.GameObjects.GameObject, target: Phaser.GameObjects.GameObject): void {
-        // this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
+        this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
+        
         let recoilX = target.x + Phaser.Math.Between(-25, 25);
         let recoilY = target.y + Phaser.Math.Between(-25, 25);
 

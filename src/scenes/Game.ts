@@ -95,7 +95,7 @@ export default class GameScene extends Phaser.Scene {
       if (!bullet.active || !enemy.active) 
         return;
 
-      bullet.disableBody(true, true);
+      bullet.destroy();
       enemy.takeDamage(GLOBALS.BULLET_DAMAGE);
     });
       

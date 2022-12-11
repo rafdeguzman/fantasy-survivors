@@ -52,14 +52,12 @@ export default class Enemy extends GameEntity{
     }
 
     spawn(x: number, y: number): void {
-        this.initEnemy(x, y);
-    }
-
-    initEnemy(x: number, y: number): void {
-        this.health = 2;
-        this.enableBody(true, x, y, true, true);
         this.scene.physics.world.enable(this);
-        this.body.reset(this.x, this.y);
+        this.body.reset(x, y);
+
+        this.setActive(true);
+        this.setVisible(true);
+        
         this.initSprite();
     }
 
@@ -67,8 +65,7 @@ export default class Enemy extends GameEntity{
         this.health -= damage;
         this.spriteFlicker();
         if (this.health <= 0) {
-            // this.destroy();
-            this.disableBody(true, true);
+            this.destroy();
         }
     }
 
