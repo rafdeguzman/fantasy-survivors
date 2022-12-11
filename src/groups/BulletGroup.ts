@@ -1,5 +1,4 @@
 import Bullet from "../objects/Bullet";
-import Enemy from "../entities/Enemy";
 export default class BulletGroup extends Phaser.Physics.Arcade.Group {
 
     constructor(scene: Phaser.Scene) {
@@ -34,5 +33,27 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
             // bullet.shootAimed(shooter, target);
             bullet.shootAimed(userRecoil, temp);
         }
+    }
+
+    fireEightWayBullet(shooter: Phaser.GameObjects.GameObject): void {
+        this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
+        this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
+        this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
+        this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
+        this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
+        this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
+        this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
+        this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
+
+        this.scene.cameras.main.shake(100, 0.005);
+
+        this.getFirstDead(false).shootEightWayRotate(shooter, 0);
+        this.getFirstDead(false).shootEightWayRotate(shooter, 45);
+        this.getFirstDead(false).shootEightWayRotate(shooter, 90);
+        this.getFirstDead(false).shootEightWayRotate(shooter, 135);
+        this.getFirstDead(false).shootEightWayRotate(shooter, 180);
+        this.getFirstDead(false).shootEightWayRotate(shooter, 225);
+        this.getFirstDead(false).shootEightWayRotate(shooter, 270);
+        this.getFirstDead(false).shootEightWayRotate(shooter, 315);
     }
 }

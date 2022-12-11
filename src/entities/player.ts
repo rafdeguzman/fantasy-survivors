@@ -17,8 +17,7 @@ export default class Player extends GameEntity {
     private keyE: Phaser.Input.Keyboard.Key;
     private keyX: Phaser.Input.Keyboard.Key;
     private keySpace: Phaser.Input.Keyboard.Key;
-    private key1: Phaser.Input.Keyboard.Key;
-    private key2: Phaser.Input.Keyboard.Key;
+    private mouseDown: Phaser.Input.Pointer;
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'knight');
@@ -30,9 +29,8 @@ export default class Player extends GameEntity {
         this.keyQ = this.scene.input.keyboard.addKey('Q');
         this.keyE = this.scene.input.keyboard.addKey('E');
         this.keyX = this.scene.input.keyboard.addKey('X');
-        this.key1 = this.scene.input.keyboard.addKey('1');
-        this.key2 = this.scene.input.keyboard.addKey('2');
         this.keySpace = this.scene.input.keyboard.addKey('SPACE');
+        this.mouseDown = this.scene.input.activePointer;
 
         this.scene.add.existing(this);
         
@@ -169,11 +167,6 @@ export default class Player extends GameEntity {
         // if no key is down
         if (this.keyD?.isUp && this.keyA?.isUp && this.keyS?.isUp && this.keyW?.isUp) {
             !this.anims.isPlaying && this.anims.play('knight_idle', true);
-        }
-
-        if (this.key1?.isDown){
-            console.log('heavy machine gun')
-            this.scene.firerateTick = GLOBALS.HEAVY_MACHINE_GUN_FIRERATE;
         }
     }
 

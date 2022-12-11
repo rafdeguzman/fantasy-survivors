@@ -110,7 +110,8 @@ export default class GameScene extends Phaser.Scene {
     this.tick++;
 
     if (this.game.input.activePointer.isDown && this.tick >= this.firerateTick){
-      this.playerBullets.fireAimedBullet(this.player, this.crosshair);  
+      // this.playerBullets.fireAimedBullet(this.player, this.crosshair);  
+      this.playerBullets.fireEightWayBullet(this.player);
       this.tick = 0;
     }
   }
@@ -144,10 +145,6 @@ export default class GameScene extends Phaser.Scene {
   }
 
   addEvents(): void{
-    // this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-    //   this.playerBullets.fireAimedBullet(this.player, this.crosshair);
-    // });    
-
     this.input.keyboard.addKey('1').onDown = () => {
       console.log(this.firerateTick)
       this.firerateTick = GLOBALS.HEAVY_MACHINE_GUN_FIRERATE;
