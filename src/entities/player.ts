@@ -1,7 +1,7 @@
 import PlayerStateName from "../enums/PlayerStateName";
 import GameEntity from "./GameEntity";
 export default class Player extends GameEntity {
-    readonly SPEED: number = 800;
+    readonly SPEED: number = 500;
     private isInvulnerable: boolean = false;
     private health: number = 100000;
 

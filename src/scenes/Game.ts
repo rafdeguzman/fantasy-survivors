@@ -22,6 +22,9 @@ export default class GameScene extends Phaser.Scene {
 
   private bulletCollider: Phaser.Physics.Arcade.Collider;
 
+  private firerateTick: number = 20;
+  private tick: number = 0;
+
   constructor() {
     super('GameScene');
   }
@@ -89,6 +92,13 @@ export default class GameScene extends Phaser.Scene {
     this.crosshair.update(time, delta);
     this.player.update(time, delta);
     this.enemyGroup.update(time, delta);
+
+    this.tick++;
+
+    if (this.game.input.activePointer.isDown && this.tick >= this.firerateTick){
+      this.playerBullets.fireAimedBullet(this.player, this.crosshair);  
+      this.tick = 0;
+    }
   }
 
   setupCamera(): void{
@@ -124,9 +134,9 @@ export default class GameScene extends Phaser.Scene {
   }
 
   addEvents(): void{
-    this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-      this.playerBullets.fireAimedBullet(this.player, this.crosshair);
-    });    
+    // this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
+    //   this.playerBullets.fireAimedBullet(this.player, this.crosshair);
+    // });    
   }
 
   enemyPlayerCollision(player: Player, enemy: Enemy): void{
