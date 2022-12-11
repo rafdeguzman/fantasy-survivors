@@ -1,7 +1,7 @@
 import PlayerStateName from "../enums/PlayerStateName";
 import GameEntity from "./GameEntity";
 export default class Player extends GameEntity {
-    readonly SPEED: number = 800;
+    readonly SPEED: number = 500;
     private isInvulnerable: boolean = false;
     private health: number = 100000;
 
@@ -44,13 +44,13 @@ export default class Player extends GameEntity {
     initAnimations(): void{
         this.scene.anims.create({
             key: 'knight_idle',
-            frames: this.scene.anims.generateFrameNames('knight', {prefix: 'idle', start: 0, end: 3}),
+            frames: this.scene.anims.generateFrameNames('knight', {prefix: 'knight_idle_', start: 0, end: 3}),
             frameRate: 10,
             repeat: 0
         });
         this.scene.anims.create({
             key: 'knight_run',
-            frames: this.scene.anims.generateFrameNames('knight', {prefix: 'run', start: 0, end: 3}),
+            frames: this.scene.anims.generateFrameNames('knight', {prefix: 'knight_run_', start: 0, end: 3}),
             frameRate: 10,
             repeat: 0
         });

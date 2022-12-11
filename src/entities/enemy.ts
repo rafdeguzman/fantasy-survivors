@@ -16,7 +16,7 @@ export default class Enemy extends GameEntity{
     }
 
     initSprite(): void{
-        this.originY = 0.7;
+        this.originY = 0.6;
         this.body.setCircle(9);
         this.body.setOffset(0, 3);
         this.setDisplaySize(72, 112);
@@ -47,7 +47,7 @@ export default class Enemy extends GameEntity{
 
         this.rotation = -this.scene.cameras.main.rotation;
 
-        !this.anims.isPlaying && this.anims.play('orc', true);
+        !this.anims.isPlaying && this.anims.play('orc_run', true);
     }
 
     spawn(x: number, y: number): void {
