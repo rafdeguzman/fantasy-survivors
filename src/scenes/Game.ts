@@ -39,6 +39,7 @@ export default class GameScene extends Phaser.Scene {
 
     this.load.image('bullet', '../assets/bullets/bullet.png');
     this.load.image('background', '../assets/skies/underwater1.png');
+    this.load.image('map', '../assets/map/map.png');
     
     this.load.image('crosshair', '../assets/crosshair/crosshair.png');
   }
@@ -46,11 +47,11 @@ export default class GameScene extends Phaser.Scene {
   create() {
     this.input.setPollAlways();
 
+    // -- Map -- //
+    this.setupMap();
+
     // world bounds
     this.physics.world.setBounds(0, 0, 1600, 1200);
-
-    // Background
-    var background = this.add.image(800, 600, 'background');
 
     // -- Entities -- //
     this.addPlayer(this, 100, 100);
@@ -62,9 +63,6 @@ export default class GameScene extends Phaser.Scene {
     
     this.setupCollisions();
 
-    // Image and Sprite properties
-    background.setOrigin(0.5, 0.5).setDisplaySize(1600, 1200);
-
     // -- Events -- //
     this.addEvents();
 
@@ -74,6 +72,10 @@ export default class GameScene extends Phaser.Scene {
     // this.timerEvents.push(this.time.addEvent({ delay: 250, callback: this.playerBullets.fireAimedBullet, callbackScope: this.playerBullets, loop: true, args: [this.player, this.crosshair] }));
 
     this.timerEvents.push(this.time.addEvent({ delay: 1000, callback: this.addEnemyToList, callbackScope: this, loop: true }));
+  }
+
+  setupMap(){
+    this.add.tileSprite(-2560, -1600, 2560, 1600, 'map').setOrigin(0, 0).setDisplaySize(1280 * 8, 800 * 8);
   }
 
   setupCollisions(){
@@ -121,14 +123,10 @@ export default class GameScene extends Phaser.Scene {
     let cameraWidth = this.cameras.main.width;
     let cameraHeight = this.cameras.main.height;
 
-    let cameraBounds = camera.getBounds();
-
-    let top = cameraBounds.top;
-    let bottom = cameraBounds.bottom;
-    let left = cameraBounds.left;
-    let right = cameraBounds.right;
-
-    this.enemyGroup.spawnEnemy(Phaser.Math.Between(0, 1600), Phaser.Math.Between(0, 1200));
+    // i want to spawn enemies outside of the camera bounds
+    this.enemyGroup.spawnEnemy(
+      Phaser.Math.Between(0, 1600), Phaser.Math.Between(0, 1200)
+      );
 
     // this.enemyList.push(new Enemy(this, Phaser.Math.Between(0, 1600), Phaser.Math.Between(0, 1200)));
   }
@@ -149,7 +147,6 @@ export default class GameScene extends Phaser.Scene {
   }
 
   enemyPlayerCollision(player: Player, enemy: Enemy): void{
-    console.log("Player hit!")
     player.takeDamage(GLOBALS.ENEMY_DAMAGE);
   }
 }

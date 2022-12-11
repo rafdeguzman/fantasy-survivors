@@ -1,9 +1,13 @@
 import PlayerStateName from "../enums/PlayerStateName";
 import GameEntity from "./GameEntity";
 export default class Player extends GameEntity {
-    readonly SPEED: number = 500;
+    private SPEED: number = 500;
     private isInvulnerable: boolean = false;
     private health: number = 100000;
+
+    private dashCooldown: boolean = false;
+
+    private isDashing: boolean = false;
 
     private keyW: Phaser.Input.Keyboard.Key;
     private keyA: Phaser.Input.Keyboard.Key;
@@ -115,8 +119,52 @@ export default class Player extends GameEntity {
             this.scene.cameras.main.rotation = 0;
         
         }
+        // if space is down
         if (this.keySpace?.isDown){
-            
+            if (this.dashCooldown) return;
+
+            if (this.isDashing){
+                console.log('already dashing')
+                return;
+            }
+            console.log('dash')
+
+            this.dashCooldown = true;
+
+            this.isDashing = true;
+            this.isInvulnerable = true;
+
+            this.setTint(0x36454f);
+            // 808080
+
+            this.SPEED *= 5
+            this.scene.time.addEvent({
+                delay: 100,
+                callback: () => {
+                    this.SPEED /= 5;
+                    
+                    this.isDashing = false;
+
+                    this.clearTint();
+
+                    this.tweenAlpha();
+                }
+            });
+            this.scene.time.addEvent({
+                delay: 1000,
+                callback: () => {
+                    console.log('no longe invulnerable')
+                    this.isInvulnerable = false;
+                }
+            });
+            this.scene.time.addEvent({
+                delay: 5000,
+                callback: () => {
+                    console.log('dash cooldown over')
+                    this.flashWhite();
+                    this.dashCooldown = false;
+                }
+            });
         }
         // if no key is down
         if (this.keyD?.isUp && this.keyA?.isUp && this.keyS?.isUp && this.keyW?.isUp) {
@@ -140,12 +188,12 @@ export default class Player extends GameEntity {
             return;
         } 
 
-        this.health -= damage;
-
         if (this.health <= 0){
             console.log('dead')
         }
         else{
+            this.health -= damage;
+            console.log('taking damage')
             this.spriteFlicker();
         }
     }
@@ -153,6 +201,30 @@ export default class Player extends GameEntity {
     spriteFlicker(): void{
         this.setTint(0xff0000);
         this.scene.time.delayedCall(100, () => {
+            this.clearTint();
+        });
+    }
+        
+    tweenAlpha(): void{
+        this.scene.tweens.add({
+            targets: this,
+            alpha: 0,
+            duration: 100,
+            ease: 'Linear',
+            repeat: 5,
+            yoyo: true
+        });
+    }
+
+    flashWhite(): void{
+        
+        // set light blue tint
+        this.setTint(0x1f51ff);
+        
+
+
+
+        this.scene.time.delayedCall(200, () => {
             this.clearTint();
         });
     }
