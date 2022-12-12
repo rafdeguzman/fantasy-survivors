@@ -3,7 +3,7 @@ import GameEntity from "./GameEntity";
 export default class Player extends GameEntity {
     private SPEED: number = 500;
     private isInvulnerable: boolean = false;
-    private health: number = 100000;
+    private health: number = 100;
 
     private dashCooldown: boolean = false;
 

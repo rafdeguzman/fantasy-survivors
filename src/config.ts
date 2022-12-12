@@ -21,6 +21,6 @@ export default {
   },
   fps: {
     target: 60,
-    forceSetTimeOut: true
+    // forceSetTimeOut: true
   }
 };

@@ -11,6 +11,8 @@ export default class GameScene extends Phaser.Scene {
   public player: Player;
   public enemy: Enemy;
 
+  private frameTime: number = 0;
+
   
 
   private playerBullets: BulletGroup;
@@ -123,12 +125,16 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update(time: number, delta: number): void{
+
+    this.frameTime += delta;
+    
     this.crosshair.update(time, delta);
     this.player.update(time, delta);
     this.enemyGroup.update(time, delta);
 
+    
+    
     this.tick++;
-
     if (this.game.input.activePointer.isDown && this.tick >= this.firerateTick){
       this.gunshotSound.play({volume: 0.1});
       this.playerBullets.fireAimedBullet(this.player, this.crosshair);  
