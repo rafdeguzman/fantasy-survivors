@@ -11,12 +11,13 @@ export default class GameScene extends Phaser.Scene {
   public player: Player;
   public enemy: Enemy;
 
-  private enemyList: Enemy[] = [];
+  
 
   private playerBullets: BulletGroup;
   private crosshair: Crosshair;
 
   private enemyGroup: EnemyGroup;
+  public enemyBullets: BulletGroup;
 
   private timerEvents: Phaser.Time.TimerEvent[] = [];
 
@@ -72,6 +73,7 @@ export default class GameScene extends Phaser.Scene {
     // -- Groups -- //
     this.playerBullets = new BulletGroup(this);
     this.enemyGroup = new EnemyGroup(this);
+    this.enemyBullets = new BulletGroup(this);
     
     this.setupCollisions();
 
@@ -100,6 +102,8 @@ export default class GameScene extends Phaser.Scene {
     });
       
     this.physics.add.overlap(this.player, this.enemyGroup, this.enemyPlayerCollision, null, this);
+
+    this.physics.add.overlap(this.enemyBullets, this.player, this.enemyPlayerCollision, null, this);
   }
 
   update(time: number, delta: number): void{
@@ -110,8 +114,7 @@ export default class GameScene extends Phaser.Scene {
     this.tick++;
 
     if (this.game.input.activePointer.isDown && this.tick >= this.firerateTick){
-      // this.playerBullets.fireAimedBullet(this.player, this.crosshair);  
-      this.playerBullets.fireEightWayBullet(this.player);
+      this.playerBullets.fireAimedBullet(this.player, this.crosshair);  
       this.tick = 0;
     }
   }
