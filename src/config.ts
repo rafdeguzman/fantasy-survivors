@@ -18,5 +18,9 @@ export default {
       gravity: { y: 0 },
       debug: true
     }
+  },
+  fps: {
+    target: 60,
+    forceSetTimeOut: true
   }
 };
