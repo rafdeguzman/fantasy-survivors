@@ -125,7 +125,6 @@ export default class Player extends GameEntity {
                 console.log('already dashing')
                 return;
             }
-            console.log('dash')
 
             this.dashCooldown = true;
 
@@ -133,7 +132,7 @@ export default class Player extends GameEntity {
             this.isInvulnerable = true;
 
             this.setTint(0x36454f);
-            // 808080
+            this.scene.dodgeSound.play({volume: 0.5});
 
             this.SPEED *= 5
             this.scene.time.addEvent({
@@ -161,6 +160,7 @@ export default class Player extends GameEntity {
                     console.log('dash cooldown over')
                     this.flashWhite();
                     this.dashCooldown = false;
+                    this.scene.dodgeCdSound.play({volume: 0.5});
                 }
             });
         }
@@ -188,6 +188,7 @@ export default class Player extends GameEntity {
             this.health -= damage;
             console.log('taking damage')
             this.spriteFlicker();
+            this.scene.playerHitSound.play({volume: 0.25});
         }
     }
 

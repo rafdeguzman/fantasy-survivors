@@ -27,6 +27,11 @@ export default class GameScene extends Phaser.Scene {
   private tick: number = 0;
 
   private backgroundMusic: Phaser.Sound.BaseSound;
+  public gunshotSound: Phaser.Sound.BaseSound;
+  public playerHitSound: Phaser.Sound.BaseSound;
+  public enemyHitSound: Phaser.Sound.BaseSound;
+  public dodgeSound: Phaser.Sound.BaseSound;
+  public dodgeCdSound: Phaser.Sound.BaseSound;
 
   constructor() {
     super('GameScene');
@@ -46,7 +51,15 @@ export default class GameScene extends Phaser.Scene {
     
     this.load.image('crosshair', '../assets/crosshair/crosshair.png');
 
-    this.load.audio('music', '../assets/sound/music/abc.mp3');
+    this.load.audio('music', '../assets/sound/music/abc.mp3');  // abc polyphia 8bit ver
+
+    this.load.audio('playerHit', '../assets/sound/playerHit.wav');
+    this.load.audio('gunShot', '../assets/sound/gunShot.wav');
+    this.load.audio('enemyHit', '../assets/sound/enemyHit.wav');
+    this.load.audio('pickup', '../assets/sound/pickup.wav');
+    this.load.audio('dodge', '../assets/sound/dodge.wav')
+    this.load.audio('dodgeCd', '../assets/sound/dodgeBack.wav')
+
   }
 
   create() {
@@ -55,8 +68,11 @@ export default class GameScene extends Phaser.Scene {
       loop: true,
       volume: 0.25
     });
-
-
+    this.gunshotSound = this.sound.add('gunShot');
+    this.playerHitSound = this.sound.add('playerHit');
+    this.enemyHitSound = this.sound.add('enemyHit');
+    this.dodgeSound = this.sound.add('dodge');
+    this.dodgeCdSound = this.sound.add('dodgeCd');
 
     this.input.setPollAlways();
 
@@ -114,6 +130,7 @@ export default class GameScene extends Phaser.Scene {
     this.tick++;
 
     if (this.game.input.activePointer.isDown && this.tick >= this.firerateTick){
+      this.gunshotSound.play({volume: 0.1});
       this.playerBullets.fireAimedBullet(this.player, this.crosshair);  
       this.tick = 0;
     }
