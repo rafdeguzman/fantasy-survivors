@@ -11,10 +11,6 @@ export default class GameScene extends Phaser.Scene {
   public player: Player;
   public enemy: Enemy;
 
-  private frameTime: number = 0;
-
-  
-
   private playerBullets: BulletGroup;
   private crosshair: Crosshair;
 
