@@ -5,11 +5,14 @@ export default class Enemy extends GameEntity{
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 100;
     private health: number = 2;
+    private scene: any;
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
-        super(scene, x, y, 'orc')
+        super(scene, x, y, 'orc');
         
+        this.scene = scene;
+
         this.initSprite();
         this.initPhysics();
         this.initAnimations();
@@ -39,11 +42,12 @@ export default class Enemy extends GameEntity{
     update(): void {
         this.scene.physics.moveToObject(this, this.scene.player, this.SPEED);
 
-        if (this.body.velocity.x > 0) {
+        if (this.body.velocity.x > 0) { // walking right, facing rght
             this.setFlipX(false);
-        } else if (this.body.velocity.x < 0) {
+        } else if (this.body.velocity.x < 0) {  // walking left, facing left
             this.setFlipX(true);
-        }
+        } 
+        
 
         this.rotation = -this.scene.cameras.main.rotation;
 
@@ -62,10 +66,12 @@ export default class Enemy extends GameEntity{
 
     takeDamage(damage: number): void {
         this.health -= damage;
+        this.scene.enemyHitSound.play({volume: 0.5});
         this.spriteFlicker();
         if (this.health <= 0) {
             this.destroy();
         }
+        
     }
 
     spriteFlicker(): void{

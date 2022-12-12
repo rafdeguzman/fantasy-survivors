@@ -1,5 +1,4 @@
 import Bullet from "../objects/Bullet";
-import Enemy from "../entities/Enemy";
 export default class BulletGroup extends Phaser.Physics.Arcade.Group {
 
     constructor(scene: Phaser.Scene) {
@@ -33,6 +32,22 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
         if (bullet) {
             // bullet.shootAimed(shooter, target);
             bullet.shootAimed(userRecoil, temp);
+        }
+    }
+
+    fireEightWayBullet(shooter: Phaser.GameObjects.GameObject): void {
+
+        for (let i = 0; i < 8; i++) {
+            this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
+        }
+
+        this.scene.cameras.main.shake(100, 0.005);
+
+        for (let i = 0; i < 8; i++) {
+            const bullet = this.getFirstDead(false);
+            if (bullet) {
+                bullet.shootAngled(shooter, 45 * i);
+            }
         }
     }
 }

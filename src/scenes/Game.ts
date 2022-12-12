@@ -11,12 +11,13 @@ export default class GameScene extends Phaser.Scene {
   public player: Player;
   public enemy: Enemy;
 
-  private enemyList: Enemy[] = [];
+  
 
   private playerBullets: BulletGroup;
   private crosshair: Crosshair;
 
   private enemyGroup: EnemyGroup;
+  public enemyBullets: BulletGroup;
 
   private timerEvents: Phaser.Time.TimerEvent[] = [];
 
@@ -24,6 +25,13 @@ export default class GameScene extends Phaser.Scene {
 
   private firerateTick: number = GLOBALS.HEAVY_MACHINE_GUN_FIRERATE;
   private tick: number = 0;
+
+  private backgroundMusic: Phaser.Sound.BaseSound;
+  public gunshotSound: Phaser.Sound.BaseSound;
+  public playerHitSound: Phaser.Sound.BaseSound;
+  public enemyHitSound: Phaser.Sound.BaseSound;
+  public dodgeSound: Phaser.Sound.BaseSound;
+  public dodgeCdSound: Phaser.Sound.BaseSound;
 
   constructor() {
     super('GameScene');
@@ -42,9 +50,30 @@ export default class GameScene extends Phaser.Scene {
     this.load.image('map', '../assets/map/map.png');
     
     this.load.image('crosshair', '../assets/crosshair/crosshair.png');
+
+    this.load.audio('music', '../assets/sound/music/abc.mp3');  // abc polyphia 8bit ver
+
+    this.load.audio('playerHit', '../assets/sound/playerHit.wav');
+    this.load.audio('gunShot', '../assets/sound/gunShot.wav');
+    this.load.audio('enemyHit', '../assets/sound/enemyHit.wav');
+    this.load.audio('pickup', '../assets/sound/pickup.wav');
+    this.load.audio('dodge', '../assets/sound/dodge.wav')
+    this.load.audio('dodgeCd', '../assets/sound/dodgeBack.wav')
+
   }
 
   create() {
+    this.backgroundMusic = this.sound.add('music');
+    this.backgroundMusic.play({
+      loop: true,
+      volume: 0.25
+    });
+    this.gunshotSound = this.sound.add('gunShot');
+    this.playerHitSound = this.sound.add('playerHit');
+    this.enemyHitSound = this.sound.add('enemyHit');
+    this.dodgeSound = this.sound.add('dodge');
+    this.dodgeCdSound = this.sound.add('dodgeCd');
+
     this.input.setPollAlways();
 
     // -- Map -- //
@@ -60,6 +89,7 @@ export default class GameScene extends Phaser.Scene {
     // -- Groups -- //
     this.playerBullets = new BulletGroup(this);
     this.enemyGroup = new EnemyGroup(this);
+    this.enemyBullets = new BulletGroup(this);
     
     this.setupCollisions();
 
@@ -88,6 +118,8 @@ export default class GameScene extends Phaser.Scene {
     });
       
     this.physics.add.overlap(this.player, this.enemyGroup, this.enemyPlayerCollision, null, this);
+
+    this.physics.add.overlap(this.enemyBullets, this.player, this.enemyPlayerCollision, null, this);
   }
 
   update(time: number, delta: number): void{
@@ -98,6 +130,7 @@ export default class GameScene extends Phaser.Scene {
     this.tick++;
 
     if (this.game.input.activePointer.isDown && this.tick >= this.firerateTick){
+      this.gunshotSound.play({volume: 0.1});
       this.playerBullets.fireAimedBullet(this.player, this.crosshair);  
       this.tick = 0;
     }
@@ -132,10 +165,6 @@ export default class GameScene extends Phaser.Scene {
   }
 
   addEvents(): void{
-    // this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-    //   this.playerBullets.fireAimedBullet(this.player, this.crosshair);
-    // });    
-
     this.input.keyboard.addKey('1').onDown = () => {
       console.log(this.firerateTick)
       this.firerateTick = GLOBALS.HEAVY_MACHINE_GUN_FIRERATE;
