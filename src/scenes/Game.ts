@@ -6,6 +6,9 @@ import BulletGroup from '../groups/BulletGroup';
 import Crosshair from '../objects/Crosshair';
 import EnemyGroup from '../groups/EnemyGroup';
 import GLOBALS from '../Globals';
+import CountdownController from './CountdownController';
+import SceneKeys from '../enums/SceneKeys'
+
 
 export default class GameScene extends Phaser.Scene {
   public player: Player;
@@ -13,10 +16,12 @@ export default class GameScene extends Phaser.Scene {
 
   private frameTime: number = 0;
 
-  
-
   private playerBullets: BulletGroup;
   private crosshair: Crosshair;
+
+  //** @type {countdownController} */
+  private countDown: CountdownController;
+  private timerLabel: Phaser.GameObjects.Text;
 
   private enemyGroup: EnemyGroup;
   public enemyBullets: BulletGroup;
@@ -36,32 +41,7 @@ export default class GameScene extends Phaser.Scene {
   public dodgeCdSound: Phaser.Sound.BaseSound;
 
   constructor() {
-    super('GameScene');
-  }
-
-  // preloading sprites 
-  preload() {
-    this.load.image('player', '../assets/knight/knight_idle.png') // texture
-    this.load.atlas('knight', '/assets/knight/knight.png', '/assets/knight/knight.json'); // atlas
-
-    this.load.image('enemy', '../assets/necromancer/necromancer_idle_anim_f0.png');
-    this.load.atlas('orc', '/assets/orc/orc.png', '/assets/orc/orc.json'); // atlas
-
-    this.load.image('bullet', '../assets/bullets/bullet.png');
-    this.load.image('background', '../assets/skies/underwater1.png');
-    this.load.image('map', '../assets/map/map.png');
-    
-    this.load.image('crosshair', '../assets/crosshair/crosshair.png');
-
-    this.load.audio('music', '../assets/sound/music/abc.mp3');  // abc polyphia 8bit ver
-
-    this.load.audio('playerHit', '../assets/sound/playerHit.wav');
-    this.load.audio('gunShot', '../assets/sound/gunShot.wav');
-    this.load.audio('enemyHit', '../assets/sound/enemyHit.wav');
-    this.load.audio('pickup', '../assets/sound/pickup.wav');
-    this.load.audio('dodge', '../assets/sound/dodge.wav')
-    this.load.audio('dodgeCd', '../assets/sound/dodgeBack.wav')
-
+    super(SceneKeys.Game);
   }
 
   create() {
@@ -92,7 +72,7 @@ export default class GameScene extends Phaser.Scene {
     this.playerBullets = new BulletGroup(this);
     this.enemyGroup = new EnemyGroup(this);
     this.enemyBullets = new BulletGroup(this);
-    
+
     this.setupCollisions();
 
     // -- Events -- //
@@ -104,73 +84,92 @@ export default class GameScene extends Phaser.Scene {
     // this.timerEvents.push(this.time.addEvent({ delay: 250, callback: this.playerBullets.fireAimedBullet, callbackScope: this.playerBullets, loop: true, args: [this.player, this.crosshair] }));
 
     this.timerEvents.push(this.time.addEvent({ delay: 1000, callback: this.addEnemyToList, callbackScope: this, loop: true }));
+    // -- timer -- //
+    this.timetime();
+  }
+  timetime() {
+
+    this.timerLabel = this.add.text(this.cameras.main.midPoint.x, this.cameras.main.midPoint.y, '0', { fontSize: '32px' });
+    this.countDown = new CountdownController(this,this.timerLabel);
+    this.countDown.start(this.handleCountdownFinished.bind(this));
+
   }
 
-  setupMap(){
+  handleCountdownFinished() {
+
+  }
+
+  setupMap() {
     this.add.tileSprite(-2560, -1600, 2560, 1600, 'map').setOrigin(0, 0).setDisplaySize(1280 * 8, 800 * 8);
   }
 
-  setupCollisions(){
+  setupCollisions() {
     this.physics.add.overlap(this.playerBullets, this.enemyGroup, (bullet: Bullet, enemy: Enemy) => {
-      if (!bullet.active || !enemy.active) 
+      if (!bullet.active || !enemy.active)
         return;
 
       bullet.destroy();
       enemy.takeDamage(GLOBALS.BULLET_DAMAGE);
     });
-      
+
     this.physics.add.overlap(this.player, this.enemyGroup, this.enemyPlayerCollision, null, this);
 
     this.physics.add.overlap(this.enemyBullets, this.player, this.enemyPlayerCollision, null, this);
   }
 
-  update(time: number, delta: number): void{
-
+  update(time: number, delta: number): void {
+    this.pause();
     this.frameTime += delta;
-    
+
     this.crosshair.update(time, delta);
     this.player.update(time, delta);
     this.enemyGroup.update(time, delta);
 
-    
-    
     this.tick++;
-    if (this.game.input.activePointer.isDown && this.tick >= this.firerateTick){
-      this.gunshotSound.play({volume: 0.1});
-      this.playerBullets.fireAimedBullet(this.player, this.crosshair);  
+    if (this.game.input.activePointer.isDown && this.tick >= this.firerateTick) {
+      this.gunshotSound.play({ volume: 0.1 });
+      this.playerBullets.fireAimedBullet(this.player, this.crosshair);
       this.tick = 0;
+    }
+
+    this.countDown.update();
+  }
+  pause(){
+    if(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC).isDown){
+      this.scene.sendToBack(SceneKeys.Game);
+      this.scene.pause(SceneKeys.Game);
+      this.scene.launch(SceneKeys.Pause);
     }
   }
 
-  setupCamera(): void{
+  setupCamera(): void {
     this.cameras.main.startFollow(this.player);
     this.cameras.main.zoom = 0.8;
   }
 
-  addPlayer(scene: Phaser.Scene, x: number, y: number): void{
+  addPlayer(scene: Phaser.Scene, x: number, y: number): void {
     this.player = new Player(scene, x, y);
     this.crosshair = new Crosshair(scene, 0, 0);
   }
 
-  addEnemy(scene: Phaser.Scene, x: number, y: number): void{
+  addEnemy(scene: Phaser.Scene, x: number, y: number): void {
     this.enemy = new Enemy(scene, x, y);
   }
 
-  addEnemyToList(enemy: Enemy): void{
+  addEnemyToList(enemy: Enemy): void {
     let camera = this.cameras.main;
-
     let cameraWidth = this.cameras.main.width;
     let cameraHeight = this.cameras.main.height;
 
     // i want to spawn enemies outside of the camera bounds
     this.enemyGroup.spawnEnemy(
       Phaser.Math.Between(0, 1600), Phaser.Math.Between(0, 1200)
-      );
+    );
 
     // this.enemyList.push(new Enemy(this, Phaser.Math.Between(0, 1600), Phaser.Math.Between(0, 1200)));
   }
 
-  addEvents(): void{
+  addEvents(): void {
     this.input.keyboard.addKey('1').onDown = () => {
       console.log(this.firerateTick)
       this.firerateTick = GLOBALS.HEAVY_MACHINE_GUN_FIRERATE;
@@ -181,7 +180,7 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
-  enemyPlayerCollision(player: Player, enemy: Enemy): void{
+  enemyPlayerCollision(player: Player, enemy: Enemy): void {
     player.takeDamage(GLOBALS.ENEMY_DAMAGE);
   }
 }
