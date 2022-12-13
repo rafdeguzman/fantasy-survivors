@@ -5,9 +5,12 @@ import Pause from './scenes/Pause';
 import Preloader from './scenes/Preloader';
 import UI from './scenes/UI';
 import Title from './scenes/Title';
+import GameOver from './scenes/GameOver';
+import Win from './scenes/Win';
+
 
 new Phaser.Game(
   Object.assign(config, {
-    scene: [Preloader,Title,GameScene,UI,Pause]
+    scene: [Preloader,Title,GameScene,UI,Pause,GameOver,Win]
   })
 );

@@ -103,11 +103,23 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update(time: number, delta: number): void {
+    if(this.player.isDead){
+      console.log("game over")
+      this.gameOver();
+    }
     this.pause();
 
     this.crosshair.update(time, delta);
     this.player.update(time, delta);
     this.enemyGroup.update(time, delta);
+  }
+
+  gameOver(){
+    //delete all the scene
+    this.scene.stop(SceneKeys.Game);
+    this.scene.stop(SceneKeys.UI);
+    this.scene.stop(SceneKeys.Pause);
+    this.scene.start(SceneKeys.GameOver);
   }
 
   pause(){
