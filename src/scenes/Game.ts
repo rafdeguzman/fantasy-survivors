@@ -109,6 +109,7 @@ export default class GameScene extends Phaser.Scene {
     this.crosshair.update(time, delta);
     this.player.update(time, delta);
     this.enemyGroup.update(time, delta);
+    
   }
 
   pause(){
