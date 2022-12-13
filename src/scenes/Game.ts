@@ -33,6 +33,11 @@ export default class GameScene extends Phaser.Scene {
   public dodgeSound: Phaser.Sound.BaseSound;
   public dodgeCdSound: Phaser.Sound.BaseSound;
 
+  private worldX: number = 32;
+  private worldY: number = 96;
+  private worldWidth: number = 2560 - 64;
+  private worldHeight: number = 2560 - 136;
+
   constructor() {
     super(SceneKeys.Game);
   }
@@ -56,12 +61,8 @@ export default class GameScene extends Phaser.Scene {
     this.setupMap();
 
     // world bounds
-    let worldX = 32;
-    let worldY = 96;
-    let worldWidth = 2560 - 64;
-    let worldHeight = 2560 - 136;
 
-    this.physics.world.setBounds(worldX, worldY, worldWidth, worldHeight, true, true, true, true );
+    this.physics.world.setBounds(this.worldX, this.worldY, this.worldWidth, this.worldHeight, true, true, true, true );
 
     // -- Entities -- //
     this.addPlayer(this, 100, 100);
@@ -70,7 +71,7 @@ export default class GameScene extends Phaser.Scene {
     // -- Groups -- //
     this.enemyGroup = new EnemyGroup(this);
 
-    this.setupCollisions();
+    this.setupOverlaps();
 
     // -- Events -- //
     this.addEvents();
@@ -91,7 +92,7 @@ export default class GameScene extends Phaser.Scene {
     this.add.tileSprite(0, 0, 2560, 2560, 'map2').setOrigin(0, 0);
   }
 
-  setupCollisions() {
+  setupOverlaps() {
     this.physics.add.overlap(this.player.playerBullets, this.enemyGroup, (bullet: Bullet, enemy: Enemy) => {
       if (!bullet.active || !enemy.active)
         return;
@@ -107,7 +108,6 @@ export default class GameScene extends Phaser.Scene {
     this.crosshair.update(time, delta);
     this.player.update(time, delta);
     this.enemyGroup.update(time, delta);
-    
   }
 
   pause(){
@@ -140,16 +140,10 @@ export default class GameScene extends Phaser.Scene {
   }
 
   addEnemyToList(enemy: Enemy): void {
-    let camera = this.cameras.main;
-    let cameraWidth = this.cameras.main.width;
-    let cameraHeight = this.cameras.main.height;
-
-    // i want to spawn enemies outside of the camera bounds
     this.enemyGroup.spawnEnemy(
-      Phaser.Math.Between(0, 1600), Phaser.Math.Between(0, 1200)
+      Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496)
     );
 
-    // this.enemyList.push(new Enemy(this, Phaser.Math.Between(0, 1600), Phaser.Math.Between(0, 1200)));
   }
 
   addEvents(): void {

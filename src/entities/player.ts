@@ -21,7 +21,7 @@ export default class Player extends GameEntity {
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'knight');
 
-        this.keys = this.scene.input.keyboard.addKeys('W, A, S, D, Q, E, X, SPACE');
+        this.keys = this.scene.input.keyboard.addKeys('W, A, S, D, Q, E, X, SPACE, L');
 
         this.scene.add.existing(this);
         
