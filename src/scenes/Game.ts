@@ -46,6 +46,7 @@ export default class GameScene extends Phaser.Scene {
       loop: true,
       volume: 0.25
     });
+
     this.gunshotSound = this.sound.add('gunShot');
     this.playerHitSound = this.sound.add('playerHit');
     this.enemyHitSound = this.sound.add('enemyHit');
@@ -65,7 +66,6 @@ export default class GameScene extends Phaser.Scene {
     // this.addEnemy(this, 800, 500);
 
     // -- Groups -- //
-    this.playerBullets = new BulletGroup(this);
     this.enemyGroup = new EnemyGroup(this);
     this.enemyBullets = new BulletGroup(this);
 
@@ -81,7 +81,6 @@ export default class GameScene extends Phaser.Scene {
 
     this.timerEvents.push(this.time.addEvent({ delay: 1000, callback: this.addEnemyToList, callbackScope: this, loop: true }));
 
-
     this.scene.sendToBack(SceneKeys.Game);
     this.scene.launch(SceneKeys.UI,this.player);
   }
@@ -91,7 +90,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   setupCollisions() {
-    this.physics.add.overlap(this.playerBullets, this.enemyGroup, (bullet: Bullet, enemy: Enemy) => {
+    this.physics.add.overlap(this.player.playerBullets, this.enemyGroup, (bullet: Bullet, enemy: Enemy) => {
       if (!bullet.active || !enemy.active)
         return;
 
@@ -110,14 +109,8 @@ export default class GameScene extends Phaser.Scene {
     this.crosshair.update(time, delta);
     this.player.update(time, delta);
     this.enemyGroup.update(time, delta);
-
-    this.tick += delta;
-    if (this.game.input.activePointer.isDown && this.tick >= this.firerateTick) {
-      this.gunshotSound.play({ volume: 0.1 });
-      this.playerBullets.fireAimedBullet(this.player, this.crosshair);
-      this.tick = 0;
-    }
   }
+  
   pause(){
     if(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC).isDown){
       this.scene.sendToBack(SceneKeys.UI);

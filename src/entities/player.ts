@@ -1,5 +1,7 @@
 import PlayerStateName from "../enums/PlayerStateName";
 import GameEntity from "./GameEntity";
+import BulletGroup from "../groups/BulletGroup";
+import GLOBALS from "../Globals";
 export default class Player extends GameEntity {
     private SPEED: number = 500;
     private isInvulnerable: boolean = false;
@@ -11,6 +13,11 @@ export default class Player extends GameEntity {
 
     private keys: any;
 
+    private tick: number = 0;
+    public firerateTick: number = GLOBALS.HEAVY_MACHINE_GUN_FIRERATE;
+
+    public playerBullets: BulletGroup;
+
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'knight');
 
@@ -18,6 +25,9 @@ export default class Player extends GameEntity {
 
         this.scene.add.existing(this);
         
+        this.playerBullets = new BulletGroup(this.scene);
+
+
         this.initState();
         this.initPhysics();
         this.initAnimations();
@@ -164,10 +174,20 @@ export default class Player extends GameEntity {
         }
     }
 
+    handleShooting(): void {
+        if (this.scene.game.input.activePointer.isDown && this.tick >= this.firerateTick) {
+            this.scene.gunshotSound.play({ volume: 0.1 });
+            this.playerBullets.fireAimedBullet(this, this.scene.crosshair);
+            this.tick = 0;
+        }
+    }
+
     update(time: number, delta: number): void {
+        this.tick += delta;
         this.handleMovement();
         this.handleCamera(delta);
         this.handleDash();
+        this.handleShooting();
         this.rotation = -this.scene.cameras.main.rotation;
     }    
 
