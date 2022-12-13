@@ -56,7 +56,12 @@ export default class GameScene extends Phaser.Scene {
     this.setupMap();
 
     // world bounds
-    this.physics.world.setBounds(32, 84, 2560 - 64, 2560 - 124 );
+    let worldX = 32;
+    let worldY = 96;
+    let worldWidth = 2560 - 64;
+    let worldHeight = 2560 - 136;
+
+    this.physics.world.setBounds(worldX, worldY, worldWidth, worldHeight, true, true, true, true );
 
     // -- Entities -- //
     this.addPlayer(this, 100, 100);
