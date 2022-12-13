@@ -9,27 +9,14 @@ export default class Player extends GameEntity {
 
     private isDashing: boolean = false;
 
-    private keyW: Phaser.Input.Keyboard.Key;
-    private keyA: Phaser.Input.Keyboard.Key;
-    private keyS: Phaser.Input.Keyboard.Key;
-    private keyD: Phaser.Input.Keyboard.Key;
-    private keyQ: Phaser.Input.Keyboard.Key;
-    private keyE: Phaser.Input.Keyboard.Key;
-    private keyX: Phaser.Input.Keyboard.Key;
-    private keySpace: Phaser.Input.Keyboard.Key;
+
+    private keys: any;
     private mouseDown: Phaser.Input.Pointer;
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'knight');
 
-        this.keyW = this.scene.input.keyboard.addKey('W');
-        this.keyA = this.scene.input.keyboard.addKey('A');
-        this.keyS = this.scene.input.keyboard.addKey('S');
-        this.keyD = this.scene.input.keyboard.addKey('D');
-        this.keyQ = this.scene.input.keyboard.addKey('Q');
-        this.keyE = this.scene.input.keyboard.addKey('E');
-        this.keyX = this.scene.input.keyboard.addKey('X');
-        this.keySpace = this.scene.input.keyboard.addKey('SPACE');
+        this.keys = this.scene.input.keyboard.addKeys('W, A, S, D, Q, E, X, SPACE');
         this.mouseDown = this.scene.input.activePointer;
 
         this.scene.add.existing(this);
@@ -66,9 +53,15 @@ export default class Player extends GameEntity {
         this.setState(PlayerStateName.Idle);
     }
 
-    handleInput(): void {
+    handleMovement(): void {
         this.body.setVelocity(0);
 
+
+
+    }
+
+    handleInput(): void {
+        
         if (this.keyW?.isDown) {
             this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation - Math.PI / 2, this.SPEED, this.body.velocity)
             !this.anims.isPlaying && this.anims.play('knight_run', true);
