@@ -1,0 +1,104 @@
+{
+	"textures": [
+		{
+			"image": "tiny_zombie.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 54,
+				"h": 14
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "tiny_zombie_run_anim_f1.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 3,
+						"w": 13,
+						"h": 12
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 13,
+						"h": 12
+					}
+				},
+				{
+					"filename": "tiny_zombie_run_anim_f0.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 4,
+						"w": 11,
+						"h": 12
+					},
+					"frame": {
+						"x": 16,
+						"y": 1,
+						"w": 11,
+						"h": 12
+					}
+				},
+				{
+					"filename": "tiny_zombie_run_anim_f2.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 4,
+						"w": 11,
+						"h": 12
+					},
+					"frame": {
+						"x": 29,
+						"y": 1,
+						"w": 11,
+						"h": 12
+					}
+				},
+				{
+					"filename": "tiny_zombie_run_anim_f3.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 5,
+						"w": 11,
+						"h": 11
+					},
+					"frame": {
+						"x": 42,
+						"y": 1,
+						"w": 11,
+						"h": 11
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:cfa84210313ad641e207e7a752499509:a24dabeb3cb067d7d4570e26b84d4009:afa0fe5e310853876d1691b69cdc5f85$"
+	}
+}

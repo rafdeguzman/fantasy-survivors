@@ -99,6 +99,6 @@ export default class Enemy extends GameEntity{
     }
 
     shoot(): void {
-        this.enemyBullets.fireEightWayBullet(this, 500);
+        this.enemyBullets.fireSpreadBullet(this, this.scene.player, 500);
     }
 }

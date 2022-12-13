@@ -37,6 +37,23 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
         this.scene.physics.velocityFromAngle(angle, this.SPEED, this.body.velocity);
     }
     
+    shootAngledAimed(shooter: Phaser.GameObjects.GameObject, target: Phaser.GameObjects.GameObject, angle: number): void{
+        this.scene.physics.world.enable(this);
+        this.enableBody(true, shooter.x, shooter.y, true, true);
+        this.body.reset(shooter.x, shooter.y);
+
+        this.setActive(true);
+        this.setVisible(true);
+
+        // get the angle between in radians
+        let angleBetween = Phaser.Math.Angle.BetweenPoints(shooter, target);
+        // do angle addition in degrees
+        let degrees = Phaser.Math.RadToDeg(angleBetween);   // this took me a minute to figure out
+
+
+        // we add 30 degrees to make the 3rd bullet be the center
+        this.scene.physics.velocityFromAngle(angle + degrees + 30, this.SPEED, this.body.velocity);
+    }
 
     preUpdate(time: number, delta: number): void {
         super.preUpdate(time, delta);
