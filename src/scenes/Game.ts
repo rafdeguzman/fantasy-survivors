@@ -82,8 +82,6 @@ export default class GameScene extends Phaser.Scene {
     // -- Camera -- //
     this.setupCamera();
 
-    // this.timerEvents.push(this.time.addEvent({ delay: 250, callback: this.playerBullets.fireAimedBullet, callbackScope: this.playerBullets, loop: true, args: [this.player, this.crosshair] }));
-
     this.timerEvents.push(this.time.addEvent({ delay: 1000, callback: this.addEnemyToList, callbackScope: this, loop: true }));
 
     this.scene.sendToBack(SceneKeys.Game);
@@ -91,7 +89,6 @@ export default class GameScene extends Phaser.Scene {
   }
 
   setupMap() {
-    // this.add.tileSprite(-2560, -1600, 2560, 1600, 'map').setOrigin(0, 0).setDisplaySize(1280 * 8, 800 * 8);
     this.add.tileSprite(0, 0, 2560, 2560, 'map2').setOrigin(0, 0);
   }
 
