@@ -1,4 +1,7 @@
 import Enemy from "../entities/Enemy";
+import GLOBALS from "../Globals";
+import Bullet from "../objects/Bullet";
+import Player from "../entities/Player";
 export default class EnemyGroup extends Phaser.Physics.Arcade.Group {
 
     constructor(scene: Phaser.Scene) {
@@ -17,6 +20,16 @@ export default class EnemyGroup extends Phaser.Physics.Arcade.Group {
         this.create(x, y, 'enemy', 0, false, false);
         
         const enemy = this.getFirstDead(false);
+
+        this.scene.physics.add.overlap(this.scene.player, enemy, () => {
+            this.scene.player.takeDamage(GLOBALS.ENEMY_DAMAGE);
+        })
+
+        this.scene.physics.add.overlap(enemy.enemyBullets, this.scene.player, (player: Player, bullet: Bullet) => {
+            if (!bullet.active || player.isInvulnerable) return;
+            bullet.destroy();
+            player.takeDamage(GLOBALS.BULLET_DAMAGE);
+        })
 
         if (enemy) {
             enemy.spawn(x, y);

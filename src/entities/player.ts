@@ -5,7 +5,7 @@ import GLOBALS from "../Globals";
 export default class Player extends GameEntity {
     private SPEED: number = 500;
     private isInvulnerable: boolean = false;
-    private health: number = 100;
+    private health: number = 6;
 
     private dashCooldown: boolean = false;
 
@@ -201,6 +201,9 @@ export default class Player extends GameEntity {
         else{
             this.health -= damage;
             this.spriteFlicker();
+            this.tweenAlpha();
+            this.isInvulnerable = true;
+            this.invulnerableCounter();
             this.scene.playerHitSound.play({volume: 0.25});
         }
     }

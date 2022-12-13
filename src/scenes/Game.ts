@@ -99,8 +99,6 @@ export default class GameScene extends Phaser.Scene {
       bullet.destroy();
       enemy.takeDamage(GLOBALS.BULLET_DAMAGE);
     });
-
-    this.physics.add.overlap(this.player, this.enemyGroup, this.enemyPlayerCollision, null, this);
   }
 
   update(time: number, delta: number): void {
@@ -163,9 +161,5 @@ export default class GameScene extends Phaser.Scene {
       console.log(this.firerateTick)
       this.firerateTick = GLOBALS.PISTOL_FIRERATE;
     }
-  }
-
-  enemyPlayerCollision(player: Player, enemy: Enemy): void {
-    player.takeDamage(GLOBALS.ENEMY_DAMAGE);
   }
 }
