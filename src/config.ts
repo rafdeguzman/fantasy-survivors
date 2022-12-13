@@ -2,7 +2,6 @@ import Phaser from 'phaser';
 
 export default {
   type: Phaser.AUTO,
-  parent: 'game',
   backgroundColor: '#2d2d2d',
   scale: {
     width: 1280,
@@ -21,6 +20,6 @@ export default {
   },
   fps: {
     target: 60,
-    // forceSetTimeOut: true
+     //sforceSetTimeOut: true
   }
 };
