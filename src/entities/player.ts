@@ -9,7 +9,6 @@ export default class Player extends GameEntity {
 
     private isDashing: boolean = false;
 
-
     private keys: any;
     private mouseDown: Phaser.Input.Pointer;
 
@@ -27,7 +26,6 @@ export default class Player extends GameEntity {
     }
 
     initPhysics(){
-        // this.body.setSize(10, 10);
         this.originY = 0.6
         this.body.setCircle(3);
         this.body.setOffset(5, 16);
@@ -56,62 +54,58 @@ export default class Player extends GameEntity {
     handleMovement(): void {
         this.body.setVelocity(0);
 
-
-
-    }
-
-    handleInput(): void {
-        
-        if (this.keyW?.isDown) {
+        // cardinal directions
+        if (this.keys['W'].isDown) {
             this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation - Math.PI / 2, this.SPEED, this.body.velocity)
             !this.anims.isPlaying && this.anims.play('knight_run', true);
         }
-
-        if (this.keyA?.isDown) {
+        if (this.keys['A'].isDown) {
             this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation - Math.PI, this.SPEED, this.body.velocity)
             this.flipX = true;
-            // this.body.setOffset(48, 15);
             !this.anims.isPlaying && this.anims.play('knight_run', true);
         }
-
-        if (this.keyS?.isDown) {
+        if (this.keys['S'].isDown) {
             this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation + Math.PI / 2, this.SPEED, this.body.velocity)
-            // this.body.velocity.y = this.SPEED;
             !this.anims.isPlaying && this.anims.play('knight_run', true);
         }
-        if (this.keyD?.isDown) {
+        if (this.keys['D'].isDown) {
             this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation, this.SPEED, this.body.velocity)
-            // this.body.velocity.x = this.SPEED;
             this.flipX = false;
             !this.anims.isPlaying && this.anims.play('knight_run', true);
         }
 
-        if (this.keyD.isDown && this.keyW.isDown){
+        // diagonal directions
+        if (this.keys['D'].isDown && this.keys['W'].isDown){
             this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation - Math.PI / 4, this.SPEED, this.body.velocity)
         }
-        if (this.keyA.isDown && this.keyW.isDown){
+        if (this.keys['A'].isDown && this.keys['W'].isDown){
             this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation - Math.PI * 3 / 4, this.SPEED, this.body.velocity)
         }
-        if (this.keyA.isDown && this.keyS.isDown){
+        if (this.keys['A'].isDown && this.keys['S'].isDown){
             this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation + Math.PI * 3 / 4, this.SPEED, this.body.velocity)
         }
-        if (this.keyD.isDown && this.keyS.isDown){
+        if (this.keys['D'].isDown && this.keys['S'].isDown){
             this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation + Math.PI / 4, this.SPEED, this.body.velocity)
         }
+        // change to idle animation if no keys are down
+        if (this.keys['D']?.isUp && this.keys['A'].isUp && this.keys['S'].isUp && this.keys['W'].isUp) {
+            !this.anims.isPlaying && this.anims.play('knight_idle', true);
+        }
+    }
 
-        if (this.keyQ?.isDown) {
+    handleCamera(): void {
+        if (this.keys['Q'].isDown) {
             this.scene.cameras.main.rotation += 0.025;
         }
-        if (this.keyE?.isDown) {
+        if (this.keys['E'].isDown) {
             this.scene.cameras.main.rotation -= 0.025;
         
         }
-        if (this.keyX?.isDown) {
+        if (this.keys['X'].isDown) {
             this.scene.cameras.main.rotation = 0;
-        
         }
         // if space is down
-        if (this.keySpace?.isDown){
+        if (this.keys['SPACE'].isDown){
             if (this.dashCooldown) return;
 
             if (this.isDashing){
@@ -157,13 +151,12 @@ export default class Player extends GameEntity {
                 }
             });
         }
-        // if no key is down
-        if (this.keyD?.isUp && this.keyA?.isUp && this.keyS?.isUp && this.keyW?.isUp) {
-            !this.anims.isPlaying && this.anims.play('knight_idle', true);
-        }
+
+        
     }
 
     update(time: number, delta: number): void {
+        this.handleMovement();
         this.handleInput();
         this.rotation = -this.scene.cameras.main.rotation;
     }    

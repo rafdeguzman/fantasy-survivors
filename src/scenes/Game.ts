@@ -114,7 +114,7 @@ export default class GameScene extends Phaser.Scene {
     this.player.update(time, delta);
     this.enemyGroup.update(time, delta);
 
-    this.tick++;
+    this.tick += delta;
     if (this.game.input.activePointer.isDown && this.tick >= this.firerateTick) {
       this.gunshotSound.play({ volume: 0.1 });
       this.playerBullets.fireAimedBullet(this.player, this.crosshair);
