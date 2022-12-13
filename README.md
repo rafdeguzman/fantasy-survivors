@@ -16,6 +16,8 @@ This is a [Phaser 3](https://github.com/photonstorm/phaser) starter with [TypeSc
 | `yarn dev` | Builds project and open web server, watching for changes |
 | `yarn build` | Builds code bundle with production settings  |
 | `yarn serve` | Run a web server to serve built code bundle |
+| `cd dist` | Change directory to `dist` folder |
+| `butler push . rv215/fantasy-survivors:win` | push to itch.io |
 
 ## Development
 
