@@ -10,13 +10,11 @@ export default class Player extends GameEntity {
     private isDashing: boolean = false;
 
     private keys: any;
-    private mouseDown: Phaser.Input.Pointer;
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'knight');
 
         this.keys = this.scene.input.keyboard.addKeys('W, A, S, D, Q, E, X, SPACE');
-        this.mouseDown = this.scene.input.activePointer;
 
         this.scene.add.existing(this);
         
@@ -93,18 +91,7 @@ export default class Player extends GameEntity {
         }
     }
 
-    handleCamera(): void {
-        if (this.keys['Q'].isDown) {
-            this.scene.cameras.main.rotation += 0.025;
-        }
-        if (this.keys['E'].isDown) {
-            this.scene.cameras.main.rotation -= 0.025;
-        
-        }
-        if (this.keys['X'].isDown) {
-            this.scene.cameras.main.rotation = 0;
-        }
-        // if space is down
+    handleDash(): void{
         if (this.keys['SPACE'].isDown){
             if (this.dashCooldown) return;
 
@@ -121,7 +108,14 @@ export default class Player extends GameEntity {
             this.setTint(0x36454f);
             this.scene.dodgeSound.play({volume: 0.5});
 
-            this.SPEED *= 5
+            this.dashMovement();
+            this.invulnerableCounter();
+            this.dashCooldownTimer(); 
+        }
+    }
+
+    dashMovement(): void {
+        this.SPEED *= 5
             this.scene.time.addEvent({
                 delay: 100,
                 callback: () => {
@@ -134,45 +128,57 @@ export default class Player extends GameEntity {
                     this.tweenAlpha();
                 }
             });
-            this.scene.time.addEvent({
-                delay: 1000,
-                callback: () => {
-                    console.log('no longe invulnerable')
-                    this.isInvulnerable = false;
-                }
-            });
-            this.scene.time.addEvent({
-                delay: 5000,
-                callback: () => {
-                    console.log('dash cooldown over')
-                    this.flashWhite();
-                    this.dashCooldown = false;
-                    this.scene.dodgeCdSound.play({volume: 0.5});
-                }
-            });
-        }
+    }
 
-        
+    invulnerableCounter(): void {
+        this.scene.time.addEvent({
+            delay: 1000,
+            callback: () => {
+                console.log('no longe invulnerable')
+                this.isInvulnerable = false;
+            }
+        });
+    }
+
+    dashCooldownTimer(): void {
+        this.scene.time.addEvent({
+            delay: 5000,
+            callback: () => {
+                console.log('dash cooldown over')
+                this.flashWhite();
+                this.dashCooldown = false;
+                this.scene.dodgeCdSound.play({volume: 0.5});
+            }
+        });
+    }
+
+    handleCamera(delta: number): void {
+        if (this.keys['Q'].isDown) {
+            this.scene.cameras.main.rotation += (0.0032 * delta);
+        }
+        if (this.keys['E'].isDown) {
+            this.scene.cameras.main.rotation -= (0.0032 * delta);
+        }
+        if (this.keys['X'].isDown) {
+            this.scene.cameras.main.rotation = 0;
+        }
     }
 
     update(time: number, delta: number): void {
         this.handleMovement();
-        this.handleCamera();
+        this.handleCamera(delta);
+        this.handleDash();
         this.rotation = -this.scene.cameras.main.rotation;
     }    
 
     takeDamage(damage: number): void{
-        if (this.isInvulnerable){
-            console.log('invulnerable')
-            return;
-        } 
+        if (this.isInvulnerable) return;
 
         if (this.health <= 0){
-            console.log('dead')
+            this.setTint(0xff0000);          
         }
         else{
             this.health -= damage;
-            console.log('taking damage')
             this.spriteFlicker();
             this.scene.playerHitSound.play({volume: 0.25});
         }
@@ -197,13 +203,7 @@ export default class Player extends GameEntity {
     }
 
     flashWhite(): void{
-        
-        // set light blue tint
         this.setTint(0x1f51ff);
-        
-
-
-
         this.scene.time.delayedCall(200, () => {
             this.clearTint();
         });

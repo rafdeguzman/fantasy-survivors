@@ -26,8 +26,6 @@ export default class GameScene extends Phaser.Scene {
 
   private timerEvents: Phaser.Time.TimerEvent[] = [];
 
-  private bulletCollider: Phaser.Physics.Arcade.Collider;
-
   private firerateTick: number = GLOBALS.HEAVY_MACHINE_GUN_FIRERATE;
   private tick: number = 0;
 
@@ -108,7 +106,6 @@ export default class GameScene extends Phaser.Scene {
 
   update(time: number, delta: number): void {
     this.pause();
-    this.frameTime += delta;
 
     this.crosshair.update(time, delta);
     this.player.update(time, delta);
@@ -120,8 +117,6 @@ export default class GameScene extends Phaser.Scene {
       this.playerBullets.fireAimedBullet(this.player, this.crosshair);
       this.tick = 0;
     }
-
-    //this.countDown.update();
   }
   pause(){
     if(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC).isDown){
