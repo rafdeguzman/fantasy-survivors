@@ -1,5 +1,5 @@
 export default class Bullet extends Phaser.Physics.Arcade.Sprite {
-    private SPEED: number = 1400;
+    public SPEED: number = 1400;
     public DAMAGE: number = 1;
     private activeTime: number = 0;
     private isAngular: boolean = false;
@@ -49,4 +49,9 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
             this.activeTime = 0;
         }
     }
+
+    setSpeed(speed: number): void {
+        this.SPEED = speed;
+    }
+
 }

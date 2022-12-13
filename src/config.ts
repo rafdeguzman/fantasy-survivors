@@ -1,6 +1,8 @@
 import Phaser from 'phaser';
 
 export default {
+  antialias: false,
+  antialiasGL: false,
   type: Phaser.AUTO,
   backgroundColor: '#2d2d2d',
   scale: {
@@ -20,6 +22,5 @@ export default {
   },
   fps: {
     target: 60,
-     //sforceSetTimeOut: true
   }
 };

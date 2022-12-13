@@ -1,3 +1,4 @@
+import GLOBALS from "../Globals";
 import Bullet from "../objects/Bullet";
 export default class BulletGroup extends Phaser.Physics.Arcade.Group {
 
@@ -13,9 +14,9 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
         });
     }
 
-    fireAimedBullet(shooter: Phaser.GameObjects.GameObject, target: Phaser.GameObjects.GameObject): void {
+    fireAimedBullet(shooter: Phaser.GameObjects.GameObject, target: Phaser.GameObjects.GameObject, speed: number = GLOBALS.BULLET_SPEED): void {
         this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
-        
+
         let recoilX = target.x + Phaser.Math.Between(-25, 25);
         let recoilY = target.y + Phaser.Math.Between(-25, 25);
 
@@ -30,12 +31,13 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
         const bullet = this.getFirstDead(false);
 
         if (bullet) {
-            // bullet.shootAimed(shooter, target);
+            // this is where you want to change bullet speed
+            console.log(speed)
             bullet.shootAimed(userRecoil, temp);
         }
     }
 
-    fireEightWayBullet(shooter: Phaser.GameObjects.GameObject): void {
+    fireEightWayBullet(shooter: Phaser.GameObjects.GameObject, speed: number = GLOBALS.BULLET_SPEED): void {
 
         for (let i = 0; i < 8; i++) {
             this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
@@ -46,6 +48,7 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
         for (let i = 0; i < 8; i++) {
             const bullet = this.getFirstDead(false);
             if (bullet) {
+                bullet.setSpeed(speed);
                 bullet.shootAngled(shooter, 45 * i);
             }
         }

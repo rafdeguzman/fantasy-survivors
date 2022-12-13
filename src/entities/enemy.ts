@@ -1,3 +1,4 @@
+import BulletGroup from "../groups/BulletGroup";
 import Bullet from "../objects/Bullet";
 import GameEntity from "./GameEntity";
 
@@ -7,11 +8,17 @@ export default class Enemy extends GameEntity{
     private health: number = 2;
     private scene: any;
 
+    private tick: number = 0;
+
+    public enemyBullets: BulletGroup;
+
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
         super(scene, x, y, 'orc');
         
         this.scene = scene;
+
+        this.enemyBullets = new BulletGroup(scene);
 
         this.initSprite();
         this.initPhysics();
@@ -35,11 +42,13 @@ export default class Enemy extends GameEntity{
             key: 'orc_run',
             frames: this.scene.anims.generateFrameNames('orc', {prefix: 'orc_run_', start: 0, end: 3}),
             frameRate: 10,
-        })
+        });
     }
 
     // walk towards the player
-    update(): void {
+    update(time: number, delta: number): void {
+        this.tick += delta
+
         this.scene.physics.moveToObject(this, this.scene.player, this.SPEED);
 
         if (this.body.velocity.x > 0) { // walking right, facing rght
@@ -48,10 +57,11 @@ export default class Enemy extends GameEntity{
             this.setFlipX(true);
         } 
         
-
         this.rotation = -this.scene.cameras.main.rotation;
 
         !this.anims.isPlaying && this.anims.play('orc_run', true);
+
+        this.handleShooting();
     }
 
     spawn(x: number, y: number): void {
@@ -71,7 +81,6 @@ export default class Enemy extends GameEntity{
         if (this.health <= 0) {
             this.destroy();
         }
-        
     }
 
     spriteFlicker(): void{
@@ -79,5 +88,17 @@ export default class Enemy extends GameEntity{
         this.scene.time.delayedCall(100, () => {
             this.clearTint();
         });
+    }
+
+    handleShooting(): void {
+        if (this.tick > 1500) {
+            this.shoot();
+            this.scene.gunshotSound.play({volume: 0.1});
+            this.tick = 0;
+        }
+    }
+
+    shoot(): void {
+        this.enemyBullets.fireEightWayBullet(this, 500);
     }
 }
