@@ -15,7 +15,7 @@ export default class OrcGroup extends Phaser.Physics.Arcade.Group {
             key: 'orc',
             active: false,
             visible: false,
-        });      
+        });
     }
 
     initOverlaps(enemy: Enemy) : void {
