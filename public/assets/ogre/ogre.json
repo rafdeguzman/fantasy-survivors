@@ -1,0 +1,104 @@
+{
+	"textures": [
+		{
+			"image": "ogre.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 50,
+				"h": 60
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "ogre_run_anim_f3.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 5,
+						"w": 24,
+						"h": 27
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 24,
+						"h": 27
+					}
+				},
+				{
+					"filename": "ogre_run_anim_f2.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 5,
+						"y": 3,
+						"w": 22,
+						"h": 29
+					},
+					"frame": {
+						"x": 27,
+						"y": 1,
+						"w": 22,
+						"h": 29
+					}
+				},
+				{
+					"filename": "ogre_run_anim_f1.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 5,
+						"y": 4,
+						"w": 22,
+						"h": 28
+					},
+					"frame": {
+						"x": 1,
+						"y": 30,
+						"w": 22,
+						"h": 28
+					}
+				},
+				{
+					"filename": "ogre_run_anim_f0.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 5,
+						"y": 5,
+						"w": 22,
+						"h": 27
+					},
+					"frame": {
+						"x": 25,
+						"y": 32,
+						"w": 22,
+						"h": 27
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:f1b58de2b773f4867778299c4944a1fa:ba48a7b41ecd2499a77c698556785146:365b63dda70564996f0a94fcfa0ad655$"
+	}
+}

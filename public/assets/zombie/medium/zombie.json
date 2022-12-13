@@ -1,96 +1,96 @@
 {
 	"textures": [
 		{
-			"image": "necromancer.png",
+			"image": "zombie.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 17,
-				"h": 74
+				"w": 16,
+				"h": 53
 			},
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "necromancer_run_0.png",
+					"filename": "zombie_run_anim_f2.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
 						"w": 16,
-						"h": 20
+						"h": 16
 					},
 					"spriteSourceSize": {
-						"x": 0,
-						"y": 4,
-						"w": 15,
-						"h": 16
+						"x": 1,
+						"y": 1,
+						"w": 14,
+						"h": 15
 					},
 					"frame": {
 						"x": 1,
 						"y": 1,
-						"w": 15,
+						"w": 14,
+						"h": 15
+					}
+				},
+				{
+					"filename": "zombie_run_anim_f1.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 16
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 0,
+						"w": 12,
+						"h": 16
+					},
+					"frame": {
+						"x": 1,
+						"y": 18,
+						"w": 12,
 						"h": 16
 					}
 				},
 				{
-					"filename": "necromancer_run_1.png",
+					"filename": "zombie_run_anim_f3.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
 						"w": 16,
-						"h": 20
+						"h": 16
 					},
 					"spriteSourceSize": {
-						"x": 1,
-						"y": 2,
-						"w": 14,
-						"h": 18
+						"x": 2,
+						"y": 0,
+						"w": 12,
+						"h": 16
 					},
 					"frame": {
 						"x": 1,
-						"y": 19,
-						"w": 14,
-						"h": 18
+						"y": 18,
+						"w": 12,
+						"h": 16
 					}
 				},
 				{
-					"filename": "necromancer_run_2.png",
+					"filename": "zombie_run_anim_f0.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
 						"w": 16,
-						"h": 20
+						"h": 16
 					},
 					"spriteSourceSize": {
-						"x": 0,
-						"y": 3,
-						"w": 15,
-						"h": 17
+						"x": 3,
+						"y": 0,
+						"w": 10,
+						"h": 16
 					},
 					"frame": {
 						"x": 1,
-						"y": 39,
-						"w": 15,
-						"h": 17
-					}
-				},
-				{
-					"filename": "necromancer_run_3.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 16,
-						"h": 20
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 5,
-						"w": 15,
-						"h": 15
-					},
-					"frame": {
-						"x": 1,
-						"y": 58,
-						"w": 15,
-						"h": 15
+						"y": 36,
+						"w": 10,
+						"h": 16
 					}
 				}
 			]
@@ -99,6 +99,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:ba242b5b33e40506508247667ea4c9f3:e05d55ff68a8789c9d04f28ea561dbb9:b929645c51311ea9d735c64a8e14b2a5$"
+		"smartupdate": "$TexturePacker:SmartUpdate:6e90af0d84affe1c5630e343dded1ae2:924c270a69b6190934064405a43cc6cf:671cfcca2facf02865d2d7530477df67$"
 	}
 }

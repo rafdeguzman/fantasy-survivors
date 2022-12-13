@@ -1,0 +1,104 @@
+{
+	"textures": [
+		{
+			"image": "demon.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 27,
+				"h": 133
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "big_demon_run_anim_f3.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 36
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 7,
+						"w": 25,
+						"h": 29
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 25,
+						"h": 29
+					}
+				},
+				{
+					"filename": "big_demon_run_anim_f2.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 36
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 1,
+						"w": 24,
+						"h": 35
+					},
+					"frame": {
+						"x": 1,
+						"y": 32,
+						"w": 24,
+						"h": 35
+					}
+				},
+				{
+					"filename": "big_demon_run_anim_f1.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 36
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 2,
+						"w": 24,
+						"h": 31
+					},
+					"frame": {
+						"x": 1,
+						"y": 69,
+						"w": 24,
+						"h": 31
+					}
+				},
+				{
+					"filename": "big_demon_run_anim_f0.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 32,
+						"h": 36
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 5,
+						"w": 24,
+						"h": 30
+					},
+					"frame": {
+						"x": 1,
+						"y": 102,
+						"w": 24,
+						"h": 30
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:3949c8d103da7be1c79c967cd07ef66a:36258aafb28ab6f8e1e045d22fd10526:77480cee959c6322d08091b7933ffad5$"
+	}
+}
