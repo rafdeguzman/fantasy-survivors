@@ -157,7 +157,7 @@ export default class Player extends GameEntity {
 
     update(time: number, delta: number): void {
         this.handleMovement();
-        this.handleInput();
+        this.handleCamera();
         this.rotation = -this.scene.cameras.main.rotation;
     }    
 
