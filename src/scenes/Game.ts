@@ -96,8 +96,6 @@ export default class GameScene extends Phaser.Scene {
     });
 
     this.physics.add.overlap(this.player, this.enemyGroup, this.enemyPlayerCollision, null, this);
-
-    this.physics.add.overlap(this.enemyBullets, this.player, this.enemyPlayerCollision, null, this);
   }
 
   update(time: number, delta: number): void {
