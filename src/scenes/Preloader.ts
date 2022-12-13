@@ -15,8 +15,9 @@ export default class Preloader extends Phaser.Scene {
 
         this.load.atlas('ogre', './assets/ogre/ogre.png', './assets/ogre/ogre.json'); // atlas
         this.load.atlas('big_zombie', './assets/zombie/big/big_zombie.png', './assets/zombie/big/big_zombie.json'); // atlas
+        this.load.atlas('tiny_zombie', './assets/zombie/tiny/tiny_zombie.png', './assets/zombie/tiny/tiny_zombie.json'); // atlas   
         this.load.atlas('zombie', './assets/zombie/medium/zombie.png', './assets/zombie/medium/zombie.json'); // atlas
-        this.load.atlas('tiny_zombie', './assets/zombie/tiny/tiny_zombie.png', './assets/zombie/tiny/tiny_zombie.json'); // atlas
+        
 
         this.load.atlas('shaman', './assets/orc_shaman/shaman.png', './assets/shaman/shaman.json'); // atlas
         this.load.atlas('demon', './assets/demon/demon.png', './assets/demon/demon.json'); // atlas
