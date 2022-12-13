@@ -8,6 +8,8 @@ import GLOBALS from '../Globals';
 import CountdownController from './CountdownController';
 import SceneKeys from '../enums/SceneKeys'
 import NecromancerGroup from '../groups/NecromancerGroup';
+import BigZombieGroup from '../groups/BigZombieGroup';
+import ZombieGroup from '../groups/ZombieGroup';
 
 export default class GameScene extends Phaser.Scene {
   public player: Player;
@@ -21,6 +23,8 @@ export default class GameScene extends Phaser.Scene {
 
   private orcGroup: OrcGroup;
   private necromancerGroup: NecromancerGroup;
+  private bigZombieGroup: BigZombieGroup;
+  private zombieGroup: ZombieGroup;
 
   private timerEvents: Phaser.Time.TimerEvent[] = [];
 
@@ -74,6 +78,8 @@ export default class GameScene extends Phaser.Scene {
     // -- Groups -- //
     this.orcGroup = new OrcGroup(this);
     this.necromancerGroup = new NecromancerGroup(this);
+    this.bigZombieGroup = new BigZombieGroup(this);
+    this.zombieGroup = new ZombieGroup(this);
 
     this.setupOverlaps();
 
@@ -85,6 +91,7 @@ export default class GameScene extends Phaser.Scene {
 
     this.timerEvents.push(this.time.addEvent({ delay: 3000, callback: this.addOrcToGroup, callbackScope: this, loop: true }));
     this.timerEvents.push(this.time.addEvent({ delay: 5000, callback: this.addNecromancerToGroup, callbackScope: this, loop: true }));
+    this.timerEvents.push(this.time.addEvent({ delay: 1000, callback: this.addBigZombieToGroup, callbackScope: this, loop: true }));
 
     this.scene.sendToBack(SceneKeys.Game);
     this.scene.launch(SceneKeys.UI,this.player);
@@ -109,6 +116,22 @@ export default class GameScene extends Phaser.Scene {
       bullet.destroy();
       enemy.takeDamage(GLOBALS.BULLET_DAMAGE);
     });
+
+    this.physics.add.overlap(this.player.playerBullets, this.bigZombieGroup, (bullet: Bullet, enemy: Enemy) => {
+      if (!bullet.active || !enemy.active)
+        return;
+
+      bullet.destroy();
+      enemy.takeDamage(GLOBALS.BULLET_DAMAGE);
+    });
+
+    this.physics.add.overlap(this.player.playerBullets, this.zombieGroup, (bullet: Bullet, enemy: Enemy) => {
+      if (!bullet.active || !enemy.active)
+        return;
+
+      bullet.destroy();
+      enemy.takeDamage(GLOBALS.BULLET_DAMAGE);
+    });
   }
 
   update(time: number, delta: number): void {
@@ -118,6 +141,8 @@ export default class GameScene extends Phaser.Scene {
     this.player.update(time, delta);
     this.orcGroup.update(time, delta);
     this.necromancerGroup.update(time, delta);
+    this.bigZombieGroup.update(time, delta);
+    this.zombieGroup.update(time, delta);
   }
 
   pause(){
@@ -154,6 +179,16 @@ export default class GameScene extends Phaser.Scene {
 
   addNecromancerToGroup(): void {
     this.necromancerGroup.spawnEnemy(
+      Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
+  }
+
+  addBigZombieToGroup(): void {
+    this.bigZombieGroup.spawnEnemy(
+      Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
+  }
+
+  addZombieToGroup(): void {
+    this.zombieGroup.spawnEnemy(
       Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
   }
 

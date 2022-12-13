@@ -2,7 +2,8 @@ import Enemy from "../entities/Enemy";
 import GLOBALS from "../Globals";
 import Bullet from "../objects/Bullet";
 import Player from "../entities/Player";
-import Orc from "../entities/Orc";
+import BigZombie from "../entities/BigZombie";
+
 
 export default class OrcGroup extends Phaser.Physics.Arcade.Group {
 
@@ -10,9 +11,9 @@ export default class OrcGroup extends Phaser.Physics.Arcade.Group {
         super(scene.physics.world, scene);
         
         this.createMultiple({
-            classType: Orc,
+            classType: BigZombie,
             frameQuantity: 1,
-            key: 'orc',
+            key: 'big_zombie',
             active: false,
             visible: false,
         });      
@@ -31,7 +32,7 @@ export default class OrcGroup extends Phaser.Physics.Arcade.Group {
     }
 
     spawnEnemy(x: number, y: number): void {
-        this.create(x, y, 'orc', 0, false, false);
+        this.create(x, y, 'big_zombie', 0, false, false);
 
         const enemy = this.getFirstDead(false);
 
