@@ -10,6 +10,7 @@ export default class Player extends GameEntity {
     private dashCooldown: boolean = false;
 
     private isDashing: boolean = false;
+    public isDead: boolean = false;
 
     private keys: any;
 
@@ -192,11 +193,12 @@ export default class Player extends GameEntity {
     }    
 
     takeDamage(damage: number): void{
+        if (this.health <= 0){
+            this.isDead = true;
+        }
+        
         if (this.isInvulnerable) return
 
-        if (this.health <= 0){
-            this.setTint(0xff0000);          
-        }
         else{
             this.health -= damage;
             this.isInvulnerable = true;
