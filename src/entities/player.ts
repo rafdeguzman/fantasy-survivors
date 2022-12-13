@@ -38,6 +38,7 @@ export default class Player extends GameEntity {
         this.body.setCircle(3);
         this.body.setOffset(5, 16);
         this.setDisplaySize(72, 112);
+        this.setCollideWorldBounds(true);
     }
 
     initAnimations(): void{

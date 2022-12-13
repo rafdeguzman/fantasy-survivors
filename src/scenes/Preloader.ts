@@ -28,6 +28,7 @@ export default class Preloader extends Phaser.Scene {
         this.load.audio('dodge', '../assets/sound/dodge.wav')
         this.load.audio('dodgeCd', '../assets/sound/dodgeBack.wav')
     
+        this.load.image('map2', '../assets/map/map3.png');
     }
 
     create() {

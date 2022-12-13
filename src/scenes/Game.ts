@@ -59,7 +59,7 @@ export default class GameScene extends Phaser.Scene {
     this.setupMap();
 
     // world bounds
-    this.physics.world.setBounds(0, 0, 1600, 1200);
+    this.physics.world.setBounds(32, 84, 2560 - 64, 2560 - 124 );
 
     // -- Entities -- //
     this.addPlayer(this, 100, 100);
@@ -86,7 +86,8 @@ export default class GameScene extends Phaser.Scene {
   }
 
   setupMap() {
-    this.add.tileSprite(-2560, -1600, 2560, 1600, 'map').setOrigin(0, 0).setDisplaySize(1280 * 8, 800 * 8);
+    // this.add.tileSprite(-2560, -1600, 2560, 1600, 'map').setOrigin(0, 0).setDisplaySize(1280 * 8, 800 * 8);
+    this.add.tileSprite(0, 0, 2560, 2560, 'map2').setOrigin(0, 0);
   }
 
   setupCollisions() {
@@ -110,7 +111,7 @@ export default class GameScene extends Phaser.Scene {
     this.player.update(time, delta);
     this.enemyGroup.update(time, delta);
   }
-  
+
   pause(){
     if(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC).isDown){
       this.scene.sendToBack(SceneKeys.UI);
