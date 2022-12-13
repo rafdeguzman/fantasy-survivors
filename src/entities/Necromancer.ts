@@ -1,7 +1,7 @@
 import BulletGroup from "../groups/BulletGroup";
 import Enemy from "./Enemy";
 
-export default class Orc extends Enemy{
+export default class Necromancer extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 100;
     private health: number = 2;

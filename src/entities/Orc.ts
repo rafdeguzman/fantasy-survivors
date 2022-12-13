@@ -1,5 +1,7 @@
 import BulletGroup from "../groups/BulletGroup";
+import Bullet from "../objects/Bullet";
 import Enemy from "./Enemy";
+import GameEntity from "./GameEntity";
 
 export default class Orc extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;

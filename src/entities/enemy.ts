@@ -41,4 +41,14 @@ export default class Enemy extends GameEntity{
             this.clearTint();
         });
     }
+
+    spawn(x: number, y: number): void {
+        this.scene.physics.world.enable(this);
+        this.body.reset(x, y);
+
+        this.setActive(true);
+        this.setVisible(true);
+        
+        this.initSprite();
+    }
 }

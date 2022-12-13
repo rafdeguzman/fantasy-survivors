@@ -10,11 +10,12 @@ export default class EnemyGroup extends Phaser.Physics.Arcade.Group {
         
         this.createMultiple({
             classType: Orc,
-            frameQuantity: 2,
+            frameQuantity: 1,
             key: 'orc',
             active: false,
             visible: false,
         });
+        
     }
 
     initOverlaps(enemy: Enemy) : void {
