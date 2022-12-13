@@ -5,7 +5,7 @@ import GLOBALS from "../Globals";
 export default class Player extends GameEntity {
     private SPEED: number = 500;
     private isInvulnerable: boolean = false;
-    private health: number = 6;
+    public health: number = 6;
 
     private dashCooldown: boolean = false;
 

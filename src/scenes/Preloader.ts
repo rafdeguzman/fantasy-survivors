@@ -21,6 +21,11 @@ export default class Preloader extends Phaser.Scene {
         //ref:https://www.artstation.com/artwork/QrYv8E
         this.load.image('bg', './assets/title/bg.jpeg');
 
+        //--Heart--//
+        this.load.image('heart', './assets/hearts/ui_heart_full.png');
+        this.load.image('heartEmpty', './assets/hearts/ui_heart_empty.png');
+        this.load.image('heartHalf', './assets/hearts/ui_heart_half.png');
+
         this.load.audio('music', './assets/sound/music/abc.mp3');  // abc polyphia 8bit ver
 
     
