@@ -13,7 +13,7 @@ export default class Necromancer extends Enemy{
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
-        super(scene, x, y, 'orc');
+        super(scene, x, y, 'necromancer');
         
         this.scene = scene;
 
@@ -38,8 +38,8 @@ export default class Necromancer extends Enemy{
 
     initAnimations(): void{
         this.scene.anims.create({
-            key: 'orc_run',
-            frames: this.scene.anims.generateFrameNames('orc', {prefix: 'orc_run_', start: 0, end: 3}),
+            key: 'necromancer_run',
+            frames: this.scene.anims.generateFrameNames('necromancer', {prefix: 'necromancer_run_', start: 0, end: 3}),
             frameRate: 10,
         });
     }
@@ -58,7 +58,7 @@ export default class Necromancer extends Enemy{
         
         this.rotation = -this.scene.cameras.main.rotation;
 
-        !this.anims.isPlaying && this.anims.play('orc_run', true);
+        !this.anims.isPlaying && this.anims.play('necromancer_run', true);
 
         this.handleShooting();
     }

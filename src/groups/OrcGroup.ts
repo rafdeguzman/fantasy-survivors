@@ -3,7 +3,8 @@ import GLOBALS from "../Globals";
 import Bullet from "../objects/Bullet";
 import Player from "../entities/Player";
 import Orc from "../entities/Orc";
-export default class EnemyGroup extends Phaser.Physics.Arcade.Group {
+
+export default class OrcGroup extends Phaser.Physics.Arcade.Group {
 
     constructor(scene: Phaser.Scene) {
         super(scene.physics.world, scene);
@@ -14,8 +15,7 @@ export default class EnemyGroup extends Phaser.Physics.Arcade.Group {
             key: 'orc',
             active: false,
             visible: false,
-        });
-        
+        });      
     }
 
     initOverlaps(enemy: Enemy) : void {
@@ -32,7 +32,7 @@ export default class EnemyGroup extends Phaser.Physics.Arcade.Group {
 
     spawnEnemy(x: number, y: number): void {
         this.create(x, y, 'orc', 0, false, false);
-        
+
         const enemy = this.getFirstDead(false);
 
         this.initOverlaps(enemy);

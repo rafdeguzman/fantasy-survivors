@@ -11,6 +11,8 @@ export default class Preloader extends Phaser.Scene {
     
         this.load.atlas('orc', './assets/orc/orc.png', './assets/orc/orc.json'); // atlas
     
+        this.load.atlas('necromancer', './assets/necromancer/necromancer.png', './assets/necromancer/necromancer.json'); // atlas
+
         this.load.image('bullet', './assets/bullets/bullet.png');
         this.load.image('background', './assets/skies/underwater1.png');
         this.load.image('map', './assets/map/map.png');

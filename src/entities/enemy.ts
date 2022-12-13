@@ -48,7 +48,5 @@ export default class Enemy extends GameEntity{
 
         this.setActive(true);
         this.setVisible(true);
-        
-        this.initSprite();
     }
 }
