@@ -43,6 +43,9 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
+    //add fade out effect
+    this.cameras.main.fadeIn(1000, 0, 0, 0)
+
     this.backgroundMusic = this.sound.add('music');
     this.backgroundMusic.play({
       loop: true,
