@@ -61,8 +61,6 @@ export default class Orc extends Enemy{
         this.rotation = -this.scene.cameras.main.rotation;
 
         !this.anims.isPlaying && this.anims.play('orc_run', true);
-
-        this.handleShooting();
     }
 
     spawn(x: number, y: number): void {
@@ -91,15 +89,4 @@ export default class Orc extends Enemy{
         });
     }
 
-    handleShooting(): void {
-        if (this.tick > 1500) {
-            this.shoot();
-            this.scene.gunshotSound.play({volume: 0.1});
-            this.tick = 0;
-        }
-    }
-
-    shoot(): void {
-        this.enemyBullets.fireSpreadBullet(this, this.scene.player, 500);
-    }
 }
