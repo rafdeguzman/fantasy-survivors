@@ -2,7 +2,6 @@ import Phaser from 'phaser';
 import Player from '../entities/Player';
 import Bullet from '../objects/Bullet';
 import Enemy from '../entities/Enemy';
-import BulletGroup from '../groups/BulletGroup';
 import Crosshair from '../objects/Crosshair';
 import EnemyGroup from '../groups/EnemyGroup';
 import GLOBALS from '../Globals';
@@ -14,7 +13,6 @@ export default class GameScene extends Phaser.Scene {
   public player: Player;
   public enemy: Enemy;
 
-  private playerBullets: BulletGroup;
   private crosshair: Crosshair;
 
   //** @type {countdownController} */
@@ -22,7 +20,6 @@ export default class GameScene extends Phaser.Scene {
   private timerLabel: Phaser.GameObjects.Text;
 
   private enemyGroup: EnemyGroup;
-  public enemyBullets: BulletGroup;
 
   private timerEvents: Phaser.Time.TimerEvent[] = [];
 
@@ -67,7 +64,6 @@ export default class GameScene extends Phaser.Scene {
 
     // -- Groups -- //
     this.enemyGroup = new EnemyGroup(this);
-    this.enemyBullets = new BulletGroup(this);
 
     this.setupCollisions();
 
