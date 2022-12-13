@@ -6,7 +6,7 @@ import GameEntity from "./GameEntity";
 export default class Zombie extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 100;
-    private health: number = 5;
+    private health: number = 2;
     private scene: any;
 
     private tick: number = 0;
@@ -78,6 +78,10 @@ export default class Zombie extends Enemy{
         this.scene.enemyHitSound.play({volume: 0.5});
         this.spriteFlicker();
         if (this.health <= 0) {
+            // spawn 2 tiny zombies when killed
+            this.scene.tinyZombieGroup.spawnEnemy(this.x, this.y);
+            this.scene.tinyZombieGroup.spawnEnemy(this.x + 50, this.y + 50);
+
             this.destroy();
         }
     }

@@ -30,7 +30,7 @@ export default class Orc extends Enemy{
         this.originY = 0.6;
         this.body.setCircle(9);
         this.body.setOffset(0, 3);
-        this.setDisplaySize(72, 112);
+        this.setDisplaySize(72, 108);
     }
 
     initPhysics(): void{
