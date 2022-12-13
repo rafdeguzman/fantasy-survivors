@@ -145,7 +145,6 @@ export default class Player extends GameEntity {
         this.scene.time.addEvent({
             delay: 1000,
             callback: () => {
-                console.log('no longe invulnerable')
                 this.isInvulnerable = false;
             }
         });
@@ -193,16 +192,16 @@ export default class Player extends GameEntity {
     }    
 
     takeDamage(damage: number): void{
-        if (this.isInvulnerable) return;
+        if (this.isInvulnerable) return
 
         if (this.health <= 0){
             this.setTint(0xff0000);          
         }
         else{
             this.health -= damage;
+            this.isInvulnerable = true;
             this.spriteFlicker();
             this.tweenAlpha();
-            this.isInvulnerable = true;
             this.invulnerableCounter();
             this.scene.playerHitSound.play({volume: 0.25});
         }
@@ -222,7 +221,10 @@ export default class Player extends GameEntity {
             duration: 100,
             ease: 'Linear',
             repeat: 5,
-            yoyo: true
+            yoyo: true,
+            onComplete: () => {
+                this.alpha = 1;
+            }
         });
     }
 
