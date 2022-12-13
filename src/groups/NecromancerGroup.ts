@@ -2,18 +2,17 @@ import Enemy from "../entities/Enemy";
 import GLOBALS from "../Globals";
 import Bullet from "../objects/Bullet";
 import Player from "../entities/Player";
-import Orc from "../entities/Orc";
 import Necromancer from "../entities/Necromancer";
 
-export default class OrcGroup extends Phaser.Physics.Arcade.Group {
+export default class NecromancerGroup extends Phaser.Physics.Arcade.Group {
 
     constructor(scene: Phaser.Scene) {
         super(scene.physics.world, scene);
         
         this.createMultiple({
-            classType: Orc,
+            classType: Necromancer,
             frameQuantity: 1,
-            key: 'orc',
+            key: 'necromancer',
             active: false,
             visible: false,
         });      
@@ -32,7 +31,7 @@ export default class OrcGroup extends Phaser.Physics.Arcade.Group {
     }
 
     spawnEnemy(x: number, y: number): void {
-        this.create(x, y, 'orc', 0, false, false);
+        this.create(x, y, 'necromancer', 0, false, false);
 
         const enemy = this.getFirstDead(false);
 

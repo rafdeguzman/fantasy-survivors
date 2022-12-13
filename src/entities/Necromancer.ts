@@ -4,7 +4,7 @@ import Enemy from "./Enemy";
 export default class Necromancer extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 100;
-    private health: number = 2;
+    private health: number = 3;
     private scene: any;
 
     private tick: number = 0;

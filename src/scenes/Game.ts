@@ -7,7 +7,7 @@ import OrcGroup from '../groups/OrcGroup';
 import GLOBALS from '../Globals';
 import CountdownController from './CountdownController';
 import SceneKeys from '../enums/SceneKeys'
-
+import NecromancerGroup from '../groups/NecromancerGroup';
 
 export default class GameScene extends Phaser.Scene {
   public player: Player;
@@ -20,6 +20,7 @@ export default class GameScene extends Phaser.Scene {
   private timerLabel: Phaser.GameObjects.Text;
 
   private orcGroup: OrcGroup;
+  private necromancerGroup: NecromancerGroup;
 
   private timerEvents: Phaser.Time.TimerEvent[] = [];
 
@@ -69,10 +70,10 @@ export default class GameScene extends Phaser.Scene {
 
     // -- Entities -- //
     this.addPlayer(this, 100, 100);
-    // this.addEnemy(this, 800, 500);
 
     // -- Groups -- //
     this.orcGroup = new OrcGroup(this);
+    this.necromancerGroup = new NecromancerGroup(this);
 
     this.setupOverlaps();
 
@@ -82,7 +83,8 @@ export default class GameScene extends Phaser.Scene {
     // -- Camera -- //
     this.setupCamera();
 
-    this.timerEvents.push(this.time.addEvent({ delay: 1000, callback: this.addOrcToGroup, callbackScope: this, loop: true }));
+    this.timerEvents.push(this.time.addEvent({ delay: 3000, callback: this.addOrcToGroup, callbackScope: this, loop: true }));
+    this.timerEvents.push(this.time.addEvent({ delay: 5000, callback: this.addNecromancerToGroup, callbackScope: this, loop: true }));
 
     this.scene.sendToBack(SceneKeys.Game);
     this.scene.launch(SceneKeys.UI,this.player);
@@ -100,6 +102,13 @@ export default class GameScene extends Phaser.Scene {
       bullet.destroy();
       enemy.takeDamage(GLOBALS.BULLET_DAMAGE);
     });
+    this.physics.add.overlap(this.player.playerBullets, this.necromancerGroup, (bullet: Bullet, enemy: Enemy) => {
+      if (!bullet.active || !enemy.active)
+        return;
+
+      bullet.destroy();
+      enemy.takeDamage(GLOBALS.BULLET_DAMAGE);
+    });
   }
 
   update(time: number, delta: number): void {
@@ -108,6 +117,7 @@ export default class GameScene extends Phaser.Scene {
     this.crosshair.update(time, delta);
     this.player.update(time, delta);
     this.orcGroup.update(time, delta);
+    this.necromancerGroup.update(time, delta);
   }
 
   pause(){
@@ -135,11 +145,16 @@ export default class GameScene extends Phaser.Scene {
     this.crosshair = new Crosshair(scene, 0, 0);
   }
 
-  addOrcToGroup(enemy: Enemy): void {
-    for(let i = 0; i < 5; i++){
+  addOrcToGroup(): void {
+    for(let i = 0; i < 3; i++){
       this.orcGroup.spawnEnemy(
         Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
     }
+  }
+
+  addNecromancerToGroup(): void {
+    this.necromancerGroup.spawnEnemy(
+      Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
   }
 
   addEvents(): void {
