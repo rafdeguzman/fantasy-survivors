@@ -1,6 +1,8 @@
 import Phaser from 'phaser'
 import SceneKeys from '../enums/SceneKeys'
 export default class Title extends Phaser.Scene {
+
+    private playBtn :Phaser.GameObjects.Text;
     constructor() {
         super(SceneKeys.Title);
     }
@@ -32,7 +34,7 @@ export default class Title extends Phaser.Scene {
             align: 'center'
         }).setOrigin(0.5);
 
-        this.add.text(screenCenterX, screenCenterY + 200, 'Play', {
+        this.playBtn=this.add.text(screenCenterX, screenCenterY + 200, 'Play', {
             fontSize: '30px',
             align: 'center'
         }).setOrigin(0.5).setInteractive().on('pointerdown', () => {
@@ -51,7 +53,14 @@ export default class Title extends Phaser.Scene {
     }
 
     update() {
+        let playTmp= this.playBtn;
+
+        this.playBtn.setAlpha(Math.abs(Math.sin(this.time.now/100)));
+        this.playBtn.on('pointerover', function (pointer) {
+            playTmp.setScale(1.5);
+        })
+        this.playBtn.on('pointerout', function (pointer) {
+            playTmp.setScale(1);
+        })
     }
-
-
 }
