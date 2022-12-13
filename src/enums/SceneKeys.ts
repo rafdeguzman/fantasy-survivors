@@ -1,7 +1,8 @@
 enum SceneKeys {
     Preloader = 'preloaderScene',
     Game = 'GameScene',
-    Pause = 'PauseScene'
+    Pause = 'PauseScene',
+    UI='UIScene'
 }
 
 export default SceneKeys;

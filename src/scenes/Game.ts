@@ -84,19 +84,10 @@ export default class GameScene extends Phaser.Scene {
     // this.timerEvents.push(this.time.addEvent({ delay: 250, callback: this.playerBullets.fireAimedBullet, callbackScope: this.playerBullets, loop: true, args: [this.player, this.crosshair] }));
 
     this.timerEvents.push(this.time.addEvent({ delay: 1000, callback: this.addEnemyToList, callbackScope: this, loop: true }));
-    // -- timer -- //
-    this.timetime();
-  }
-  timetime() {
 
-    this.timerLabel = this.add.text(this.cameras.main.midPoint.x, this.cameras.main.midPoint.y, '0', { fontSize: '32px' });
-    this.countDown = new CountdownController(this,this.timerLabel);
-    this.countDown.start(this.handleCountdownFinished.bind(this));
 
-  }
-
-  handleCountdownFinished() {
-
+    this.scene.sendToBack(SceneKeys.Game);
+    this.scene.launch(SceneKeys.UI);
   }
 
   setupMap() {
@@ -132,12 +123,15 @@ export default class GameScene extends Phaser.Scene {
       this.tick = 0;
     }
 
-    this.countDown.update();
+    //this.countDown.update();
   }
   pause(){
     if(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC).isDown){
+      this.scene.sendToBack(SceneKeys.UI);
       this.scene.sendToBack(SceneKeys.Game);
       this.scene.pause(SceneKeys.Game);
+      this.scene.pause(SceneKeys.UI);
+
       this.scene.launch(SceneKeys.Pause);
     }
   }

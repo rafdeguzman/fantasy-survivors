@@ -70,9 +70,5 @@ export default class CountdownController
         //this.label.setScrollFactor(0);
         // when the player rotate the camera of scene,
         this.label.text = Math.ceil(seconds).toString();
-        console.log(this.scene.cameras.main)
-        this.label.setPosition(this.scene.cameras.main.scrollX, this.scene.cameras.main.scrollY );
-
-        
 	}
 }

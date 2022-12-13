@@ -5,9 +5,9 @@ export default class Pause extends Phaser.Scene {
         super(SceneKeys.Pause)
     }
     create() {
-
         this.add.text(100, 100, 'PAUSE', { fontSize: '32px', fill: '#fff' })
         this.input.keyboard.on('keydown-ESC', () => {
+            this.scene.resume(SceneKeys.UI)
             this.scene.resume(SceneKeys.Game)
             this.scene.stop()
         })
