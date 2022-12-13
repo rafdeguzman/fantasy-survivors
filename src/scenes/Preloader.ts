@@ -7,10 +7,8 @@ export default class Preloader extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('player', './assets/knight/knight_idle.png') // texture
         this.load.atlas('knight', './assets/knight/knight.png', './assets/knight/knight.json'); // atlas
     
-        this.load.image('enemy', './assets/necromancer/necromancer_idle_anim_f0.png');
         this.load.atlas('orc', './assets/orc/orc.png', './assets/orc/orc.json'); // atlas
     
         this.load.image('bullet', './assets/bullets/bullet.png');
