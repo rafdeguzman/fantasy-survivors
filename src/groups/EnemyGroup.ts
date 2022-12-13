@@ -26,7 +26,7 @@ export default class EnemyGroup extends Phaser.Physics.Arcade.Group {
     update(time: number, delta: number): void {
         this.children.each((enemy: any) => {
             if (enemy.active) {
-                enemy.update();
+                enemy.update(time, delta);
             }
         });
     }
