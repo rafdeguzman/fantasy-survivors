@@ -87,7 +87,7 @@ export default class GameScene extends Phaser.Scene {
 
 
     this.scene.sendToBack(SceneKeys.Game);
-    this.scene.launch(SceneKeys.UI);
+    this.scene.launch(SceneKeys.UI,this.player);
   }
 
   setupMap() {

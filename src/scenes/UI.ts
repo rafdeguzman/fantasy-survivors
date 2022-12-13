@@ -8,6 +8,12 @@ export default class UI extends Phaser.Scene {
     constructor() {
         super(SceneKeys.UI)
     }
+    
+    init(data){
+        console.log(data);
+    }
+
+
     create() {
 
     // -- timer -- //
