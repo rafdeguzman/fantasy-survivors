@@ -50,9 +50,7 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
         // do angle addition in degrees
         let degrees = Phaser.Math.RadToDeg(angleBetween);   // this took me a minute to figure out
 
-
-        // we add 30 degrees to make the 3rd bullet be the center
-        this.scene.physics.velocityFromAngle(angle + degrees + 30, this.SPEED, this.body.velocity);
+        this.scene.physics.velocityFromAngle(angle + degrees, this.SPEED, this.body.velocity);
     }
 
     preUpdate(time: number, delta: number): void {

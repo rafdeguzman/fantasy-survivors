@@ -57,7 +57,8 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
             const bullet = this.getFirstDead(false);
             if (bullet) {
                 bullet.setSpeed(speed);
-                bullet.shootAngledAimed(shooter, target, 15 * i);
+                // we subtract 60 so that the 3rd bullet is the center
+                bullet.shootAngledAimed(shooter, target, (15 * i) - 60);
             }
         }
     }
