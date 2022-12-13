@@ -37,6 +37,32 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
         }
     }
 
+    fireSpreadBullet(shooter: Phaser.GameObjects.GameObject, target: Phaser.GameObjects.GameObject, speed: number = GLOBALS.BULLET_SPEED): void {
+
+        // create 5 bullets, change shooter x and y to randomize the spread
+        for (let i = 0; i < 5; i++) {
+            this.create(shooter.x + Phaser.Math.Between(-25, 25), shooter.y + Phaser.Math.Between(-25, 25), 'bullet', 0, false, false);
+        }
+
+        this.scene.cameras.main.shake(100, 0.005);
+
+        let angleBetween = Phaser.Math.Angle.Normalize(Phaser.Math.Angle.BetweenPoints(shooter, target));
+
+        let angle1 = angleBetween + Phaser.Math.DegToRad(15);
+
+        let completeAngle = Phaser.Math.Wrap(angle1, -Math.PI, Math.PI);
+
+        // shoot each bullet
+        for (let i = 0; i < 5; i++) {
+            const bullet = this.getFirstDead(false);
+            if (bullet) {
+                bullet.setSpeed(speed);
+                bullet.shootAngledAimed(shooter, target, 15 * i);
+            }
+        }
+    }
+
+
     fireEightWayBullet(shooter: Phaser.GameObjects.GameObject, speed: number = GLOBALS.BULLET_SPEED): void {
 
         for (let i = 0; i < 8; i++) {
