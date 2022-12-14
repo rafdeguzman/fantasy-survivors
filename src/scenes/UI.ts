@@ -70,13 +70,18 @@ export default class UI extends Phaser.Scene {
                     this.add.image(200, 70, 'heartEmpty');
                     this.add.image(250, 70, 'heartEmpty');
                     break;
+                case 0:
+                    this.add.image(150, 70, 'heartEmpty');
+                    this.add.image(200, 70, 'heartEmpty');
+                    this.add.image(250, 70, 'heartEmpty');
+                    break;
                 default:
                 break;
         }   
                 // scale all images to 1.5 
                 this.children.each(function (child) {
                     if (child instanceof Phaser.GameObjects.Image) {
-                        child.setScale(1.5);
+                        child.setScale(2.5);
                     }
                 });
     }
