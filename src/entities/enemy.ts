@@ -4,14 +4,25 @@ import GameEntity from "./GameEntity";
 
 export default class Enemy extends GameEntity{
     declare body: Phaser.Physics.Arcade.Body;
+    private health: number;
     readonly SPEED: number = 100;
-    private scene: any;
+    private scene: Phaser.Scene;
+    private maxHealth: number;
 
     public enemyBullets: BulletGroup;
 
-    constructor(scene: Phaser.Scene, x: number,
-        y: number, texture: string, frame?: string | number) {
+    constructor({
+        scene,
+        x,
+        y,
+        texture,
+        frame,
+        maxHealth
+    })
+    {
         super(scene, x, y, texture, frame);
+        
+        this.maxHealth = maxHealth;
         
         this.scene = scene;
 
@@ -32,6 +43,7 @@ export default class Enemy extends GameEntity{
         }
     }
 
+    // damage flicker
     spriteFlicker(): void{
         this.setTint(0xff0000);
         this.scene.time.delayedCall(100, () => {
@@ -40,11 +52,15 @@ export default class Enemy extends GameEntity{
     }
 
     spawn(x: number, y: number): void {
+        this.health = this.maxHealth;
+
         this.scene.physics.world.enable(this);
         this.body.reset(x, y);
 
         this.setActive(true);
         this.setVisible(true);
+
+        this.initSprite();
     }
 
     dropCoin(): void {
