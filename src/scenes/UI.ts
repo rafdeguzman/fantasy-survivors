@@ -26,9 +26,7 @@ export default class UI extends Phaser.Scene {
         super(SceneKeys.UI)
     }
     
-    init(data){
-        
-        console.log(data.player.health);
+    init(data: any){
         this.player = data.player;
     }
 
@@ -73,7 +71,6 @@ export default class UI extends Phaser.Scene {
         this.countDown.update();
         if(this.player.dashCooldown){
             if(!this.istweenDash){
-                console.log("tweens")
                 this.tweens.add({
                     targets: this.dBar,
                     duration: 100,
@@ -82,7 +79,6 @@ export default class UI extends Phaser.Scene {
                     repeat: 0,
                     ease: 'Power0',
                     onComplete: () => {
-                        console.log("tweens callback")
                         this.istweenDash = true;
                         //add new tween effect
                         this.tweens.add({

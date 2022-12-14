@@ -1,19 +1,21 @@
 import BulletGroup from "../groups/BulletGroup";
 import Enemy from "./Enemy";
 
-export default class Necromancer extends Enemy{
+
+export default class Demon extends Enemy {
     declare body: Phaser.Physics.Arcade.Body;
-    readonly SPEED: number = 100;
-    private health: number = 3;
+    readonly SPEED: number = 150;
+    private health: number = 300;
     private scene: any;
 
     private tick: number = 0;
+    private laserTick: number = 0;
 
     public enemyBullets: BulletGroup;
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
-        super(scene, x, y, 'necromancer');
+        super(scene, x, y, 'demon');
         
         this.scene = scene;
 
@@ -25,10 +27,10 @@ export default class Necromancer extends Enemy{
     }
 
     initSprite(): void{
-        this.originY = 0.6;
-        this.body.setCircle(9);
-        this.body.setOffset(0, 3);
-        this.setDisplaySize(72, 112);
+        this.originY = 0.8;
+        this.body.setCircle(16);
+        this.body.setOffset(0, 10);
+        this.setDisplaySize(170, 224);
     }
 
     initPhysics(): void{
@@ -38,16 +40,16 @@ export default class Necromancer extends Enemy{
 
     initAnimations(): void{
         this.scene.anims.create({
-            key: 'necromancer_run',
-            frames: this.scene.anims.generateFrameNames('necromancer', {prefix: 'necromancer_run_', start: 0, end: 3}),
+            key: 'demon_run',
+            frames: this.scene.anims.generateFrameNames('demon', {prefix: 'big_demon_run_anim_f', start: 0, end: 3}),
             frameRate: 10,
         });
     }
 
     // walk towards the player
     update(time: number, delta: number): void {
-        this.tick += delta
-
+        this.tick += delta;
+        this.laserTick += delta;
         this.scene.physics.moveToObject(this, this.scene.player, this.SPEED);
 
         if (this.body.velocity.x > 0) { // walking right, facing rght
@@ -58,9 +60,10 @@ export default class Necromancer extends Enemy{
         
         this.rotation = -this.scene.cameras.main.rotation;
 
-        !this.anims.isPlaying && this.anims.play('necromancer_run', true);
+        !this.anims.isPlaying && this.anims.play('demon_run', true);
 
         this.handleShooting();
+        this.handleLaserShooting();
     }
 
     spawn(x: number, y: number): void {
@@ -78,7 +81,7 @@ export default class Necromancer extends Enemy{
         this.scene.enemyHitSound.play({volume: 0.5});
         this.spriteFlicker();
         if (this.health <= 0) {
-            this.enemyBullets.fireEightWayBullet(this, 500);
+            console.log("demon dead");
             this.destroy();
         }
     }
@@ -91,7 +94,7 @@ export default class Necromancer extends Enemy{
     }
 
     handleShooting(): void {
-        if (this.tick > 1500) {
+        if (this.tick > 500) {
             this.shoot();
             this.scene.gunshotSound.play({volume: 0.1});
             this.tick = 0;
@@ -99,6 +102,19 @@ export default class Necromancer extends Enemy{
     }
 
     shoot(): void {
-        this.enemyBullets.fireSpreadBullet(this, this.scene.player, 500);
+        this.enemyBullets.fireEightWayRotatingBullet(this, 500);
     }
+
+    shootLaser(): void {
+        this.enemyBullets.fireAimedBullet(this, this.scene.player, 800);
+    }
+
+    handleLaserShooting(): void {
+        if (this.laserTick > 50) {
+            this.shootLaser();
+            this.scene.gunshotSound.play({volume: 0.1});
+            this.laserTick = 0;
+        }
+    }
+
 }

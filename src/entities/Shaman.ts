@@ -1,7 +1,7 @@
 import BulletGroup from "../groups/BulletGroup";
 import Enemy from "./Enemy";
 
-export default class Necromancer extends Enemy{
+export default class Shaman extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 100;
     private health: number = 3;
@@ -13,7 +13,7 @@ export default class Necromancer extends Enemy{
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
-        super(scene, x, y, 'necromancer');
+        super(scene, x, y, 'shaman');
         
         this.scene = scene;
 
@@ -38,8 +38,8 @@ export default class Necromancer extends Enemy{
 
     initAnimations(): void{
         this.scene.anims.create({
-            key: 'necromancer_run',
-            frames: this.scene.anims.generateFrameNames('necromancer', {prefix: 'necromancer_run_', start: 0, end: 3}),
+            key: 'shaman_run',
+            frames: this.scene.anims.generateFrameNames('shaman', {prefix: 'orc_shaman_run_anim_f', start: 0, end: 3}),
             frameRate: 10,
         });
     }
@@ -58,7 +58,7 @@ export default class Necromancer extends Enemy{
         
         this.rotation = -this.scene.cameras.main.rotation;
 
-        !this.anims.isPlaying && this.anims.play('necromancer_run', true);
+        !this.anims.isPlaying && this.anims.play('shaman_run', true);
 
         this.handleShooting();
     }
@@ -78,7 +78,6 @@ export default class Necromancer extends Enemy{
         this.scene.enemyHitSound.play({volume: 0.5});
         this.spriteFlicker();
         if (this.health <= 0) {
-            this.enemyBullets.fireEightWayBullet(this, 500);
             this.destroy();
         }
     }
@@ -99,6 +98,6 @@ export default class Necromancer extends Enemy{
     }
 
     shoot(): void {
-        this.enemyBullets.fireSpreadBullet(this, this.scene.player, 500);
+        this.enemyBullets.fireAimedBullet(this, this.scene.player, 500);
     }
 }

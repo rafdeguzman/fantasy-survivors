@@ -7,8 +7,6 @@ export default class Enemy extends GameEntity{
     readonly SPEED: number = 100;
     private scene: any;
 
-    private tick: number = 0;
-
     public enemyBullets: BulletGroup;
 
     constructor(scene: Phaser.Scene, x: number,
