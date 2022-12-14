@@ -20,13 +20,15 @@ export default class Player extends GameEntity {
 
     public currentWeapon: number = 3;
 
-
     public playerBullets: BulletGroup;
+
+    // implement coins
+    // implement potions
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'knight');
 
-        this.keys = this.scene.input.keyboard.addKeys('W, A, S, D, Q, E, X, SPACE, R, ONE, TWO, THREE, FOUR, L');
+        this.keys = this.scene.input.keyboard.addKeys('W, A, S, D, Q, E, X, SPACE, R, ONE, TWO, THREE, FOUR');
 
 
         this.scene.add.existing(this);
@@ -214,7 +216,7 @@ export default class Player extends GameEntity {
             this.currentWeapon = 4;
             console.log('8 way');
         }
-        if (this.keys['L'].isDown)  {
+        if (this.keys['R'].isDown)  {
             this.health = 6;
         }
     }
