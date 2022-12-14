@@ -7,8 +7,6 @@ export default class Enemy extends GameEntity{
     readonly SPEED: number = 100;
     private scene: any;
 
-    private tick: number = 0;
-
     public enemyBullets: BulletGroup;
 
     constructor(scene: Phaser.Scene, x: number,
@@ -47,5 +45,18 @@ export default class Enemy extends GameEntity{
 
         this.setActive(true);
         this.setVisible(true);
+    }
+
+    dropCoin(): void {
+        if (Math.random() < 0.2)
+
+        this.scene.coinGroup.spawnCoin(this.x, this.y);
+    }
+
+    destroy(): void {
+        this.dropCoin();
+        this.scene.physics.world.disable(this);
+        this.setActive(false);
+        this.setVisible(false);
     }
 }

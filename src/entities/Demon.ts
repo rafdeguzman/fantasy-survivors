@@ -1,19 +1,21 @@
 import BulletGroup from "../groups/BulletGroup";
 import Enemy from "./Enemy";
-import ZombieGroup from "../groups/ZombieGroup";
 
 
-export default class TinyZombie extends Enemy{
+export default class Demon extends Enemy {
     declare body: Phaser.Physics.Arcade.Body;
-    readonly SPEED: number = 250;
-    private health: number = 2;
+    readonly SPEED: number = 150;
+    private health: number = 300;
     private scene: any;
+
+    private tick: number = 0;
+    private laserTick: number = 0;
 
     public enemyBullets: BulletGroup;
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
-        super(scene, x, y, 'tiny_zombie');
+        super(scene, x, y, 'demon');
         
         this.scene = scene;
 
@@ -25,10 +27,10 @@ export default class TinyZombie extends Enemy{
     }
 
     initSprite(): void{
-        // this.originY = 0.4;
-        this.body.setCircle(8.5);
-        // this.body.setOffset(0, 3);
-        this.setDisplaySize(70, 64);
+        this.originY = 0.8;
+        this.body.setCircle(16);
+        this.body.setOffset(0, 10);
+        this.setDisplaySize(170, 224);
     }
 
     initPhysics(): void{
@@ -38,14 +40,16 @@ export default class TinyZombie extends Enemy{
 
     initAnimations(): void{
         this.scene.anims.create({
-            key: 'tiny_zombie_run',
-            frames: this.scene.anims.generateFrameNames('tiny_zombie', {prefix: 'tiny_zombie_run_anim_f', start: 0, end: 3}),
+            key: 'demon_run',
+            frames: this.scene.anims.generateFrameNames('demon', {prefix: 'big_demon_run_anim_f', start: 0, end: 3}),
             frameRate: 10,
         });
     }
 
     // walk towards the player
     update(time: number, delta: number): void {
+        this.tick += delta;
+        this.laserTick += delta;
         this.scene.physics.moveToObject(this, this.scene.player, this.SPEED);
 
         if (this.body.velocity.x > 0) { // walking right, facing rght
@@ -56,7 +60,10 @@ export default class TinyZombie extends Enemy{
         
         this.rotation = -this.scene.cameras.main.rotation;
 
-        !this.anims.isPlaying && this.anims.play('tiny_zombie_run', true);
+        !this.anims.isPlaying && this.anims.play('demon_run', true);
+
+        this.handleShooting();
+        this.handleLaserShooting();
     }
 
     spawn(x: number, y: number): void {
@@ -73,7 +80,8 @@ export default class TinyZombie extends Enemy{
         this.health -= damage;
         this.scene.enemyHitSound.play({volume: 0.5});
         this.spriteFlicker();
-        if (this.health <= 0) {        
+        if (this.health <= 0) {
+            console.log("demon dead");
             this.destroy();
         }
     }
@@ -83,6 +91,28 @@ export default class TinyZombie extends Enemy{
         this.scene.time.delayedCall(100, () => {
             this.clearTint();
         });
+    }
+
+    handleShooting(): void {
+        if (this.tick > 500) {
+            this.shoot();
+            this.tick = 0;
+        }
+    }
+
+    shoot(): void {
+        this.enemyBullets.fireEightWayRotatingBullet(this, 500);
+    }
+
+    shootLaser(): void {
+        this.enemyBullets.fireAimedBullet(this, this.scene.player, 800);
+    }
+
+    handleLaserShooting(): void {
+        if (this.laserTick > 50) {
+            this.shootLaser();
+            this.laserTick = 0;
+        }
     }
 
 }

@@ -2,21 +2,20 @@ import Enemy from "../entities/Enemy";
 import GLOBALS from "../Globals";
 import Bullet from "../objects/Bullet";
 import Player from "../entities/Player";
-import BigZombie from "../entities/BigZombie";
+import Demon from "../entities/Demon";
 
-
-export default class BigZombieGroup extends Phaser.Physics.Arcade.Group {
+export default class DemonGroup extends Phaser.Physics.Arcade.Group {
 
     constructor(scene: Phaser.Scene) {
         super(scene.physics.world, scene);
         
         this.createMultiple({
-            classType: BigZombie,
+            classType: Demon,
             frameQuantity: 1,
-            key: 'big_zombie',
+            key: 'demon',
             active: false,
             visible: false,
-        });      
+        });
     }
 
     initOverlaps(enemy: Enemy) : void {
@@ -28,8 +27,8 @@ export default class BigZombieGroup extends Phaser.Physics.Arcade.Group {
             if (!bullet.active || player.isInvulnerable) return;
             bullet.destroy();
             player.takeDamage(GLOBALS.BULLET_DAMAGE);
-        });        
-
+        });
+        
         this.scene.physics.add.overlap(enemy, this.scene.player.playerBullets, (enemy: Enemy, bullet: Bullet) => {
             if (!bullet.active || !enemy.active) return;
             
@@ -39,7 +38,7 @@ export default class BigZombieGroup extends Phaser.Physics.Arcade.Group {
     }
 
     spawnEnemy(x: number, y: number): void {
-        this.create(x, y, 'big_zombie', 0, false, false);
+        this.create(x, y, 'demon', 0, false, false);
 
         const enemy = this.getFirstDead(false);
 

@@ -1,7 +1,7 @@
 {
 	"textures": [
 		{
-			"image": "shaman.png",
+			"image": "shaman",
 			"format": "RGBA8888",
 			"size": {
 				"w": 63,
@@ -10,7 +10,7 @@
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "orc_shaman_run_anim_f1.png",
+					"filename": "orc_shaman_run_anim_f1",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -31,7 +31,7 @@
 					}
 				},
 				{
-					"filename": "orc_shaman_run_anim_f2.png",
+					"filename": "orc_shaman_run_anim_f2",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -52,7 +52,7 @@
 					}
 				},
 				{
-					"filename": "orc_shaman_run_anim_f0.png",
+					"filename": "orc_shaman_run_anim_f0",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -73,7 +73,7 @@
 					}
 				},
 				{
-					"filename": "orc_shaman_run_anim_f3.png",
+					"filename": "orc_shaman_run_anim_f3",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {

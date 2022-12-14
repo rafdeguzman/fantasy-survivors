@@ -17,14 +17,25 @@ export default class Player extends GameEntity {
     private keys: any;
 
     private tick: number = 0;
-    public firerateTick: number = GLOBALS.HEAVY_MACHINE_GUN_FIRERATE;
+
+    public firerateTick: number = GLOBALS.PISTOL_FIRERATE;
+
+    public currentWeapon: number = 3;
 
     public playerBullets: BulletGroup;
 
+    public currentCoins: number = 0;
+    public potionCount: number = 0;
+
+    public maxCoins: number = 15;
+    public maxPotions: number = 3;
+    // implement coins
+    // implement potions
+
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'knight');
-
-        this.keys = this.scene.input.keyboard.addKeys('F ,W , A, S, D, Q, E, X, SPACE, L');
+        
+        this.keys = this.scene.input.keyboard.addKeys('W, A, S, D, Q, E, X, SPACE, R, ONE, TWO, THREE, FOUR');
 
         this.scene.add.existing(this);
         
@@ -66,10 +77,6 @@ export default class Player extends GameEntity {
 
     handleMovement(): void {
         this.body.setVelocity(0);
-        if (this.keys['F'].isDown) {
-            this.currentCoins += 1;
-            this.keys['F'].isDown = false;
-        }
 
         // cardinal directions
         if (this.keys['W'].isDown) {
@@ -115,7 +122,6 @@ export default class Player extends GameEntity {
             if (this.dashCooldown) return;
 
             if (this.isDashing){
-                console.log('already dashing')
                 return;
             }
 
@@ -134,11 +140,11 @@ export default class Player extends GameEntity {
     }
 
     dashMovement(): void {
-        this.SPEED *= 5
+        this.SPEED *= 7.5;
             this.scene.time.addEvent({
                 delay: 100,
                 callback: () => {
-                    this.SPEED /= 5;
+                    this.SPEED /= 7.5;
                     
                     this.isDashing = false;
 
@@ -162,8 +168,7 @@ export default class Player extends GameEntity {
         this.scene.time.addEvent({
             delay: 5000,
             callback: () => {
-                console.log('dash cooldown over')
-                this.flashWhite();
+                this.flashBlue();
                 this.dashCooldown = false;
                 this.scene.dodgeCdSound.play({volume: 0.5});
             }
@@ -184,9 +189,40 @@ export default class Player extends GameEntity {
 
     handleShooting(): void {
         if (this.scene.game.input.activePointer.isDown && this.tick >= this.firerateTick) {
-            this.scene.gunshotSound.play({ volume: 0.1 });
-            this.playerBullets.fireAimedBullet(this, this.scene.crosshair);
+            if (this.currentWeapon == 2)
+                this.playerBullets.fireSpreadBullet(this, this.scene.crosshair, GLOBALS.PLAYER_BULLET_SPEED, 'player_bullet');
+            else if (this.currentWeapon == 4)
+                this.playerBullets.fireEightWayBullet(this, GLOBALS.PLAYER_BULLET_SPEED, 'player_bullet');
+            else
+                this.playerBullets.fireAimedBullet(this, this.scene.crosshair, GLOBALS.PLAYER_BULLET_SPEED, 'player_bullet');
+                
             this.tick = 0;
+        }
+    }
+
+    handleWeaponSwitch(): void {
+        if (this.keys['ONE'].isDown) {
+            this.firerateTick = GLOBALS.HEAVY_MACHINE_GUN_FIRERATE;
+            this.currentWeapon = 1;
+            console.log('heavy machine gun');
+        }
+        if (this.keys['TWO'].isDown) {
+            this.firerateTick = GLOBALS.SHOTGUN_FIRERATE;
+            this.currentWeapon = 2;
+            console.log('shotgun');
+        }
+        if (this.keys['THREE'].isDown) {
+            this.firerateTick = GLOBALS.PISTOL_FIRERATE
+            this.currentWeapon = 3;
+            console.log('pistol');
+        }
+        if (this.keys['FOUR'].isDown) {
+            this.firerateTick = GLOBALS.SHOTGUN_FIRERATE - 100;
+            this.currentWeapon = 4;
+            console.log('8 way');
+        }
+        if (this.keys['R'].isDown)  {
+            this.health = 6;
         }
     }
 
@@ -196,6 +232,7 @@ export default class Player extends GameEntity {
         this.handleCamera(delta);
         this.handleDash();
         this.handleShooting();
+        this.handleWeaponSwitch();
         this.rotation = -this.scene.cameras.main.rotation;
     }    
 
@@ -239,10 +276,14 @@ export default class Player extends GameEntity {
         });
     }
 
-    flashWhite(): void{
+    flashBlue(): void{
         this.setTint(0x1f51ff);
         this.scene.time.delayedCall(200, () => {
             this.clearTint();
         });
+    }
+
+    addCoin(): void{
+        this.currentCoins++;
     }
 }

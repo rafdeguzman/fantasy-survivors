@@ -78,6 +78,7 @@ export default class Necromancer extends Enemy{
         this.scene.enemyHitSound.play({volume: 0.5});
         this.spriteFlicker();
         if (this.health <= 0) {
+            this.enemyBullets.fireEightWayBullet(this, 500);
             this.destroy();
         }
     }
@@ -92,7 +93,6 @@ export default class Necromancer extends Enemy{
     handleShooting(): void {
         if (this.tick > 1500) {
             this.shoot();
-            this.scene.gunshotSound.play({volume: 0.1});
             this.tick = 0;
         }
     }

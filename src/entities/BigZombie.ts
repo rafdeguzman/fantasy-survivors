@@ -2,7 +2,6 @@ import BulletGroup from "../groups/BulletGroup";
 import Enemy from "./Enemy";
 import ZombieGroup from "../groups/ZombieGroup";
 
-
 export default class BigZombie extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 75;
@@ -75,11 +74,10 @@ export default class BigZombie extends Enemy{
         this.health -= damage;
         this.scene.enemyHitSound.play({volume: 0.5});
         this.spriteFlicker();
-        if (this.health <= 0) {
-            // spawn 2 zombies here
+        if (this.health <= 0) {        
             this.scene.zombieGroup.spawnEnemy(this.x, this.y);
             this.scene.zombieGroup.spawnEnemy(this.x + 50, this.y + 50);
-        
+
             this.destroy();
         }
     }
