@@ -7,7 +7,7 @@ export default class Player extends GameEntity {
     private isInvulnerable: boolean = false;
     public health: number = 6;
 
-    private dashCooldown: boolean = false;
+    public dashCooldown: boolean = false;
 
     private isDashing: boolean = false;
     public isDead: boolean = false;
