@@ -97,4 +97,20 @@ export default class Enemy extends GameEntity{
     initAnimations(): void{
 
     }
+
+    // call from child classes, moves enemy towards player &&
+    // update the firerate tick
+    update(time: number, delta: number): void {
+        this.firerateTick += delta;
+
+        this.scene.physics.moveToObject(this, this.scene.player, this.SPEED);
+
+        if (this.body.velocity.x > 0) { // walking right, facing rght
+            this.setFlipX(false);
+        } else if (this.body.velocity.x < 0) {  // walking left, facing left
+            this.setFlipX(true);
+        } 
+        
+        this.rotation = -this.scene.cameras.main.rotation;
+    }
 }
