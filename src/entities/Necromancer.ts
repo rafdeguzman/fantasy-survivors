@@ -78,6 +78,7 @@ export default class Necromancer extends Enemy{
         this.scene.enemyHitSound.play({volume: 0.5});
         this.spriteFlicker();
         if (this.health <= 0) {
+            this.enemyBullets.fireEightWayBullet(this, 500);
             this.destroy();
         }
     }

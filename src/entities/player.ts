@@ -26,7 +26,7 @@ export default class Player extends GameEntity {
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'knight');
 
-        this.keys = this.scene.input.keyboard.addKeys('W, A, S, D, Q, E, X, SPACE, R, ONE, TWO, THREE, FOUR');
+        this.keys = this.scene.input.keyboard.addKeys('W, A, S, D, Q, E, X, SPACE, R, ONE, TWO, THREE, FOUR, L');
 
 
         this.scene.add.existing(this);
@@ -213,6 +213,9 @@ export default class Player extends GameEntity {
             this.firerateTick = GLOBALS.SHOTGUN_FIRERATE - 100;
             this.currentWeapon = 4;
             console.log('8 way');
+        }
+        if (this.keys['L'].isDown)  {
+            this.health = 6;
         }
     }
 

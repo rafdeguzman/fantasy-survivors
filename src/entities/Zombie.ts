@@ -78,8 +78,11 @@ export default class Zombie extends Enemy{
         this.scene.enemyHitSound.play({volume: 0.5});
         this.spriteFlicker();
         if (this.health <= 0) {
-            this.scene.tinyZombieGroup.spawnEnemy(this.x, this.y);
-            this.scene.tinyZombieGroup.spawnEnemy(this.x + 50, this.y + 50);
+            // create 4 tiny zombies
+            for (let i = 0; i < 4; i++) {
+                this.scene.tinyZombieGroup.spawnEnemy((this.x - 50) + (25 * i),
+                 (this.y - 50) + (25 * i));
+            }
             this.destroy();
         }
     }

@@ -106,7 +106,7 @@ export default class Demon extends Enemy{
     }
 
     shootLaser(): void {
-        this.enemyBullets.fireAimedBullet(this, this.scene.player, 1200);
+        this.enemyBullets.fireAimedBullet(this, this.scene.player, 800);
     }
 
     handleLaserShooting(): void {
