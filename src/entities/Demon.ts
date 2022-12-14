@@ -63,7 +63,7 @@ export default class Demon extends Enemy{
         !this.anims.isPlaying && this.anims.play('demon_run', true);
 
         this.handleShooting();
-        this.handleLaserShooting();
+        // this.handleLaserShooting();
     }
 
     spawn(x: number, y: number): void {
@@ -94,7 +94,7 @@ export default class Demon extends Enemy{
     }
 
     handleShooting(): void {
-        if (this.tick > 2000) {
+        if (this.tick > 500) {
             this.shoot();
             this.scene.gunshotSound.play({volume: 0.1});
             this.tick = 0;
@@ -102,7 +102,7 @@ export default class Demon extends Enemy{
     }
 
     shoot(): void {
-        this.enemyBullets.fireEightWayBullet(this, 500);
+        this.enemyBullets.fireEightWayRotatingBullet(this, 500);
     }
 
     shootLaser(): void {

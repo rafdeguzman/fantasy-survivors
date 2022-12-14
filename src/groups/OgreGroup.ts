@@ -2,18 +2,18 @@ import Enemy from "../entities/Enemy";
 import GLOBALS from "../Globals";
 import Bullet from "../objects/Bullet";
 import Player from "../entities/Player";
-import BigZombie from "../entities/BigZombie";
+import Ogre from "../entities/Ogre";
 
 
-export default class BigZombieGroup extends Phaser.Physics.Arcade.Group {
+export default class OgreGroup extends Phaser.Physics.Arcade.Group {
 
     constructor(scene: Phaser.Scene) {
         super(scene.physics.world, scene);
         
         this.createMultiple({
-            classType: BigZombie,
+            classType: Ogre,
             frameQuantity: 1,
-            key: 'big_zombie',
+            key: 'ogre',
             active: false,
             visible: false,
         });      
@@ -39,7 +39,7 @@ export default class BigZombieGroup extends Phaser.Physics.Arcade.Group {
     }
 
     spawnEnemy(x: number, y: number): void {
-        this.create(x, y, 'big_zombie', 0, false, false);
+        this.create(x, y, 'ogre', 0, false, false);
 
         const enemy = this.getFirstDead(false);
 

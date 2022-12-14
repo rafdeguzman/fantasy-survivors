@@ -2,6 +2,8 @@ import GLOBALS from "../Globals";
 import Bullet from "../objects/Bullet";
 export default class BulletGroup extends Phaser.Physics.Arcade.Group {
 
+    private rotatorAngle: number = 0;
+
     constructor(scene: Phaser.Scene) {
         super(scene.physics.world, scene);
 
@@ -31,6 +33,7 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
         const bullet = this.getFirstDead(false);
 
         if (bullet) {
+            bullet.setSpeed(speed);
             // this is where you want to change bullet speed
             bullet.shootAimed(userRecoil, temp);
         }
@@ -45,12 +48,6 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
 
         this.scene.cameras.main.shake(100, 0.005);
 
-        let angleBetween = Phaser.Math.Angle.Normalize(Phaser.Math.Angle.BetweenPoints(shooter, target));
-
-        let angle1 = angleBetween + Phaser.Math.DegToRad(15);
-
-        let completeAngle = Phaser.Math.Wrap(angle1, -Math.PI, Math.PI);
-
         // shoot each bullet
         for (let i = 0; i < 5; i++) {
             const bullet = this.getFirstDead(false);
@@ -62,6 +59,56 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
         }
     }
 
+    fireEightWayRotatingBulletv2(shooter: Phaser.GameObjects.GameObject, speed: number = GLOBALS.BULLET_SPEED): void {
+        for (let i = 0; i < 8; i++) {
+            this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
+        }
+
+        this.scene.cameras.main.shake(100, 0.005);
+
+        for (let i = 0; i < 8; i++) {
+            const bullet = this.getFirstDead(false);
+            if (bullet) {
+                bullet.setSpeed(speed);
+                bullet.shootAngled(shooter, 45 * i - this.rotatorAngle);
+                this.rotatorAngle > 360 ? this.rotatorAngle = 0 : this.rotatorAngle += 30;
+            }
+        }
+    }
+
+    fireEightWayRotatingBullet(shooter: Phaser.GameObjects.GameObject, speed: number = GLOBALS.BULLET_SPEED): void {
+        for (let i = 0; i < 8; i++) {
+            this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
+        }
+
+        this.scene.cameras.main.shake(100, 0.005);
+
+        for (let i = 0; i < 8; i++) {
+            this.rotatorAngle += 30;
+            const bullet = this.getFirstDead(false);
+            if (bullet) {
+                bullet.setSpeed(speed);
+                bullet.shootAngled(shooter, 45 - this.rotatorAngle);
+            }
+        }
+    }
+
+    fireEightWayRotatingBulletv3(shooter: Phaser.GameObjects.GameObject, speed: number = GLOBALS.BULLET_SPEED): void {
+        for (let i = 0; i < 8; i++) {
+            this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
+        }
+
+        this.scene.cameras.main.shake(100, 0.005);
+
+        for (let i = 0; i < 8; i++) {
+            const bullet = this.getFirstDead(false);
+            if (bullet) {
+                bullet.setSpeed(speed);
+                bullet.shootAngled(shooter, (45 * i) - this.rotatorAngle);
+                this.rotatorAngle += 30;
+            }
+        }
+    }
 
     fireEightWayBullet(shooter: Phaser.GameObjects.GameObject, speed: number = GLOBALS.BULLET_SPEED): void {
 
