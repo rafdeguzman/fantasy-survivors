@@ -5,7 +5,7 @@ import ZombieGroup from "../groups/ZombieGroup";
 export default class BigZombie extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 75;
-    private health: number = 7;
+    private health: number = 10;
     private scene: any;
 
     private zombieGroup: ZombieGroup;

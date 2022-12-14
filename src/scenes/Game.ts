@@ -225,11 +225,6 @@ export default class GameScene extends Phaser.Scene {
       Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
   }
 
-  addZombieToGroup(): void {
-    this.zombieGroup.spawnEnemy(
-      Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
-  }
-
   addOgreToGroup(): void {
     this.ogreGroup.spawnEnemy(
       Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
