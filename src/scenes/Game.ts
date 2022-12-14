@@ -97,7 +97,7 @@ export default class GameScene extends Phaser.Scene {
     this.timerEvents.push(this.time.addEvent({ delay: 1000, callback: this.addBigZombieToGroup, callbackScope: this, loop: true }));
 
     this.scene.sendToBack(SceneKeys.Game);
-    this.scene.launch(SceneKeys.UI,this.player);
+    this.scene.launch(SceneKeys.UI,{player :this.player});
   }
 
   setupMap() {

@@ -4,6 +4,7 @@ export default {
   antialias: false,
   antialiasGL: false,
   type: Phaser.AUTO,
+  willReadFrequently: true,
   backgroundColor: '#000000',
   scale: {
     width: 1280,
