@@ -5,7 +5,7 @@ import ZombieGroup from "../groups/ZombieGroup";
 
 export default class TinyZombie extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
-    readonly SPEED: number = 200;
+    readonly SPEED: number = 250;
     private health: number = 1;
     private scene: any;
 
@@ -26,9 +26,9 @@ export default class TinyZombie extends Enemy{
 
     initSprite(): void{
         // this.originY = 0.4;
-        this.body.setCircle(8);
+        this.body.setCircle(8.5);
         // this.body.setOffset(0, 3);
-        this.setDisplaySize(35, 60);
+        this.setDisplaySize(70, 64);
     }
 
     initPhysics(): void{
