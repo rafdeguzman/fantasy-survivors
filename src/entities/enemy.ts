@@ -6,7 +6,7 @@ export default class Enemy extends GameEntity{
     declare body: Phaser.Physics.Arcade.Body;
     private health: number;
     readonly SPEED: number = 100;
-    private scene: Phaser.Scene;
+    public readonly scene: Phaser.Scene;
     private maxHealth: number;
 
     public enemyBullets: BulletGroup;
@@ -39,6 +39,7 @@ export default class Enemy extends GameEntity{
         this.scene.enemyHitSound.play({volume: 0.5});
         this.spriteFlicker();
         if (this.health <= 0) {
+            this.onDeath();
             this.destroy();
         }
     }
@@ -74,5 +75,15 @@ export default class Enemy extends GameEntity{
         this.scene.physics.world.disable(this);
         this.setActive(false);
         this.setVisible(false);
+    }
+
+    // to override for specific enemies
+    onDeath(): void {
+        
+    }
+
+    // to override for all enemies
+    initSprite(): void{
+        
     }
 }

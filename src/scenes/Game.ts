@@ -95,11 +95,11 @@ export default class GameScene extends Phaser.Scene {
     this.addPlayer(this, this.worldWidth / 2, this.worldHeight / 2);
 
     // -- Groups -- //
-    this.orcGroup = new OrcGroup(this);
+    // this.orcGroup = new OrcGroup(this);
     // this.necromancerGroup = new NecromancerGroup(this);
-    // this.bigZombieGroup = new BigZombieGroup(this);
-    // this.zombieGroup = new ZombieGroup(this);
-    // this.tinyZombieGroup = new TinyZombieGroup(this);
+    this.bigZombieGroup = new BigZombieGroup(this);
+    this.zombieGroup = new ZombieGroup(this);
+    this.tinyZombieGroup = new TinyZombieGroup(this);
     // this.ogreGroup = new OgreGroup(this);
     // this.shamanGroup = new ShamanGroup(this);
     // this.demonGroup = new DemonGroup(this);
@@ -114,7 +114,7 @@ export default class GameScene extends Phaser.Scene {
 
     // -- Timers -- //
     
-    this.orcTimer = this.time.addEvent({ delay: 3000, callback: this.addOrcToGroup, callbackScope: this, loop: true })
+    // this.orcTimer = this.time.addEvent({ delay: 3000, callback: this.addOrcToGroup, callbackScope: this, loop: true })
     // this.necromancerTimer = this.time.addEvent({ delay: 10000, callback: this.addNecromancerToGroup, callbackScope: this, loop: true });
     // this.bigZombieTimer = this.time.addEvent({ delay: 5000, callback: this.addBigZombieToGroup, callbackScope: this, loop: true });
     // this.ogreTimer = this.time.addEvent({ delay: 10000, callback: this.addOgreToGroup, callbackScope: this, loop: true });
@@ -147,11 +147,11 @@ export default class GameScene extends Phaser.Scene {
 
     this.crosshair.update(time, delta);
     this.player.update(time, delta);
-    this.orcGroup.update(time, delta);
+    // this.orcGroup.update(time, delta);
     // this.necromancerGroup.update(time, delta);
-    // this.bigZombieGroup.update(time, delta);
-    // this.zombieGroup.update(time, delta);
-    // this.tinyZombieGroup.update(time, delta);
+    this.bigZombieGroup.update(time, delta);
+    this.zombieGroup.update(time, delta);
+    this.tinyZombieGroup.update(time, delta);
     // this.ogreGroup.update(time, delta);
     // this.demonGroup.update(time, delta);
     // this.shamanGroup.update(time, delta);

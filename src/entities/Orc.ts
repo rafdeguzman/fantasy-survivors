@@ -8,8 +8,6 @@ export default class Orc extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 100;
 
-    private tick: number = 0;
-
     public enemyBullets: BulletGroup;
 
     constructor(scene: Phaser.Scene, x: number,
@@ -47,8 +45,6 @@ export default class Orc extends Enemy{
 
     // walk towards the player
     update(time: number, delta: number): void {
-        this.tick += delta
-
         this.scene.physics.moveToObject(this, this.scene.player, this.SPEED);
 
         if (this.body.velocity.x > 0) { // walking right, facing rght
