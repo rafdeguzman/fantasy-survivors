@@ -183,12 +183,12 @@ export default class Player extends GameEntity {
             this.scene.gunshotSound.play({ volume: 0.25 });
 
             if (this.currentWeapon == 2)
-                this.playerBullets.fireSpreadBullet(this, this.scene.crosshair, GLOBALS.PLAYER_BULLET_SPEED);
+                this.playerBullets.fireSpreadBullet(this, this.scene.crosshair, GLOBALS.PLAYER_BULLET_SPEED, 'player_bullet');
             else if (this.currentWeapon == 4)
-                this.playerBullets.fireEightWayBullet(this, GLOBALS.PLAYER_BULLET_SPEED);
+                this.playerBullets.fireEightWayBullet(this, GLOBALS.PLAYER_BULLET_SPEED, 'player_bullet');
             else
-                this.playerBullets.fireAimedBullet(this, this.scene.crosshair, GLOBALS.PLAYER_BULLET_SPEED);
-
+                this.playerBullets.fireAimedBullet(this, this.scene.crosshair, GLOBALS.PLAYER_BULLET_SPEED, 'player_bullet');
+                
             this.tick = 0;
         }
     }
