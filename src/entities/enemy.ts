@@ -46,4 +46,17 @@ export default class Enemy extends GameEntity{
         this.setActive(true);
         this.setVisible(true);
     }
+
+    dropCoin(): void {
+        if (Math.random() > 0.5) return;
+
+        this.scene.coinGroup.spawnCoin(this.x, this.y);
+    }
+
+    destroy(): void {
+        this.dropCoin();
+        this.scene.physics.world.disable(this);
+        this.setActive(false);
+        this.setVisible(false);
+    }
 }

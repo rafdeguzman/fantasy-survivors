@@ -14,6 +14,7 @@ import TinyZombieGroup from '../groups/TinyZombieGroup';
 import DemonGroup from '../groups/DemonGroup';
 import OgreGroup from '../groups/OgreGroup';
 import ShamanGroup from '../groups/ShamanGroup';
+import CoinGroup from '../groups/CoinGroup';
 
 export default class GameScene extends Phaser.Scene {
   public player: Player;
@@ -33,6 +34,7 @@ export default class GameScene extends Phaser.Scene {
   private ogreGroup: OgreGroup;
   private shamanGroup: ShamanGroup;
   private demonGroup: DemonGroup;
+  public coinGroup: CoinGroup;
 
   private orcTimer: Phaser.Time.TimerEvent;
   private necromancerTimer: Phaser.Time.TimerEvent;
@@ -52,6 +54,7 @@ export default class GameScene extends Phaser.Scene {
   public enemyHitSound: Phaser.Sound.BaseSound;
   public dodgeSound: Phaser.Sound.BaseSound;
   public dodgeCdSound: Phaser.Sound.BaseSound;
+  public coinSound: Phaser.Sound.BaseSound;
 
   private worldX: number = 32;
   private worldY: number = 96;
@@ -77,6 +80,7 @@ export default class GameScene extends Phaser.Scene {
     this.enemyHitSound = this.sound.add('enemyHit');
     this.dodgeSound = this.sound.add('dodge');
     this.dodgeCdSound = this.sound.add('dodgeCd');
+    this.coinSound = this.sound.add('pickup');
 
     this.input.setPollAlways();
 
@@ -100,8 +104,7 @@ export default class GameScene extends Phaser.Scene {
     this.shamanGroup = new ShamanGroup(this);
     this.demonGroup = new DemonGroup(this);
 
-
-    // this.setupOverlaps();
+    this.coinGroup = new CoinGroup(this);
 
     // -- Events -- //
     // do something here later i think idk
@@ -116,7 +119,7 @@ export default class GameScene extends Phaser.Scene {
     this.bigZombieTimer = this.time.addEvent({ delay: 5000, callback: this.addBigZombieToGroup, callbackScope: this, loop: true });
     this.ogreTimer = this.time.addEvent({ delay: 10000, callback: this.addOgreToGroup, callbackScope: this, loop: true });
     this.shamanTimer = this.time.addEvent({ delay: 5000, callback: this.addShamanToGroup, callbackScope: this, loop: true });
-    this.demonTimer = this.time.addEvent({ delay: 5000, callback: this.addDemonToGroup, callbackScope: this, loop: true });
+    this.demonTimer = this.time.addEvent({ delay: 500000, callback: this.addDemonToGroup, callbackScope: this, loop: true });
 
     this.timerEvents.push(this.orcTimer);
     this.timerEvents.push(this.necromancerTimer);
@@ -152,6 +155,8 @@ export default class GameScene extends Phaser.Scene {
     this.ogreGroup.update(time, delta);
     this.demonGroup.update(time, delta);
     this.shamanGroup.update(time, delta);
+
+    this.coinGroup.update(time, delta);
   }
 
   gameOver(){

@@ -3,11 +3,15 @@ export default class Coin extends Phaser.Physics.Arcade.Sprite {
 
     constructor(scene: Phaser.Scene, x: number, y: number,
         texture: string = 'coin', frame?: string | number) {
-        super(scene, x, y, texture, frame);
+        super(scene, x, y, 'coin', frame);
 
         this.scene = scene;
-    }
+        this.scene.add.existing(this);
+        this.scene.physics.add.existing(this);
 
+        this.initSprite();
+        this.initAnimations();
+    }
 
     initSprite(): void {
         this.setDisplaySize(100, 100);
@@ -28,4 +32,22 @@ export default class Coin extends Phaser.Physics.Arcade.Sprite {
         this.rotation = -this.scene.cameras.main.rotation;
     }
 
+    spawn(x: number, y: number): void {
+        this.scene.physics.world.enable(this);
+        this.body.reset(x, y);
+
+        this.initSprite();
+        this.initAnimations();
+
+        this.setActive(true);
+        this.setVisible(true);
+    }
+
+    pickup(): void {
+        console.log('coin picked up')
+        this.scene.physics.world.disable(this);
+        this.setActive(false);
+        this.setVisible(false);
+        this.destroy();
+    }
 }
