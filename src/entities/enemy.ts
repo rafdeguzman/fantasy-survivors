@@ -49,15 +49,7 @@ export default class Enemy extends GameEntity{
             this.destroy();
         }
     }
-
-    // damage flicker
-    spriteFlicker(): void{
-        this.setTint(0xff0000);
-        this.scene.time.delayedCall(100, () => {
-            this.clearTint();
-        });
-    }
-
+    
     spawn(x: number, y: number): void {
         this.health = this.maxHealth;
 
