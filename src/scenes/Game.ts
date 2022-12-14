@@ -87,7 +87,7 @@ export default class GameScene extends Phaser.Scene {
     this.setupOverlaps();
 
     // -- Events -- //
-    this.addEvents();
+    // do something here later i think idk
 
     // -- Camera -- //
     this.setupCamera();
@@ -146,7 +146,6 @@ export default class GameScene extends Phaser.Scene {
 
   update(time: number, delta: number): void {
     if(this.player.isDead){
-      console.log("game over")
       this.gameOver();
     }
     this.pause();
@@ -213,16 +212,5 @@ export default class GameScene extends Phaser.Scene {
   addZombieToGroup(): void {
     this.zombieGroup.spawnEnemy(
       Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
-  }
-
-  addEvents(): void {
-    this.input.keyboard.addKey('1').onDown = () => {
-      console.log(this.firerateTick)
-      this.firerateTick = GLOBALS.HEAVY_MACHINE_GUN_FIRERATE;
-    }
-    this.input.keyboard.addKey('2').onDown = () => {
-      console.log(this.firerateTick)
-      this.firerateTick = GLOBALS.PISTOL_FIRERATE;
-    }
   }
 }
