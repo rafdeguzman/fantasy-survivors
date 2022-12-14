@@ -6,7 +6,7 @@ import GameEntity from "./GameEntity";
 export default class Zombie extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 100;
-    private health: number = 3;
+    private health: number = 4;
     private scene: any;
 
     private tick: number = 0;

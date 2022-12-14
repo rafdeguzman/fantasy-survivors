@@ -3,17 +3,17 @@ import Enemy from "./Enemy";
 import ZombieGroup from "../groups/ZombieGroup";
 
 
-export default class TinyZombie extends Enemy{
+export default class Ogre extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
-    readonly SPEED: number = 250;
-    private health: number = 2;
+    readonly SPEED: number = 75;
+    private health: number = 7;
     private scene: any;
 
     public enemyBullets: BulletGroup;
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
-        super(scene, x, y, 'tiny_zombie');
+        super(scene, x, y, 'big_zombie');
         
         this.scene = scene;
 
@@ -25,10 +25,10 @@ export default class TinyZombie extends Enemy{
     }
 
     initSprite(): void{
-        // this.originY = 0.4;
-        this.body.setCircle(8.5);
-        // this.body.setOffset(0, 3);
-        this.setDisplaySize(70, 64);
+        this.originY = 0.8;
+        this.body.setCircle(16);
+        this.body.setOffset(0, 10);
+        this.setDisplaySize(170, 224);
     }
 
     initPhysics(): void{
@@ -38,8 +38,8 @@ export default class TinyZombie extends Enemy{
 
     initAnimations(): void{
         this.scene.anims.create({
-            key: 'tiny_zombie_run',
-            frames: this.scene.anims.generateFrameNames('tiny_zombie', {prefix: 'tiny_zombie_run_anim_f', start: 0, end: 3}),
+            key: 'ogre_run',
+            frames: this.scene.anims.generateFrameNames('ogre', {prefix: 'ogre_run_anim_f', start: 0, end: 3}),
             frameRate: 10,
         });
     }
@@ -56,7 +56,7 @@ export default class TinyZombie extends Enemy{
         
         this.rotation = -this.scene.cameras.main.rotation;
 
-        !this.anims.isPlaying && this.anims.play('tiny_zombie_run', true);
+        !this.anims.isPlaying && this.anims.play('ogre_run', true);
     }
 
     spawn(x: number, y: number): void {
@@ -73,7 +73,11 @@ export default class TinyZombie extends Enemy{
         this.health -= damage;
         this.scene.enemyHitSound.play({volume: 0.5});
         this.spriteFlicker();
-        if (this.health <= 0) {        
+        if (this.health <= 0) {
+            // spawn 2 zombies here
+            this.scene.zombieGroup.spawnEnemy(this.x, this.y);
+            this.scene.zombieGroup.spawnEnemy(this.x + 50, this.y + 50);
+        
             this.destroy();
         }
     }

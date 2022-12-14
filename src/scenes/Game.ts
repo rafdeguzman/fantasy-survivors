@@ -3,15 +3,16 @@ import Player from '../entities/Player';
 import Bullet from '../objects/Bullet';
 import Enemy from '../entities/Enemy';
 import Crosshair from '../objects/Crosshair';
-import OrcGroup from '../groups/OrcGroup';
 import GLOBALS from '../Globals';
 import CountdownController from './CountdownController';
 import SceneKeys from '../enums/SceneKeys'
+import OrcGroup from '../groups/OrcGroup';
 import NecromancerGroup from '../groups/NecromancerGroup';
 import BigZombieGroup from '../groups/BigZombieGroup';
 import ZombieGroup from '../groups/ZombieGroup';
 import TinyZombieGroup from '../groups/TinyZombieGroup';
 import DemonGroup from '../groups/DemonGroup';
+import OgreGroup from '../groups/OgreGroup';
 
 export default class GameScene extends Phaser.Scene {
   public player: Player;
@@ -28,11 +29,13 @@ export default class GameScene extends Phaser.Scene {
   private bigZombieGroup: BigZombieGroup;
   private zombieGroup: ZombieGroup;
   private tinyZombieGroup: TinyZombieGroup;
+  private ogreGroup: OgreGroup;
   private demonGroup: DemonGroup;
 
   private orcTimer: Phaser.Time.TimerEvent;
   private necromancerTimer: Phaser.Time.TimerEvent;
   private bigZombieTimer: Phaser.Time.TimerEvent;
+  private ogreTimer: Phaser.Time.TimerEvent;
   private demonTimer: Phaser.Time.TimerEvent;
 
   private timerEvents: Phaser.Time.TimerEvent[] = [];
@@ -90,9 +93,10 @@ export default class GameScene extends Phaser.Scene {
     this.bigZombieGroup = new BigZombieGroup(this);
     this.zombieGroup = new ZombieGroup(this);
     this.tinyZombieGroup = new TinyZombieGroup(this);
+    this.ogreGroup = new OgreGroup(this);
     this.demonGroup = new DemonGroup(this);
 
-    this.setupOverlaps();
+    // this.setupOverlaps();
 
     // -- Events -- //
     // do something here later i think idk
@@ -103,12 +107,14 @@ export default class GameScene extends Phaser.Scene {
     this.orcTimer = this.time.addEvent({ delay: 3000, callback: this.addOrcToGroup, callbackScope: this, loop: true })
     this.necromancerTimer = this.time.addEvent({ delay: 5000, callback: this.addNecromancerToGroup, callbackScope: this, loop: true });
     this.bigZombieTimer = this.time.addEvent({ delay: 70000, callback: this.addBigZombieToGroup, callbackScope: this, loop: true });
-    this.demonTimer = this.time.addEvent({ delay: 10000, callback: this.addDemonToGroup, callbackScope: this, loop: true })
+    this.ogreTimer = this.time.addEvent({ delay: 10000, callback: this.addOgreToGroup, callbackScope: this, loop: true });
+    // this.demonTimer = this.time.addEvent({ delay: 10000, callback: this.addDemonToGroup, callbackScope: this, loop: true });
 
     this.timerEvents.push(this.orcTimer);
     this.timerEvents.push(this.necromancerTimer);
     this.timerEvents.push(this.bigZombieTimer);
-    this.timerEvents.push(this.demonTimer);
+    this.timerEvents.push(this.ogreTimer);
+    // this.timerEvents.push(this.demonTimer);
 
 
     this.scene.sendToBack(SceneKeys.Game);
@@ -172,6 +178,7 @@ export default class GameScene extends Phaser.Scene {
     this.bigZombieGroup.update(time, delta);
     this.zombieGroup.update(time, delta);
     this.tinyZombieGroup.update(time, delta);
+    this.ogreGroup.update(time, delta);
     this.demonGroup.update(time, delta);
   }
 
@@ -227,6 +234,11 @@ export default class GameScene extends Phaser.Scene {
 
   addZombieToGroup(): void {
     this.zombieGroup.spawnEnemy(
+      Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
+  }
+
+  addOgreToGroup(): void {
+    this.ogreGroup.spawnEnemy(
       Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
   }
 
