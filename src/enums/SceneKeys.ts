@@ -5,7 +5,8 @@ enum SceneKeys {
     UI='UIScene',
     Title='TitleScene',
     GameOver='GameOverScene',
-    Win='WinScene'
+    Win='WinScene',
+    Upgrade='UpgradeScene',
 }
 
 export default SceneKeys;

@@ -8,9 +8,15 @@ export default class UI extends Phaser.Scene {
     private y: number = 0;
     private width: number = 0;
     private height: number = 0;
-    private rBar: Phaser.GameObjects.Rectangle;
-    private rBack: Phaser.GameObjects.Rectangle;
-    private rBoarder: Phaser.GameObjects.Rectangle;
+    private dBar: Phaser.GameObjects.Rectangle;
+    private dBoarder: Phaser.GameObjects.Rectangle;
+    private screenCenterX : number = 0;
+    private screenCenterY : number = 0;
+
+    private cBar: Phaser.GameObjects.Rectangle;
+    private cBoarder: Phaser.GameObjects.Rectangle;
+    private fakeCoin : number = 50;
+    private fakeMaxCoin : number = 150;
 
     private timeLimit: number = 300000;
     private countDown: CountdownController;
@@ -30,29 +36,42 @@ export default class UI extends Phaser.Scene {
     create() {
     // get the top right position of the screen
     const { width } = this.scale;
-    const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
+    this.screenCenterX = (this.cameras.main.worldView.x + this.cameras.main.width) / 2;
+    this.screenCenterY = (this.cameras.main.worldView.y + this.cameras.main.height) / 2;
     this.x = width ;
     this.y = 70;
     this.width = 148;
     this.height = 15;
 
-    this.rBack = this.add.rectangle(screenCenterX, this.y, this.width,this.height  , 0x000000);
-    this.rBar= this.add.rectangle(screenCenterX, this.y, 148, this.height, 0xff6699);
-    this.rBoarder = this.add.rectangle(screenCenterX, this.y, this.width, this.height);
+    this.add.rectangle(this.screenCenterX/2, this.y, this.width,this.height  , 0x000000);
+    this.dBar= this.add.rectangle(this.screenCenterX/2, this.y, 148, this.height, 0xff6699);
+    this.dBoarder = this.add.rectangle(this.screenCenterX/2, this.y, this.width, this.height);
+    this.dBoarder.setStrokeStyle(5, 0x000000);
 
-    this.rBoarder.setStrokeStyle(5, 0x000000);
+    this.add.rectangle(this.screenCenterX + this.screenCenterX/2 , this.y, this.width,this.height  , 0x000000);
+    this.cBar= this.add.rectangle(this.screenCenterX +this.screenCenterX/2, this.y, 148, this.height, 0xFFBF00);
+    this.cBoarder = this.add.rectangle(this.screenCenterX +this.screenCenterX/2 , this.y, this.width, this.height);
+    this.cBoarder.setStrokeStyle(5, 0x000000);
+    
 
     // -- timer -- //
     this.timetime();
     }
 
     update() {
+        this.fakeCoin +=0.1;
+        if(this.fakeCoin >= this.fakeMaxCoin){
+            this.fakeCoin = 0;
+        }
+        this.cBar.width = this.fakeCoin / this.fakeMaxCoin * this.width;
+
+
         this.countDown.update();
         if(this.player.dashCooldown){
             if(!this.istweenDash){
                 console.log("tweens")
                 this.tweens.add({
-                    targets: this.rBar,
+                    targets: this.dBar,
                     duration: 100,
                     width: 0.1,
                     yoyo: false,
@@ -63,7 +82,7 @@ export default class UI extends Phaser.Scene {
                         this.istweenDash = true;
                         //add new tween effect
                         this.tweens.add({
-                            targets: this.rBar,
+                            targets: this.dBar,
                             duration: 4900,
                             width: 148,
                             yoyo: false,
@@ -90,42 +109,43 @@ export default class UI extends Phaser.Scene {
                 child.destroy();
             }
         });
+        let heartOffset = [50];
 
             switch (this.player.health) {
                 case 6:
-                    this.add.image(this.x-250, this.y, 'heart');
-                    this.add.image(this.x-200, this.y, 'heart');
-                    this.add.image(this.x-150, this.y, 'heart');
+                    this.add.image(this.screenCenterX-heartOffset[0], this.y+heartOffset[0], 'heart');
+                    this.add.image(this.screenCenterX, this.y+heartOffset[0], 'heart');
+                    this.add.image(this.screenCenterX+heartOffset[0],this.y+heartOffset[0], 'heart');
                     break;
                 case 5:
-                    this.add.image(this.x-250, this.y, 'heart');
-                    this.add.image(this.x-200, this.y, 'heart');
-                    this.add.image(this.x-150, this.y, 'heartHalf');
+                    this.add.image(this.screenCenterX-heartOffset[0], this.y+heartOffset[0], 'heart');
+                    this.add.image(this.screenCenterX, this.y+heartOffset[0], 'heart');
+                    this.add.image(this.screenCenterX+heartOffset[0],this.y+heartOffset[0], 'heartHalf');
                     break;
                 case 4:
-                    this.add.image(this.x-250, this.y, 'heart');
-                    this.add.image(this.x-200, this.y, 'heart');
-                    this.add.image(this.x-150, this.y, 'heartEmpty');
+                    this.add.image(this.screenCenterX-heartOffset[0], this.y+heartOffset[0], 'heart');
+                    this.add.image(this.screenCenterX, this.y+heartOffset[0], 'heart');
+                    this.add.image(this.screenCenterX+heartOffset[0],this.y+heartOffset[0], 'heartEmpty');
                     break;
                 case 3:
-                    this.add.image(this.x-250, this.y, 'heart');
-                    this.add.image(this.x-200, this.y, 'heartHalf');
-                    this.add.image(this.x-150, this.y, 'heartEmpty');
+                    this.add.image(this.screenCenterX-heartOffset[0], this.y+heartOffset[0], 'heart');
+                    this.add.image(this.screenCenterX, this.y+heartOffset[0], 'heartHalf');
+                    this.add.image(this.screenCenterX+heartOffset[0],this.y+heartOffset[0], 'heartEmpty');
                     break;
                 case 2:
-                    this.add.image(this.x-250, this.y, 'heart');
-                    this.add.image(this.x-200, this.y, 'heartEmpty');
-                    this.add.image(this.x-150, this.y, 'heartEmpty');
+                    this.add.image(this.screenCenterX-heartOffset[0], this.y+heartOffset[0], 'heart');
+                    this.add.image(this.screenCenterX, this.y+heartOffset[0], 'heartEmpty');
+                    this.add.image(this.screenCenterX+heartOffset[0],this.y+heartOffset[0], 'heartEmpty');
                     break;
                 case 1:
-                    this.add.image(this.x-250, this.y, 'heartHalf');
-                    this.add.image(this.x-200, this.y, 'heartEmpty');
-                    this.add.image(this.x-150, this.y, 'heartEmpty');
+                    this.add.image(this.screenCenterX-heartOffset[0], this.y+heartOffset[0], 'heartHalf');
+                    this.add.image(this.screenCenterX, this.y+heartOffset[0], 'heartEmpty');
+                    this.add.image(this.screenCenterX+heartOffset[0],this.y+heartOffset[0], 'heartEmpty');
                     break;
                 case 0:
-                    this.add.image(this.x-250, this.y, 'heartEmpty');
-                    this.add.image(this.x-200, this.y, 'heartEmpty');
-                    this.add.image(this.x-150, this.y, 'heartEmpty');
+                    this.add.image(this.screenCenterX-heartOffset[0], this.y+heartOffset[0], 'heartEmpty');
+                    this.add.image(this.screenCenterX, this.y+heartOffset[0], 'heartEmpty');
+                    this.add.image(this.screenCenterX+heartOffset[0],this.y+heartOffset[0], 'heartEmpty');
                     break;
                 default:
                 break;
@@ -139,7 +159,7 @@ export default class UI extends Phaser.Scene {
     }
 
     timetime() {
-        this.timerLabel = this.add.text(50, 50, '0', { fontSize: '32px' });
+        this.timerLabel = this.add.text(this.screenCenterX-30, this.y-20, '0', { fontSize: '32px' });
 
         this.countDown = new CountdownController(this,this.timerLabel);
         this.countDown.start(this.handleCountdownFinished.bind(this),this.timeLimit);

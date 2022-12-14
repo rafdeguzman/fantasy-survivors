@@ -150,6 +150,7 @@ export default class GameScene extends Phaser.Scene {
       this.gameOver();
     }
     this.pause();
+    this.upgrade();
 
     this.crosshair.update(time, delta);
     this.player.update(time, delta);
@@ -178,6 +179,21 @@ export default class GameScene extends Phaser.Scene {
       this.scene.pause(SceneKeys.UI);
 
       this.scene.launch(SceneKeys.Pause);
+    }else{
+      this.cameras.main.alpha = 1;
+    }
+  }
+  upgrade(){
+    if(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G).isDown){
+      //change the tranparency of the current scene 
+      this.cameras.main.alpha = 0.5;  
+      this.scene.sendToBack(SceneKeys.UI);
+      this.scene.sendToBack(SceneKeys.Game);
+      
+      this.scene.pause(SceneKeys.Game);
+      this.scene.pause(SceneKeys.UI);
+
+      this.scene.launch(SceneKeys.Upgrade);
     }else{
       this.cameras.main.alpha = 1;
     }
