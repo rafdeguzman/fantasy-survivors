@@ -195,6 +195,7 @@ export default class Player extends GameEntity {
     takeDamage(damage: number): void{
         if (this.health <= 0){
             this.isDead = true;
+            this.scene.backgroundMusic.stop();
         }
         
         if (this.isInvulnerable) return

@@ -75,7 +75,7 @@ export default class GameScene extends Phaser.Scene {
     this.physics.world.setBounds(this.worldX, this.worldY, this.worldWidth, this.worldHeight, true, true, true, true );
 
     // -- Entities -- //
-    this.addPlayer(this, 100, 100);
+    this.addPlayer(this, this.worldWidth / 2, this.worldHeight / 2);
 
     // -- Groups -- //
     this.orcGroup = new OrcGroup(this);
