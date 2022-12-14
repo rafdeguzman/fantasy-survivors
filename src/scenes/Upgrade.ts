@@ -42,6 +42,7 @@ export default class Upgrade extends Phaser.Scene {
             fontSize: '20px',
             align: 'center'
         }).setOrigin(0.5).setInteractive().on('pointerdown', () => {
+            // speed upgrade
 
             this.scene.resume(SceneKeys.UI)
             this.scene.resume(SceneKeys.Game)
@@ -65,6 +66,8 @@ export default class Upgrade extends Phaser.Scene {
             fontSize: '20px',
             align: 'center'
         }).setOrigin(0.5).setInteractive().on('pointerdown', () => {
+            // increase firerate
+
             this.scene.resume(SceneKeys.UI)
             this.scene.resume(SceneKeys.Game)
             this.scene.stop()
@@ -87,6 +90,8 @@ export default class Upgrade extends Phaser.Scene {
             fontSize: '20px',
             align: 'center'
         }).setOrigin(0.5).setInteractive().on('pointerdown', () => {
+            // increase damage
+
             this.scene.resume(SceneKeys.Game)
             this.scene.resume(SceneKeys.UI)
             this.scene.stop()
