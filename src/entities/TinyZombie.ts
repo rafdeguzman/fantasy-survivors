@@ -1,39 +1,28 @@
 import BulletGroup from "../groups/BulletGroup";
 import Enemy from "./Enemy";
 import ZombieGroup from "../groups/ZombieGroup";
+import GLOBALS from "../Globals";
 
 
 export default class TinyZombie extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 250;
-    private health: number = 2;
-    private scene: any;
-
-    public enemyBullets: BulletGroup;
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
-        super(scene, x, y, 'tiny_zombie');
-        
-        this.scene = scene;
-
-        this.enemyBullets = new BulletGroup(scene);
-
-        this.initSprite();
-        this.initPhysics();
-        this.initAnimations();
+        super({
+            scene,
+            x,
+            y,
+            texture: 'tiny_zombie',
+            frame: 0,
+            maxHealth: GLOBALS.TINY_ZOMBIE_HEALTH
+        });
     }
 
     initSprite(): void{
-        // this.originY = 0.4;
         this.body.setCircle(8.5);
-        // this.body.setOffset(0, 3);
         this.setDisplaySize(70, 64);
-    }
-
-    initPhysics(): void{
-        this.scene.physics.add.existing(this);
-        this.scene.physics.world.disable(this);
     }
 
     initAnimations(): void{
@@ -58,31 +47,4 @@ export default class TinyZombie extends Enemy{
 
         !this.anims.isPlaying && this.anims.play('tiny_zombie_run', true);
     }
-
-    spawn(x: number, y: number): void {
-        this.scene.physics.world.enable(this);
-        this.body.reset(x, y);
-
-        this.setActive(true);
-        this.setVisible(true);
-        
-        this.initSprite();
-    }
-
-    takeDamage(damage: number): void {
-        this.health -= damage;
-        this.scene.enemyHitSound.play({volume: 0.5});
-        this.spriteFlicker();
-        if (this.health <= 0) {        
-            this.destroy();
-        }
-    }
-
-    spriteFlicker(): void{
-        this.setTint(0xff0000);
-        this.scene.time.delayedCall(100, () => {
-            this.clearTint();
-        });
-    }
-
 }

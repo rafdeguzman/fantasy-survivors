@@ -8,8 +8,6 @@ export default class Player extends GameEntity {
     public health: number = 6;
     public totalHealth: number = 6;
     public dashCooldown: boolean = false;
-    public currentCoins: number = 0;
-    public maxCoins: number = 1;
 
     private isDashing: boolean = false;
     public isDead: boolean = false;

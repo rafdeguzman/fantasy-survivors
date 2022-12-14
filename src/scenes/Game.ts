@@ -119,7 +119,7 @@ export default class GameScene extends Phaser.Scene {
     this.bigZombieTimer = this.time.addEvent({ delay: 5000, callback: this.addBigZombieToGroup, callbackScope: this, loop: true });
     this.ogreTimer = this.time.addEvent({ delay: 10000, callback: this.addOgreToGroup, callbackScope: this, loop: true });
     this.shamanTimer = this.time.addEvent({ delay: 5000, callback: this.addShamanToGroup, callbackScope: this, loop: true });
-    this.demonTimer = this.time.addEvent({ delay: 500000, callback: this.addDemonToGroup, callbackScope: this, loop: true });
+    this.demonTimer = this.time.addEvent({ delay: 1000, callback: this.addDemonToGroup, callbackScope: this, loop: true });
 
     this.timerEvents.push(this.orcTimer);
     this.timerEvents.push(this.necromancerTimer);
