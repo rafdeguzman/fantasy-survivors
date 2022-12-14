@@ -14,7 +14,7 @@ export default class Coin extends Phaser.Physics.Arcade.Sprite {
     }
 
     initSprite(): void {
-        this.setDisplaySize(100, 100);
+        this.setDisplaySize(32, 32);
         this.setOrigin(0.5, 0.5);
     }
 
@@ -44,10 +44,6 @@ export default class Coin extends Phaser.Physics.Arcade.Sprite {
     }
 
     pickup(): void {
-        console.log('coin picked up')
-        this.scene.physics.world.disable(this);
-        this.setActive(false);
-        this.setVisible(false);
         this.destroy();
     }
 }
