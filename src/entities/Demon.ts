@@ -5,10 +5,11 @@ import Enemy from "./Enemy";
 export default class Demon extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 150;
-    private health: number = 10;
+    private health: number = 300;
     private scene: any;
 
     private tick: number = 0;
+    private laserTick: number = 0;
 
     public enemyBullets: BulletGroup;
 
@@ -48,6 +49,7 @@ export default class Demon extends Enemy{
     // walk towards the player
     update(time: number, delta: number): void {
         this.tick += delta;
+        this.laserTick += delta;
         this.scene.physics.moveToObject(this, this.scene.player, this.SPEED);
 
         if (this.body.velocity.x > 0) { // walking right, facing rght
@@ -61,6 +63,7 @@ export default class Demon extends Enemy{
         !this.anims.isPlaying && this.anims.play('demon_run', true);
 
         this.handleShooting();
+        this.handleLaserShooting();
     }
 
     spawn(x: number, y: number): void {
@@ -78,6 +81,7 @@ export default class Demon extends Enemy{
         this.scene.enemyHitSound.play({volume: 0.5});
         this.spriteFlicker();
         if (this.health <= 0) {
+            console.log("demon dead");
             this.destroy();
         }
     }
@@ -98,7 +102,19 @@ export default class Demon extends Enemy{
     }
 
     shoot(): void {
-        this.enemyBullets.fireSpreadBullet(this, this.scene.player, 500);
+        this.enemyBullets.fireEightWayBullet(this, 500);
+    }
+
+    shootLaser(): void {
+        this.enemyBullets.fireAimedBullet(this, this.scene.player, 800);
+    }
+
+    handleLaserShooting(): void {
+        if (this.laserTick > 50) {
+            this.shootLaser();
+            this.scene.gunshotSound.play({volume: 0.1});
+            this.laserTick = 0;
+        }
     }
 
 }

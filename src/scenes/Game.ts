@@ -234,9 +234,16 @@ export default class GameScene extends Phaser.Scene {
     this.demonGroup.spawnEnemy(
       Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
 
+      console.log('demon spawned');
+
       this.orcTimer.remove();
       this.necromancerTimer.remove();
       this.bigZombieTimer.remove();
+      this.demonTimer.remove();
+
+      this.orcGroup.clear(true, true);
+      this.necromancerGroup.clear(true, true);
+      this.bigZombieGroup.clear(true, true);
   }
 
 }
