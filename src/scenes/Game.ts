@@ -13,6 +13,7 @@ import ZombieGroup from '../groups/ZombieGroup';
 import TinyZombieGroup from '../groups/TinyZombieGroup';
 import DemonGroup from '../groups/DemonGroup';
 import OgreGroup from '../groups/OgreGroup';
+import ShamanGroup from '../groups/ShamanGroup';
 
 export default class GameScene extends Phaser.Scene {
   public player: Player;
@@ -30,12 +31,14 @@ export default class GameScene extends Phaser.Scene {
   private zombieGroup: ZombieGroup;
   private tinyZombieGroup: TinyZombieGroup;
   private ogreGroup: OgreGroup;
+  private shamanGroup: ShamanGroup;
   private demonGroup: DemonGroup;
 
   private orcTimer: Phaser.Time.TimerEvent;
   private necromancerTimer: Phaser.Time.TimerEvent;
   private bigZombieTimer: Phaser.Time.TimerEvent;
   private ogreTimer: Phaser.Time.TimerEvent;
+  private shamanTimer: Phaser.Time.TimerEvent;
   private demonTimer: Phaser.Time.TimerEvent;
 
   private timerEvents: Phaser.Time.TimerEvent[] = [];
@@ -94,7 +97,9 @@ export default class GameScene extends Phaser.Scene {
     this.zombieGroup = new ZombieGroup(this);
     this.tinyZombieGroup = new TinyZombieGroup(this);
     this.ogreGroup = new OgreGroup(this);
+    this.shamanGroup = new ShamanGroup(this);
     this.demonGroup = new DemonGroup(this);
+
 
     // this.setupOverlaps();
 
@@ -105,16 +110,18 @@ export default class GameScene extends Phaser.Scene {
     this.setupCamera();
 
     this.orcTimer = this.time.addEvent({ delay: 3000, callback: this.addOrcToGroup, callbackScope: this, loop: true })
-    this.necromancerTimer = this.time.addEvent({ delay: 5000, callback: this.addNecromancerToGroup, callbackScope: this, loop: true });
-    this.bigZombieTimer = this.time.addEvent({ delay: 70000, callback: this.addBigZombieToGroup, callbackScope: this, loop: true });
+    this.necromancerTimer = this.time.addEvent({ delay: 10000, callback: this.addNecromancerToGroup, callbackScope: this, loop: true });
+    this.bigZombieTimer = this.time.addEvent({ delay: 15000, callback: this.addBigZombieToGroup, callbackScope: this, loop: true });
     this.ogreTimer = this.time.addEvent({ delay: 10000, callback: this.addOgreToGroup, callbackScope: this, loop: true });
-    // this.demonTimer = this.time.addEvent({ delay: 10000, callback: this.addDemonToGroup, callbackScope: this, loop: true });
+    this.shamanTimer = this.time.addEvent({ delay: 5000, callback: this.addShamanToGroup, callbackScope: this, loop: true });
+    this.demonTimer = this.time.addEvent({ delay: 60000, callback: this.addDemonToGroup, callbackScope: this, loop: true });
 
     this.timerEvents.push(this.orcTimer);
     this.timerEvents.push(this.necromancerTimer);
     this.timerEvents.push(this.bigZombieTimer);
     this.timerEvents.push(this.ogreTimer);
-    // this.timerEvents.push(this.demonTimer);
+    this.timerEvents.push(this.shamanTimer);
+    this.timerEvents.push(this.demonTimer);
 
 
     this.scene.sendToBack(SceneKeys.Game);
@@ -125,50 +132,11 @@ export default class GameScene extends Phaser.Scene {
     this.add.tileSprite(0, 0, 2560, 2560, 'map2').setOrigin(0, 0);
   }
 
-  setupOverlaps() {
-    this.physics.add.overlap(this.player.playerBullets, this.orcGroup, (bullet: Bullet, enemy: Enemy) => {
-      if (!bullet.active || !enemy.active)
-        return;
-
-      bullet.destroy();
-      enemy.takeDamage(GLOBALS.BULLET_DAMAGE);
-    });
-    this.physics.add.overlap(this.player.playerBullets, this.necromancerGroup, (bullet: Bullet, enemy: Enemy) => {
-      if (!bullet.active || !enemy.active)
-        return;
-
-      bullet.destroy();
-      enemy.takeDamage(GLOBALS.BULLET_DAMAGE);
-    });
-
-    this.physics.add.overlap(this.player.playerBullets, this.bigZombieGroup, (bullet: Bullet, enemy: Enemy) => {
-      if (!bullet.active || !enemy.active)
-        return;
-
-      bullet.destroy();
-      enemy.takeDamage(GLOBALS.BULLET_DAMAGE);
-    });
-
-    this.physics.add.overlap(this.player.playerBullets, this.zombieGroup, (bullet: Bullet, enemy: Enemy) => {
-      if (!bullet.active || !enemy.active)
-        return;
-
-      bullet.destroy();
-      enemy.takeDamage(GLOBALS.BULLET_DAMAGE);
-    });
-    this.physics.add.overlap(this.player.playerBullets, this.tinyZombieGroup, (bullet: Bullet, enemy: Enemy) => {
-      if (!bullet.active || !enemy.active)
-        return;
-
-      bullet.destroy();
-      enemy.takeDamage(GLOBALS.BULLET_DAMAGE);
-    });
-  }
-
   update(time: number, delta: number): void {
     if(this.player.isDead){
       this.gameOver();
     }
+
     this.pause();
 
     this.crosshair.update(time, delta);
@@ -180,6 +148,7 @@ export default class GameScene extends Phaser.Scene {
     this.tinyZombieGroup.update(time, delta);
     this.ogreGroup.update(time, delta);
     this.demonGroup.update(time, delta);
+    this.shamanGroup.update(time, delta);
   }
 
   gameOver(){
@@ -242,6 +211,11 @@ export default class GameScene extends Phaser.Scene {
       Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
   }
 
+  addShamanToGroup(): void {
+    this.shamanGroup.spawnEnemy(
+      Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
+  }
+
   addDemonToGroup(): void {
     this.demonGroup.spawnEnemy(
       Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
@@ -257,5 +231,4 @@ export default class GameScene extends Phaser.Scene {
       this.necromancerGroup.clear(true, true);
       this.bigZombieGroup.clear(true, true);
   }
-
 }

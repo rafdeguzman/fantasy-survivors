@@ -1,21 +1,19 @@
 import BulletGroup from "../groups/BulletGroup";
 import Enemy from "./Enemy";
-import ZombieGroup from "../groups/ZombieGroup";
 
-
-export default class BigZombie extends Enemy{
+export default class Shaman extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
-    readonly SPEED: number = 75;
-    private health: number = 7;
+    readonly SPEED: number = 100;
+    private health: number = 3;
     private scene: any;
 
-    private zombieGroup: ZombieGroup;
+    private tick: number = 0;
 
     public enemyBullets: BulletGroup;
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
-        super(scene, x, y, 'big_zombie');
+        super(scene, x, y, 'shaman');
         
         this.scene = scene;
 
@@ -27,10 +25,10 @@ export default class BigZombie extends Enemy{
     }
 
     initSprite(): void{
-        this.originY = 0.8;
-        this.body.setCircle(16);
-        this.body.setOffset(0, 10);
-        this.setDisplaySize(170, 224);
+        this.originY = 0.6;
+        this.body.setCircle(9);
+        this.body.setOffset(0, 3);
+        this.setDisplaySize(72, 112);
     }
 
     initPhysics(): void{
@@ -40,14 +38,16 @@ export default class BigZombie extends Enemy{
 
     initAnimations(): void{
         this.scene.anims.create({
-            key: 'big_zombie_run',
-            frames: this.scene.anims.generateFrameNames('big_zombie', {prefix: 'big_zombie_run_anim_f', start: 0, end: 3}),
+            key: 'shaman_run',
+            frames: this.scene.anims.generateFrameNames('shaman', {prefix: 'orc_shaman_run_anim_f', start: 0, end: 3}),
             frameRate: 10,
         });
     }
 
     // walk towards the player
     update(time: number, delta: number): void {
+        this.tick += delta
+
         this.scene.physics.moveToObject(this, this.scene.player, this.SPEED);
 
         if (this.body.velocity.x > 0) { // walking right, facing rght
@@ -58,7 +58,9 @@ export default class BigZombie extends Enemy{
         
         this.rotation = -this.scene.cameras.main.rotation;
 
-        !this.anims.isPlaying && this.anims.play('big_zombie_run', true);
+        !this.anims.isPlaying && this.anims.play('shaman_run', true);
+
+        this.handleShooting();
     }
 
     spawn(x: number, y: number): void {
@@ -75,10 +77,7 @@ export default class BigZombie extends Enemy{
         this.health -= damage;
         this.scene.enemyHitSound.play({volume: 0.5});
         this.spriteFlicker();
-        if (this.health <= 0) {        
-            this.scene.zombieGroup.spawnEnemy(this.x, this.y);
-            this.scene.zombieGroup.spawnEnemy(this.x + 50, this.y + 50);
-
+        if (this.health <= 0) {
             this.destroy();
         }
     }
@@ -90,4 +89,15 @@ export default class BigZombie extends Enemy{
         });
     }
 
+    handleShooting(): void {
+        if (this.tick > 1500) {
+            this.shoot();
+            this.scene.gunshotSound.play({volume: 0.1});
+            this.tick = 0;
+        }
+    }
+
+    shoot(): void {
+        this.enemyBullets.fireAimedBullet(this, this.scene.player, 500);
+    }
 }

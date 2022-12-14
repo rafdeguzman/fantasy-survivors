@@ -33,6 +33,7 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
         const bullet = this.getFirstDead(false);
 
         if (bullet) {
+            bullet.setSpeed(speed);
             // this is where you want to change bullet speed
             bullet.shootAimed(userRecoil, temp);
         }

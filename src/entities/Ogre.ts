@@ -74,10 +74,6 @@ export default class Ogre extends Enemy{
         this.scene.enemyHitSound.play({volume: 0.5});
         this.spriteFlicker();
         if (this.health <= 0) {
-            // spawn 2 zombies here
-            this.scene.zombieGroup.spawnEnemy(this.x, this.y);
-            this.scene.zombieGroup.spawnEnemy(this.x + 50, this.y + 50);
-        
             this.destroy();
         }
     }
