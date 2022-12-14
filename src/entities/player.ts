@@ -8,6 +8,8 @@ export default class Player extends GameEntity {
     public health: number = 6;
 
     public dashCooldown: boolean = false;
+    public currentCoins: number = 0;
+    public maxCoins: number = 15;
 
     private isDashing: boolean = false;
     public isDead: boolean = false;
@@ -22,11 +24,15 @@ export default class Player extends GameEntity {
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'knight');
 
-        this.keys = this.scene.input.keyboard.addKeys('W, A, S, D, Q, E, X, SPACE, L');
+        this.keys = this.scene.input.keyboard.addKeys('F ,W , A, S, D, Q, E, X, SPACE, L');
 
         this.scene.add.existing(this);
         
         this.playerBullets = new BulletGroup(this.scene);
+
+        this.currentCoins = 0;
+        this.maxCoins = 15;
+        
 
 
         this.initState();
@@ -63,6 +69,10 @@ export default class Player extends GameEntity {
 
     handleMovement(): void {
         this.body.setVelocity(0);
+        if (this.keys['F'].isDown) {
+            this.currentCoins += 1;
+            this.keys['F'].isDown = false;
+        }
 
         // cardinal directions
         if (this.keys['W'].isDown) {

@@ -184,8 +184,7 @@ export default class GameScene extends Phaser.Scene {
     }
   }
   upgrade(){
-    if(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G).isDown){
-      //change the tranparency of the current scene 
+    if(this.player.currentCoins >= this.player.maxCoins){
       this.cameras.main.alpha = 0.5;  
       this.scene.sendToBack(SceneKeys.UI);
       this.scene.sendToBack(SceneKeys.Game);
@@ -194,6 +193,7 @@ export default class GameScene extends Phaser.Scene {
       this.scene.pause(SceneKeys.UI);
 
       this.scene.launch(SceneKeys.Upgrade);
+      this.player.currentCoins = 0;
     }else{
       this.cameras.main.alpha = 1;
     }

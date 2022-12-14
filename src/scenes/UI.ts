@@ -63,8 +63,12 @@ export default class UI extends Phaser.Scene {
         if(this.fakeCoin >= this.fakeMaxCoin){
             this.fakeCoin = 0;
         }
-        this.cBar.width = this.fakeCoin / this.fakeMaxCoin * this.width;
-
+        if(this.player.currentCoins <= this.player.maxCoins){
+        this.cBar.width = this.player.currentCoins / this.player.maxCoins * this.width;
+        }
+        if(this.player.currentCoins >= this.player.maxCoins){
+            this.cBar.width = this.width;
+        }
 
         this.countDown.update();
         if(this.player.dashCooldown){

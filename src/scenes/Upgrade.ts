@@ -49,15 +49,13 @@ export default class Upgrade extends Phaser.Scene {
             fontFamily: 'VT323',
             fontSize: '20px',
             align: 'center'
-        }).setOrigin(0.5).setInteractive();
+        }).setOrigin(0.5).setInteractive().on('pointerdown', () => {
+            this.scene.resume(SceneKeys.UI)
+            this.scene.resume(SceneKeys.Game)
+            this.scene.stop()
+            });
 
         let cardC = this.add.container(screenCenterX, screenCenterY, [rectC, increase_speed_title, increase_speed_description, this.increase_speed_btn]);
-
-        this.increase_speed_btn.on('pointerdown', () => {
-            this.events.emit('upgrade-action-speed', 5);
-            // back to the game
-            this.scene.stop();
-        });
 
         // firerate upgrade
 
@@ -80,18 +78,13 @@ export default class Upgrade extends Phaser.Scene {
             fontFamily: 'VT323',
             fontSize: '20px',
             align: 'center'
-        }).setOrigin(0.5).setInteractive();
+        }).setOrigin(0.5).setInteractive().on('pointerdown', () => {
+            this.scene.resume(SceneKeys.UI)
+            this.scene.resume(SceneKeys.Game)
+            this.scene.stop()
+            });
 
         let cardR = this.add.container(screenCenterX + 350, screenCenterY, [rectR, increase_firerate_title, increase_firerate_description, this.increase_firerate_btn]);
-
-        this.increase_firerate_btn.on('pointerdown', () => {
-            this.events.emit('upgrade-action-firerate', 0.3); // set to 0.5 after debug
-            // back to the game
-            this.scene.stop();
-            this.scene.remove('increase_speed');
-            this.scene.remove('increase_damage');
-            this.scene.resume('game');
-        });
         
         // damage upgrade
 
@@ -114,19 +107,13 @@ export default class Upgrade extends Phaser.Scene {
             fontFamily: 'VT323',
             fontSize: '20px',
             align: 'center'
-        }).setOrigin(0.5).setInteractive();
+        }).setOrigin(0.5).setInteractive().on('pointerdown', () => {
+            this.scene.resume(SceneKeys.UI)
+            this.scene.resume(SceneKeys.Game)
+            this.scene.stop()
+            });
 
         let cardL = this.add.container(screenCenterX - 350, screenCenterY, [rectL, increase_damage_title, increase_damage_description, this.increase_damage_btn,]);
- 
-        this.increase_damage_btn.on('pointerdown', () => {
-            this.events.emit('upgrade-action-damage', 0.3);
-            
-            // back to the game
-            this.scene.stop();
-            this.scene.remove('increase_speed')
-            this.scene.remove('increase_firerate')
-            this.scene.resume('game');
-        });
     }
     update() {
         let increase_speed_btn_tmp = this.increase_speed_btn
