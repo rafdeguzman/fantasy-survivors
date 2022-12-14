@@ -25,10 +25,10 @@ export default class TinyZombie extends Enemy{
     }
 
     initSprite(): void{
-        this.originY = 0.8;
-        this.body.setCircle(16);
-        this.body.setOffset(0, 10);
-        this.setDisplaySize(170, 224);
+        // this.originY = 0.4;
+        this.body.setCircle(6);
+        // this.body.setOffset(0, 3);
+        this.setDisplaySize(35, 60);
     }
 
     initPhysics(): void{
@@ -56,7 +56,7 @@ export default class TinyZombie extends Enemy{
         
         this.rotation = -this.scene.cameras.main.rotation;
 
-        !this.anims.isPlaying && this.anims.play('big_zombie_run', true);
+        !this.anims.isPlaying && this.anims.play('tiny_zombie_run', true);
     }
 
     spawn(x: number, y: number): void {
