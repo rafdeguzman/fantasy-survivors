@@ -37,15 +37,7 @@ export default class Zombie extends Enemy{
 
     // walk towards the player
     update(time: number, delta: number): void {
-        this.scene.physics.moveToObject(this, this.scene.player, this.SPEED);
-
-        if (this.body.velocity.x > 0) { // walking right, facing rght
-            this.setFlipX(false);
-        } else if (this.body.velocity.x < 0) {  // walking left, facing left
-            this.setFlipX(true);
-        } 
-        
-        this.rotation = -this.scene.cameras.main.rotation;
+        super.update(time, delta);
 
         !this.anims.isPlaying && this.anims.play('zombie_run', true);
     }
