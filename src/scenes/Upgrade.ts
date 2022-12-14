@@ -29,52 +29,38 @@ export default class Upgrade extends Phaser.Scene {
 
         // speed upgrade
 
-        let rectC = this.add.image(0, 0, 'cardbg');
+        let rectC = this.add.image(0, 0, 'cardbg')
 
-        let increase_speed_title = this.add.text(0, -100, 'Increase\nSpeed', {
+        let increase_speed_title = this.add.text(0, -50, 'Increase\nSpeed', {
             fontFamily: 'VT323',
             fontSize: '20px',
             align: 'center'
         }).setOrigin(0.5);
 
-        let increase_speed_description = this.add.text(0, 0, 'Increases player\nvelocity by 5', {
-            fontFamily: 'VT323',
-            fontSize: '15px',
-            align: 'center',
-            wordWrap: { width: 200, useAdvancedWrap: true }
-            
-        }).setOrigin(0.5);
-
-        this.increase_speed_btn = this.add.text(0, 120, 'UPGRADE', {
+        this.increase_speed_btn = this.add.text(0, 60, 'UPGRADE', {
             fontFamily: 'VT323',
             fontSize: '20px',
             align: 'center'
         }).setOrigin(0.5).setInteractive().on('pointerdown', () => {
+
             this.scene.resume(SceneKeys.UI)
             this.scene.resume(SceneKeys.Game)
             this.scene.stop()
             });
-
-        let cardC = this.add.container(screenCenterX, screenCenterY, [rectC, increase_speed_title, increase_speed_description, this.increase_speed_btn]);
+        let textC = this.add.container(0,0, [increase_speed_title, this.increase_speed_btn]).setScale(2);
+        let cardC = this.add.container(screenCenterX, screenCenterY+50, [rectC,textC]).setScale(0.75);
 
         // firerate upgrade
 
         let rectR = this.add.image(0, 0, 'cardbg');
 
-        let increase_firerate_title = this.add.text(0, -100, 'Increase\nFire Rate', {
+        let increase_firerate_title = this.add.text(0, -50, 'Increase\nFire Rate', {
             fontFamily: 'VT323',
             fontSize: '20px',
             align: 'center'
         }).setOrigin(0.5);
 
-        let increase_firerate_description = this.add.text(0, 0, 'Increases fireate\nby 0.3', {
-            fontFamily: 'VT323',
-            fontSize: '15px',
-            align: 'center',
-            wordWrap: { width: 200, useAdvancedWrap: true }
-        }).setOrigin(0.5);
-
-        this.increase_firerate_btn = this.add.text(0, 120, 'UPGRADE', {
+        this.increase_firerate_btn = this.add.text(0, 60, 'UPGRADE', {
             fontFamily: 'VT323',
             fontSize: '20px',
             align: 'center'
@@ -83,37 +69,31 @@ export default class Upgrade extends Phaser.Scene {
             this.scene.resume(SceneKeys.Game)
             this.scene.stop()
             });
-
-        let cardR = this.add.container(screenCenterX + 350, screenCenterY, [rectR, increase_firerate_title, increase_firerate_description, this.increase_firerate_btn]);
+        let textR = this.add.container(0,0, [increase_firerate_title, this.increase_firerate_btn]).setScale(1.75);
+        let cardR = this.add.container(screenCenterX + 350, screenCenterY+50, [rectR, textR]).setScale(0.75);
         
         // damage upgrade
 
         let rectL = this.add.image(0, 0, 'cardbg');
 
-        let increase_damage_title = this.add.text(0, -100, 'Increase\nDamage', {
+        let increase_damage_title = this.add.text(0, -50, 'Increase\nDamage', {
             fontFamily: 'VT323',
             fontSize: '20px',
             align: 'center'
         }).setOrigin(0.5);
 
-        let increase_damage_description = this.add.text(0, 0, 'Increases bullet \ndamage by 0.3', {
-            fontFamily: 'VT323',
-            fontSize: '15px',
-            align: 'center',
-            wordWrap: { width: 200, useAdvancedWrap: true }
-        }).setOrigin(0.5);
-
-        this.increase_damage_btn = this.add.text(0, 120, 'UPGRADE', {
+        this.increase_damage_btn = this.add.text(0, 60, 'UPGRADE', {
             fontFamily: 'VT323',
             fontSize: '20px',
             align: 'center'
         }).setOrigin(0.5).setInteractive().on('pointerdown', () => {
-            this.scene.resume(SceneKeys.UI)
             this.scene.resume(SceneKeys.Game)
+            this.scene.resume(SceneKeys.UI)
             this.scene.stop()
             });
 
-        let cardL = this.add.container(screenCenterX - 350, screenCenterY, [rectL, increase_damage_title, increase_damage_description, this.increase_damage_btn,]);
+        let textL = this.add.container(0,0, [increase_damage_title, this.increase_damage_btn]).setScale(1.75);
+        let cardL = this.add.container(screenCenterX - 350, screenCenterY+50, [rectL,textL]).setScale(0.75);
     }
     update() {
         let increase_speed_btn_tmp = this.increase_speed_btn

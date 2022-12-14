@@ -185,6 +185,7 @@ export default class GameScene extends Phaser.Scene {
   }
   upgrade(){
     if(this.player.currentCoins >= this.player.maxCoins){
+      //change the tranparency of the of scene UI and 0.5
       this.cameras.main.alpha = 0.5;  
       this.scene.sendToBack(SceneKeys.UI);
       this.scene.sendToBack(SceneKeys.Game);

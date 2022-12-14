@@ -115,6 +115,25 @@ export default class UI extends Phaser.Scene {
         });
         let heartOffset = [50];
 
+        // for (let i = 0; i < 6/2; i++) {}
+
+        //  let healthLeft = this.player.health;
+
+        // for (let i = 0; i < this.player.totalHealth / 2; i++) {
+        //     if (healthLeft > 1) {
+        //         heartFrame = UserInterface.FULL_HEART;
+        //     }
+        //     else if (healthLeft === 1) {
+        //         heartFrame = UserInterface.HALF_HEART;
+        //     }
+        //     else {
+        //         heartFrame = UserInterface.EMPTY_HEART;
+        //     }
+
+        //     this.sprites[heartFrame].render(i * Tile.TILE_SIZE, 0);
+
+        //     healthLeft -= 2;
+        // }
             switch (this.player.health) {
                 case 6:
                     this.add.image(this.screenCenterX-heartOffset[0], this.y+heartOffset[0], 'heart');

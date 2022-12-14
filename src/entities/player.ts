@@ -9,7 +9,7 @@ export default class Player extends GameEntity {
 
     public dashCooldown: boolean = false;
     public currentCoins: number = 0;
-    public maxCoins: number = 15;
+    public maxCoins: number = 1;
 
     private isDashing: boolean = false;
     public isDead: boolean = false;
@@ -29,9 +29,6 @@ export default class Player extends GameEntity {
         this.scene.add.existing(this);
         
         this.playerBullets = new BulletGroup(this.scene);
-
-        this.currentCoins = 0;
-        this.maxCoins = 15;
         
 
 
