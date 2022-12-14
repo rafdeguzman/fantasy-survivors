@@ -48,7 +48,7 @@ export default class Enemy extends GameEntity{
     }
 
     dropCoin(): void {
-        if (Math.random() > 0.5) return;
+        if (Math.random() < 0.2)
 
         this.scene.coinGroup.spawnCoin(this.x, this.y);
     }

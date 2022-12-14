@@ -17,14 +17,11 @@ export default class CoinGroup extends Phaser.Physics.Arcade.Group {
             this.scene.player.addCoin();
             this.scene.coinSound.play({volume: 0.25});
             coin.pickup();
-            coin.active = false;
-            coin.visible = false;
-            coin.destroy();
         });
     }
 
     spawnCoin(x: number, y: number): void {
-        this.create(x, y);
+        this.create(x, y, 'coin', 0, false, false);
 
         const coin = this.getFirstDead(false);
 
