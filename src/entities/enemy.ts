@@ -5,7 +5,6 @@ import GameEntity from "./GameEntity";
 export default class Enemy extends GameEntity{
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 100;
-    private health: number = 2;
     private scene: any;
 
     private tick: number = 0;
@@ -48,7 +47,5 @@ export default class Enemy extends GameEntity{
 
         this.setActive(true);
         this.setVisible(true);
-        
-        this.initSprite();
     }
 }

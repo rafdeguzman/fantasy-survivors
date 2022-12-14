@@ -3,7 +3,7 @@ import Bullet from "../objects/Bullet";
 import Enemy from "./Enemy";
 import GameEntity from "./GameEntity";
 
-export default class Orc extends Enemy{
+export default class Zombie extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 100;
     private health: number = 5;
@@ -15,7 +15,7 @@ export default class Orc extends Enemy{
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
-        super(scene, x, y, 'orc');
+        super(scene, x, y, 'zombie');
         
         this.scene = scene;
 
@@ -30,7 +30,7 @@ export default class Orc extends Enemy{
         this.originY = 0.6;
         this.body.setCircle(9);
         this.body.setOffset(0, 3);
-        this.setDisplaySize(72, 112);
+        this.setDisplaySize(72, 84);
     }
 
     initPhysics(): void{
@@ -40,8 +40,8 @@ export default class Orc extends Enemy{
 
     initAnimations(): void{
         this.scene.anims.create({
-            key: 'orc_run',
-            frames: this.scene.anims.generateFrameNames('orc', {prefix: 'orc_run_', start: 0, end: 3}),
+            key: 'zombie_run',
+            frames: this.scene.anims.generateFrameNames('zombie', {prefix: 'zombie_run_anim_f', start: 0, end: 3}),
             frameRate: 10,
         });
     }
@@ -60,7 +60,7 @@ export default class Orc extends Enemy{
         
         this.rotation = -this.scene.cameras.main.rotation;
 
-        !this.anims.isPlaying && this.anims.play('orc_run', true);
+        !this.anims.isPlaying && this.anims.play('zombie_run', true);
     }
 
     spawn(x: number, y: number): void {
@@ -78,6 +78,8 @@ export default class Orc extends Enemy{
         this.scene.enemyHitSound.play({volume: 0.5});
         this.spriteFlicker();
         if (this.health <= 0) {
+            this.scene.tinyZombieGroup.spawnEnemy(this.x, this.y);
+            this.scene.tinyZombieGroup.spawnEnemy(this.x + 50, this.y + 50);
             this.destroy();
         }
     }

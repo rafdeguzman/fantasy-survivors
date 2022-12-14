@@ -1,21 +1,21 @@
 import BulletGroup from "../groups/BulletGroup";
-import Bullet from "../objects/Bullet";
 import Enemy from "./Enemy";
-import GameEntity from "./GameEntity";
+import ZombieGroup from "../groups/ZombieGroup";
 
-export default class Orc extends Enemy{
+
+export default class BigZombie extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
-    readonly SPEED: number = 100;
-    private health: number = 5;
+    readonly SPEED: number = 75;
+    private health: number = 10;
     private scene: any;
 
-    private tick: number = 0;
+    private zombieGroup: ZombieGroup;
 
     public enemyBullets: BulletGroup;
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
-        super(scene, x, y, 'orc');
+        super(scene, x, y, 'big_zombie');
         
         this.scene = scene;
 
@@ -27,10 +27,10 @@ export default class Orc extends Enemy{
     }
 
     initSprite(): void{
-        this.originY = 0.6;
-        this.body.setCircle(9);
-        this.body.setOffset(0, 3);
-        this.setDisplaySize(72, 112);
+        this.originY = 0.8;
+        this.body.setCircle(16);
+        this.body.setOffset(0, 10);
+        this.setDisplaySize(170, 224);
     }
 
     initPhysics(): void{
@@ -40,16 +40,14 @@ export default class Orc extends Enemy{
 
     initAnimations(): void{
         this.scene.anims.create({
-            key: 'orc_run',
-            frames: this.scene.anims.generateFrameNames('orc', {prefix: 'orc_run_', start: 0, end: 3}),
+            key: 'big_zombie_run',
+            frames: this.scene.anims.generateFrameNames('big_zombie', {prefix: 'big_zombie_run_anim_f', start: 0, end: 3}),
             frameRate: 10,
         });
     }
 
     // walk towards the player
     update(time: number, delta: number): void {
-        this.tick += delta
-
         this.scene.physics.moveToObject(this, this.scene.player, this.SPEED);
 
         if (this.body.velocity.x > 0) { // walking right, facing rght
@@ -60,7 +58,7 @@ export default class Orc extends Enemy{
         
         this.rotation = -this.scene.cameras.main.rotation;
 
-        !this.anims.isPlaying && this.anims.play('orc_run', true);
+        !this.anims.isPlaying && this.anims.play('big_zombie_run', true);
     }
 
     spawn(x: number, y: number): void {
@@ -78,6 +76,10 @@ export default class Orc extends Enemy{
         this.scene.enemyHitSound.play({volume: 0.5});
         this.spriteFlicker();
         if (this.health <= 0) {
+            // spawn 2 zombies here
+            this.scene.zombieGroup.spawnEnemy(this.x, this.y);
+            this.scene.zombieGroup.spawnEnemy(this.x + 50, this.y + 50);
+        
             this.destroy();
         }
     }
