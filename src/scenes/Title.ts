@@ -30,12 +30,14 @@ export default class Title extends Phaser.Scene {
          
     
         this.add.text(screenCenterX, screenCenterY, ' DUNGEON \nSURVIVORS', {
-            fontSize: '50px',
+            fontFamily: 'VT323',
+            fontSize: '70px',
             align: 'center'
         }).setOrigin(0.5);
 
-        this.playBtn=this.add.text(screenCenterX, screenCenterY + 200, 'Play', {
-            fontSize: '30px',
+        this.playBtn=this.add.text(screenCenterX, screenCenterY + 175, 'Play', {
+            fontFamily: 'VT323',
+            fontSize: '40px',
             align: 'center'
         }).setOrigin(0.5).setInteractive().on('pointerdown', () => {
             //add fade effect
@@ -46,7 +48,8 @@ export default class Title extends Phaser.Scene {
         });
 
         this.add.text(screenCenterX, screenCenterY + 250, 'How to play', {
-            fontSize: '30px',
+            fontFamily: 'VT323',
+            fontSize: '40px',
             align: 'center'
         }).setOrigin(0.5);
 
