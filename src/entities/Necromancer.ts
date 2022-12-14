@@ -4,7 +4,6 @@ import Enemy from "./Enemy";
 
 export default class Necromancer extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
-    readonly SPEED: number = 100;
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
@@ -60,6 +59,6 @@ export default class Necromancer extends Enemy{
     }
 
     shoot(): void {
-        this.enemyBullets.fireSpreadBullet(this, this.scene.player, 500);
+        this.enemyBullets.fireSpreadBullet(this, this.scene.player, GLOBALS.ENEMY_BULLET_SPEED);
     }
 }
