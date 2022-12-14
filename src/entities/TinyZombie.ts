@@ -5,8 +5,8 @@ import ZombieGroup from "../groups/ZombieGroup";
 
 export default class TinyZombie extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
-    readonly SPEED: number = 75;
-    private health: number = 10;
+    readonly SPEED: number = 150;
+    private health: number = 1;
     private scene: any;
 
     public enemyBullets: BulletGroup;
@@ -26,7 +26,7 @@ export default class TinyZombie extends Enemy{
 
     initSprite(): void{
         // this.originY = 0.4;
-        this.body.setCircle(6);
+        this.body.setCircle(8);
         // this.body.setOffset(0, 3);
         this.setDisplaySize(35, 60);
     }
@@ -73,11 +73,7 @@ export default class TinyZombie extends Enemy{
         this.health -= damage;
         this.scene.enemyHitSound.play({volume: 0.5});
         this.spriteFlicker();
-        if (this.health <= 0) {
-            // spawn 2 zombies here
-            this.scene.zombieGroup.spawnEnemy(this.x, this.y);
-            this.scene.zombieGroup.spawnEnemy(this.x + 50, this.y + 50);
-        
+        if (this.health <= 0) {        
             this.destroy();
         }
     }
