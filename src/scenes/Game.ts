@@ -11,6 +11,7 @@ import NecromancerGroup from '../groups/NecromancerGroup';
 import BigZombieGroup from '../groups/BigZombieGroup';
 import ZombieGroup from '../groups/ZombieGroup';
 import TinyZombieGroup from '../groups/TinyZombieGroup';
+import DemonGroup from '../groups/DemonGroup';
 
 export default class GameScene extends Phaser.Scene {
   public player: Player;
@@ -27,6 +28,12 @@ export default class GameScene extends Phaser.Scene {
   private bigZombieGroup: BigZombieGroup;
   private zombieGroup: ZombieGroup;
   private tinyZombieGroup: TinyZombieGroup;
+  private demonGroup: DemonGroup;
+
+  private orcTimer: Phaser.Time.TimerEvent;
+  private necromancerTimer: Phaser.Time.TimerEvent;
+  private bigZombieTimer: Phaser.Time.TimerEvent;
+  private demonTimer: Phaser.Time.TimerEvent;
 
   private timerEvents: Phaser.Time.TimerEvent[] = [];
 
@@ -83,6 +90,7 @@ export default class GameScene extends Phaser.Scene {
     this.bigZombieGroup = new BigZombieGroup(this);
     this.zombieGroup = new ZombieGroup(this);
     this.tinyZombieGroup = new TinyZombieGroup(this);
+    this.demonGroup = new DemonGroup(this);
 
     this.setupOverlaps();
 
@@ -92,9 +100,16 @@ export default class GameScene extends Phaser.Scene {
     // -- Camera -- //
     this.setupCamera();
 
-    this.timerEvents.push(this.time.addEvent({ delay: 3000, callback: this.addOrcToGroup, callbackScope: this, loop: true }));
-    this.timerEvents.push(this.time.addEvent({ delay: 5000, callback: this.addNecromancerToGroup, callbackScope: this, loop: true }));
-    this.timerEvents.push(this.time.addEvent({ delay: 1000, callback: this.addBigZombieToGroup, callbackScope: this, loop: true }));
+    this.orcTimer = this.time.addEvent({ delay: 3000, callback: this.addOrcToGroup, callbackScope: this, loop: true })
+    this.necromancerTimer = this.time.addEvent({ delay: 5000, callback: this.addNecromancerToGroup, callbackScope: this, loop: true });
+    this.bigZombieTimer = this.time.addEvent({ delay: 70000, callback: this.addBigZombieToGroup, callbackScope: this, loop: true });
+    this.demonTimer = this.time.addEvent({ delay: 10000, callback: this.addDemonToGroup, callbackScope: this, loop: true })
+
+    this.timerEvents.push(this.orcTimer);
+    this.timerEvents.push(this.necromancerTimer);
+    this.timerEvents.push(this.bigZombieTimer);
+    this.timerEvents.push(this.demonTimer);
+
 
     this.scene.sendToBack(SceneKeys.Game);
     this.scene.launch(SceneKeys.UI,{player :this.player});
@@ -157,6 +172,7 @@ export default class GameScene extends Phaser.Scene {
     this.bigZombieGroup.update(time, delta);
     this.zombieGroup.update(time, delta);
     this.tinyZombieGroup.update(time, delta);
+    this.demonGroup.update(time, delta);
   }
 
   gameOver(){
@@ -213,4 +229,14 @@ export default class GameScene extends Phaser.Scene {
     this.zombieGroup.spawnEnemy(
       Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
   }
+
+  addDemonToGroup(): void {
+    this.demonGroup.spawnEnemy(
+      Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
+
+      this.orcTimer.remove();
+      this.necromancerTimer.remove();
+      this.bigZombieTimer.remove();
+  }
+
 }
