@@ -2,7 +2,6 @@ import BulletGroup from "../groups/BulletGroup";
 import Enemy from "./Enemy";
 import ZombieGroup from "../groups/ZombieGroup";
 
-
 export default class BigZombie extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 75;

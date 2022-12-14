@@ -2,7 +2,7 @@ import BulletGroup from "../groups/BulletGroup";
 import Enemy from "./Enemy";
 
 
-export default class Demon extends Enemy{
+export default class Demon extends Enemy {
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 150;
     private health: number = 300;

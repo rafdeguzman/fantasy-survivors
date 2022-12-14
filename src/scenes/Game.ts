@@ -131,7 +131,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   setupMap() {
-    this.add.tileSprite(0, 0, 2560, 2560, 'map2').setOrigin(0, 0);
+    this.add.tileSprite(0, 0, 2560, 2560, 'map').setOrigin(0, 0);
   }
 
   update(time: number, delta: number): void {
