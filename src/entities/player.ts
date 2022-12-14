@@ -6,7 +6,7 @@ export default class Player extends GameEntity {
     private SPEED: number = 500;
     private isInvulnerable: boolean = false;
     public health: number = 6;
-
+    public totalHealth: number = 6;
     public dashCooldown: boolean = false;
     public currentCoins: number = 0;
     public maxCoins: number = 1;
@@ -40,7 +40,7 @@ export default class Player extends GameEntity {
         this.scene.add.existing(this);
         
         this.playerBullets = new BulletGroup(this.scene);
-        
+
 
 
         this.initState();
@@ -237,7 +237,7 @@ export default class Player extends GameEntity {
     }    
 
     takeDamage(damage: number): void{
-        if (this.health <0){
+        if (this.health<= 0){
             this.health = 0;
             this.isDead = true;
             this.scene.backgroundMusic.stop();

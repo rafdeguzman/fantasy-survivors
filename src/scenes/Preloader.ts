@@ -34,6 +34,9 @@ export default class Preloader extends Phaser.Scene {
         //ref:https://www.artstation.com/artwork/QrYv8E
         this.load.image('bg', './assets/title/bg.jpeg');
 
+        //ref:https://rare-gallery.com/970611-digital-art-pixel-art-pixels-pixelated-grave-cemetery-.html
+        this.load.image('go', './assets/gameover/go.jpg');
+
         //--Heart--//
         this.load.image('heart', './assets/hearts/ui_heart_full.png');
         this.load.image('heartEmpty', './assets/hearts/ui_heart_empty.png');
@@ -54,6 +57,6 @@ export default class Preloader extends Phaser.Scene {
     }
 
     create() {
-        this.scene.start(SceneKeys.Game)
+        this.scene.start(SceneKeys.GameOver)
     }
 }
