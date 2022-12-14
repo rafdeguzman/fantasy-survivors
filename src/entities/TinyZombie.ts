@@ -7,7 +7,6 @@ import GLOBALS from "../Globals";
 export default class TinyZombie extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 250;
-    public enemyBullets: BulletGroup;
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
@@ -19,10 +18,6 @@ export default class TinyZombie extends Enemy{
             frame: 0,
             maxHealth: GLOBALS.TINY_ZOMBIE_HEALTH
         });
-        this.enemyBullets = new BulletGroup(scene);
-
-        this.initSprite();
-        this.initAnimations();
     }
 
     initSprite(): void{

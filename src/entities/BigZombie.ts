@@ -19,11 +19,7 @@ export default class BigZombie extends Enemy{
             frame: 0,
             maxHealth: GLOBALS.BIG_ZOMBIE_HEALTH
         });
-
         this.enemyBullets = new BulletGroup(scene);
-
-        this.initSprite();
-        this.initAnimations();
     }
 
     initSprite(): void{

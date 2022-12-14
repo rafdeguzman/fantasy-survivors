@@ -1,3 +1,4 @@
+import GLOBALS from "../Globals";
 import BulletGroup from "../groups/BulletGroup";
 import Enemy from "./Enemy";
 
@@ -13,15 +14,16 @@ export default class Shaman extends Enemy{
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
-        super(scene, x, y, 'shaman');
-        
-        this.scene = scene;
+        super({
+            scene,
+            x,
+            y,
+            texture: 'shaman',
+            frame: 0,
+            maxHealth: GLOBALS.SHAMAN_HEALTH
+        });
 
         this.enemyBullets = new BulletGroup(scene);
-
-        this.initSprite();
-        this.initPhysics();
-        this.initAnimations();
     }
 
     initSprite(): void{

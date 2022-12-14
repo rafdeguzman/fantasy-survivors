@@ -1,6 +1,7 @@
 import BulletGroup from "../groups/BulletGroup";
 import Bullet from "../objects/Bullet";
 import GameEntity from "./GameEntity";
+import GLOBALS from "../Globals";
 
 export default class Enemy extends GameEntity{
     declare body: Phaser.Physics.Arcade.Body;
@@ -10,6 +11,7 @@ export default class Enemy extends GameEntity{
     private maxHealth: number;
 
     public enemyBullets: BulletGroup;
+    public firerateTick = 0;
 
     constructor({
         scene,
@@ -27,6 +29,10 @@ export default class Enemy extends GameEntity{
         this.scene = scene;
 
         this.initPhysics();
+        this.initSprite();
+        this.initAnimations();
+
+        this.enemyBullets = new BulletGroup(scene);
     }
 
     initPhysics(): void{
@@ -85,5 +91,10 @@ export default class Enemy extends GameEntity{
     // to override for all enemies
     initSprite(): void{
         
+    }
+
+    // to override for all enemies
+    initAnimations(): void{
+
     }
 }

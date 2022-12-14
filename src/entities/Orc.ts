@@ -8,8 +8,6 @@ export default class Orc extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 100;
 
-    public enemyBullets: BulletGroup;
-
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
         // super(scene, x, y, 'orc');
@@ -20,12 +18,7 @@ export default class Orc extends Enemy{
             texture: 'orc',
             frame: 0,
             maxHealth: GLOBALS.ORC_HEALTH
-        })
-
-        this.enemyBullets = new BulletGroup(scene);
-
-        this.initSprite();
-        this.initAnimations();
+        });
     }
 
     initSprite(): void{
