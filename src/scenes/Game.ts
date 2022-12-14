@@ -109,6 +109,8 @@ export default class GameScene extends Phaser.Scene {
     // -- Camera -- //
     this.setupCamera();
 
+    // -- Timers -- //
+    
     this.orcTimer = this.time.addEvent({ delay: 3000, callback: this.addOrcToGroup, callbackScope: this, loop: true })
     this.necromancerTimer = this.time.addEvent({ delay: 10000, callback: this.addNecromancerToGroup, callbackScope: this, loop: true });
     this.bigZombieTimer = this.time.addEvent({ delay: 15000, callback: this.addBigZombieToGroup, callbackScope: this, loop: true });

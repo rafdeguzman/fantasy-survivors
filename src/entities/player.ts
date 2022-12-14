@@ -131,11 +131,11 @@ export default class Player extends GameEntity {
     }
 
     dashMovement(): void {
-        this.SPEED *= 5
+        this.SPEED *= 7.5;
             this.scene.time.addEvent({
                 delay: 100,
                 callback: () => {
-                    this.SPEED /= 5;
+                    this.SPEED /= 7.5;
                     
                     this.isDashing = false;
 
