@@ -140,6 +140,7 @@ export default class GameScene extends Phaser.Scene {
     }
 
     this.pause();
+    this.upgrade();
 
     this.crosshair.update(time, delta);
     this.player.update(time, delta);
@@ -171,6 +172,22 @@ export default class GameScene extends Phaser.Scene {
       this.scene.pause(SceneKeys.UI);
 
       this.scene.launch(SceneKeys.Pause);
+    }else{
+      this.cameras.main.alpha = 1;
+    }
+  }
+  upgrade(){
+    if(this.player.currentCoins >= this.player.maxCoins){
+      //change the tranparency of the of scene UI and 0.5
+      this.cameras.main.alpha = 0.5;  
+      this.scene.sendToBack(SceneKeys.UI);
+      this.scene.sendToBack(SceneKeys.Game);
+      
+      this.scene.pause(SceneKeys.Game);
+      this.scene.pause(SceneKeys.UI);
+
+      this.scene.launch(SceneKeys.Upgrade);
+      this.player.currentCoins = 0;
     }else{
       this.cameras.main.alpha = 1;
     }

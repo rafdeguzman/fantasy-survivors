@@ -8,6 +8,8 @@ export default class Player extends GameEntity {
     public health: number = 6;
 
     public dashCooldown: boolean = false;
+    public currentCoins: number = 0;
+    public maxCoins: number = 1;
 
     private isDashing: boolean = false;
     public isDead: boolean = false;
@@ -27,13 +29,13 @@ export default class Player extends GameEntity {
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'knight');
-
+        
         this.keys = this.scene.input.keyboard.addKeys('W, A, S, D, Q, E, X, SPACE, R, ONE, TWO, THREE, FOUR');
-
 
         this.scene.add.existing(this);
         
         this.playerBullets = new BulletGroup(this.scene);
+        
 
 
         this.initState();
@@ -232,7 +234,8 @@ export default class Player extends GameEntity {
     }    
 
     takeDamage(damage: number): void{
-        if (this.health <= 0){
+        if (this.health <0){
+            this.health = 0;
             this.isDead = true;
             this.scene.backgroundMusic.stop();
         }

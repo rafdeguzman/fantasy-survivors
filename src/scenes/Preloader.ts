@@ -41,6 +41,8 @@ export default class Preloader extends Phaser.Scene {
 
         // Audio
         this.load.audio('music', './assets/sound/music/abc.mp3');  // abc polyphia 8bit ver
+        
+        this.load.image('cardbg', './assets/upgrade/cardbg.png');
         this.load.audio('playerHit', './assets/sound/playerHit.wav');
         this.load.audio('gunShot', './assets/sound/gunShot.wav');
         this.load.audio('enemyHit', './assets/sound/enemyHit.wav');
@@ -52,6 +54,6 @@ export default class Preloader extends Phaser.Scene {
     }
 
     create() {
-        this.scene.start(SceneKeys.Title)
+        this.scene.start(SceneKeys.Game)
     }
 }
