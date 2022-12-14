@@ -113,72 +113,30 @@ export default class UI extends Phaser.Scene {
                 child.destroy();
             }
         });
-        let heartOffset = [50];
+        let heartOffsetX = [50,0,-50];
+        let heartOffsetY = 50
+        let healthLeft = this.player.health;
+        console.log(this.player.health)
 
-        // for (let i = 0; i < 6/2; i++) {}
-
-        //  let healthLeft = this.player.health;
-
-        // for (let i = 0; i < this.player.totalHealth / 2; i++) {
-        //     if (healthLeft > 1) {
-        //         heartFrame = UserInterface.FULL_HEART;
-        //     }
-        //     else if (healthLeft === 1) {
-        //         heartFrame = UserInterface.HALF_HEART;
-        //     }
-        //     else {
-        //         heartFrame = UserInterface.EMPTY_HEART;
-        //     }
-
-        //     this.sprites[heartFrame].render(i * Tile.TILE_SIZE, 0);
-
-        //     healthLeft -= 2;
-        // }
-            switch (this.player.health) {
-                case 6:
-                    this.add.image(this.screenCenterX-heartOffset[0], this.y+heartOffset[0], 'heart');
-                    this.add.image(this.screenCenterX, this.y+heartOffset[0], 'heart');
-                    this.add.image(this.screenCenterX+heartOffset[0],this.y+heartOffset[0], 'heart');
-                    break;
-                case 5:
-                    this.add.image(this.screenCenterX-heartOffset[0], this.y+heartOffset[0], 'heart');
-                    this.add.image(this.screenCenterX, this.y+heartOffset[0], 'heart');
-                    this.add.image(this.screenCenterX+heartOffset[0],this.y+heartOffset[0], 'heartHalf');
-                    break;
-                case 4:
-                    this.add.image(this.screenCenterX-heartOffset[0], this.y+heartOffset[0], 'heart');
-                    this.add.image(this.screenCenterX, this.y+heartOffset[0], 'heart');
-                    this.add.image(this.screenCenterX+heartOffset[0],this.y+heartOffset[0], 'heartEmpty');
-                    break;
-                case 3:
-                    this.add.image(this.screenCenterX-heartOffset[0], this.y+heartOffset[0], 'heart');
-                    this.add.image(this.screenCenterX, this.y+heartOffset[0], 'heartHalf');
-                    this.add.image(this.screenCenterX+heartOffset[0],this.y+heartOffset[0], 'heartEmpty');
-                    break;
-                case 2:
-                    this.add.image(this.screenCenterX-heartOffset[0], this.y+heartOffset[0], 'heart');
-                    this.add.image(this.screenCenterX, this.y+heartOffset[0], 'heartEmpty');
-                    this.add.image(this.screenCenterX+heartOffset[0],this.y+heartOffset[0], 'heartEmpty');
-                    break;
-                case 1:
-                    this.add.image(this.screenCenterX-heartOffset[0], this.y+heartOffset[0], 'heartHalf');
-                    this.add.image(this.screenCenterX, this.y+heartOffset[0], 'heartEmpty');
-                    this.add.image(this.screenCenterX+heartOffset[0],this.y+heartOffset[0], 'heartEmpty');
-                    break;
-                case 0:
-                    this.add.image(this.screenCenterX-heartOffset[0], this.y+heartOffset[0], 'heartEmpty');
-                    this.add.image(this.screenCenterX, this.y+heartOffset[0], 'heartEmpty');
-                    this.add.image(this.screenCenterX+heartOffset[0],this.y+heartOffset[0], 'heartEmpty');
-                    break;
-                default:
-                break;
+        for (let i = 0; i < this.player.totalHealth / 2; i++) {
+                if (healthLeft > 1) {
+                    console.log("full")
+                    this.add.image(this.screenCenterX-heartOffsetX[i], this.y+heartOffsetY, 'heart');
+                }
+                else if (healthLeft === 1) {
+                    this.add.image(this.screenCenterX-heartOffsetX[i], this.y+heartOffsetY, 'heartHalf');
+                }
+                else {
+                    this.add.image(this.screenCenterX-heartOffsetX[i],this.y+heartOffsetY, 'heartEmpty');
+                }
+                healthLeft -=2 ;
         }   
                 // scale all images to 1.5 
-                this.children.each(function (child) {
-                    if (child instanceof Phaser.GameObjects.Image) {
-                        child.setScale(2.5);
-                    }
-                });
+        this.children.each(function (child) {
+            if (child instanceof Phaser.GameObjects.Image) {
+                child.setScale(2.5);
+            }
+        });        
     }
 
     timetime() {

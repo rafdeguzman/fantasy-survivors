@@ -14,6 +14,8 @@ export default class Title extends Phaser.Scene {
 
         // background
         let background = this.add.image(screenCenterX, screenCenterY, "bg")
+
+        background.setTint(0xFFBF00 )
         
         background.displayWidth = this.sys.canvas.width +100;
         background.displayHeight = this.sys.canvas.height +100;
