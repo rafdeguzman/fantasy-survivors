@@ -28,6 +28,13 @@ export default class ZombieGroup extends Phaser.Physics.Arcade.Group {
             bullet.destroy();
             player.takeDamage(GLOBALS.BULLET_DAMAGE);
         });        
+        
+        this.scene.physics.add.overlap(enemy, this.scene.player.playerBullets, (enemy: Enemy, bullet: Bullet) => {
+            if (!bullet.active || !enemy.active) return;
+            
+            bullet.destroy();
+            enemy.takeDamage(GLOBALS.BULLET_DAMAGE);
+            });
     }
 
     spawnEnemy(x: number, y: number): void {

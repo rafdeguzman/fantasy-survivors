@@ -1,19 +1,19 @@
 import BulletGroup from "../groups/BulletGroup";
 import Enemy from "./Enemy";
+import ZombieGroup from "../groups/ZombieGroup";
 
-export default class Necromancer extends Enemy{
+
+export default class Ogre extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
-    readonly SPEED: number = 100;
-    private health: number = 3;
+    readonly SPEED: number = 75;
+    private health: number = 7;
     private scene: any;
-
-    private tick: number = 0;
 
     public enemyBullets: BulletGroup;
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
-        super(scene, x, y, 'necromancer');
+        super(scene, x, y, 'big_zombie');
         
         this.scene = scene;
 
@@ -25,10 +25,10 @@ export default class Necromancer extends Enemy{
     }
 
     initSprite(): void{
-        this.originY = 0.6;
-        this.body.setCircle(9);
-        this.body.setOffset(0, 3);
-        this.setDisplaySize(72, 112);
+        this.originY = 0.8;
+        this.body.setCircle(16);
+        this.body.setOffset(0, 10);
+        this.setDisplaySize(170, 224);
     }
 
     initPhysics(): void{
@@ -38,16 +38,14 @@ export default class Necromancer extends Enemy{
 
     initAnimations(): void{
         this.scene.anims.create({
-            key: 'necromancer_run',
-            frames: this.scene.anims.generateFrameNames('necromancer', {prefix: 'necromancer_run_', start: 0, end: 3}),
+            key: 'ogre_run',
+            frames: this.scene.anims.generateFrameNames('ogre', {prefix: 'ogre_run_anim_f', start: 0, end: 3}),
             frameRate: 10,
         });
     }
 
     // walk towards the player
     update(time: number, delta: number): void {
-        this.tick += delta
-
         this.scene.physics.moveToObject(this, this.scene.player, this.SPEED);
 
         if (this.body.velocity.x > 0) { // walking right, facing rght
@@ -58,9 +56,7 @@ export default class Necromancer extends Enemy{
         
         this.rotation = -this.scene.cameras.main.rotation;
 
-        !this.anims.isPlaying && this.anims.play('necromancer_run', true);
-
-        this.handleShooting();
+        !this.anims.isPlaying && this.anims.play('ogre_run', true);
     }
 
     spawn(x: number, y: number): void {
@@ -78,7 +74,6 @@ export default class Necromancer extends Enemy{
         this.scene.enemyHitSound.play({volume: 0.5});
         this.spriteFlicker();
         if (this.health <= 0) {
-            this.enemyBullets.fireEightWayBullet(this, 500);
             this.destroy();
         }
     }
@@ -90,15 +85,4 @@ export default class Necromancer extends Enemy{
         });
     }
 
-    handleShooting(): void {
-        if (this.tick > 1500) {
-            this.shoot();
-            this.scene.gunshotSound.play({volume: 0.1});
-            this.tick = 0;
-        }
-    }
-
-    shoot(): void {
-        this.enemyBullets.fireSpreadBullet(this, this.scene.player, 500);
-    }
 }

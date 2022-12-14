@@ -6,7 +6,7 @@ import GameEntity from "./GameEntity";
 export default class Orc extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 100;
-    private health: number = 5;
+    private health: number = 3;
     private scene: any;
 
     private tick: number = 0;
