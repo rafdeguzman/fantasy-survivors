@@ -30,6 +30,8 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
         let temp = {x: recoilX, y: recoilY};    // this temp is supposed to be the target with recoil
 
         this.scene.cameras.main.shake(100, 0.005);
+        this.scene.gunshotSound.play({ volume: 0.25 });
+        
         const bullet = this.getFirstDead(false);
 
         if (bullet) {
@@ -48,6 +50,7 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
         }
 
         this.scene.cameras.main.shake(100, 0.005);
+        this.scene.gunshotSound.play({ volume: 0.25 });
 
         // shoot each bullet
         for (let i = 0; i < 5; i++) {
@@ -67,6 +70,7 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
         }
 
         this.scene.cameras.main.shake(100, 0.005);
+        this.scene.gunshotSound.play({ volume: 0.25 });
 
         for (let i = 0; i < 8; i++) {
             const bullet = this.getFirstDead(false);
@@ -85,6 +89,7 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
         }
 
         this.scene.cameras.main.shake(100, 0.005);
+        this.scene.gunshotSound.play({ volume: 0.25 });
 
         for (let i = 0; i < 8; i++) {
             this.rotatorAngle += 30;
@@ -103,6 +108,7 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
         }
 
         this.scene.cameras.main.shake(100, 0.005);
+        this.scene.gunshotSound.play({ volume: 0.25 });
 
         for (let i = 0; i < 8; i++) {
             const bullet = this.getFirstDead(false);
@@ -122,6 +128,7 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
         }
 
         this.scene.cameras.main.shake(100, 0.005);
+        this.scene.gunshotSound.play({ volume: 0.25 });
 
         for (let i = 0; i < 8; i++) {
             const bullet = this.getFirstDead(false);

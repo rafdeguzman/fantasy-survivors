@@ -22,6 +22,11 @@ export default class Player extends GameEntity {
 
     public playerBullets: BulletGroup;
 
+    public currentCoins: number = 0;
+    public potionCount: number = 0;
+
+    public maxCoins: number = 15;
+    public maxPotions: number = 3;
     // implement coins
     // implement potions
 
@@ -182,8 +187,6 @@ export default class Player extends GameEntity {
 
     handleShooting(): void {
         if (this.scene.game.input.activePointer.isDown && this.tick >= this.firerateTick) {
-            this.scene.gunshotSound.play({ volume: 0.25 });
-
             if (this.currentWeapon == 2)
                 this.playerBullets.fireSpreadBullet(this, this.scene.crosshair, GLOBALS.PLAYER_BULLET_SPEED, 'player_bullet');
             else if (this.currentWeapon == 4)
@@ -275,5 +278,9 @@ export default class Player extends GameEntity {
         this.scene.time.delayedCall(200, () => {
             this.clearTint();
         });
+    }
+
+    addCoin(): void{
+        this.currentCoins++;
     }
 }

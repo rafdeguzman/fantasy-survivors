@@ -96,7 +96,6 @@ export default class Demon extends Enemy {
     handleShooting(): void {
         if (this.tick > 500) {
             this.shoot();
-            this.scene.gunshotSound.play({volume: 0.1});
             this.tick = 0;
         }
     }
@@ -112,7 +111,6 @@ export default class Demon extends Enemy {
     handleLaserShooting(): void {
         if (this.laserTick > 50) {
             this.shootLaser();
-            this.scene.gunshotSound.play({volume: 0.1});
             this.laserTick = 0;
         }
     }
