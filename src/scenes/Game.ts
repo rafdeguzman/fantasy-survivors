@@ -10,6 +10,7 @@ import SceneKeys from '../enums/SceneKeys'
 import NecromancerGroup from '../groups/NecromancerGroup';
 import BigZombieGroup from '../groups/BigZombieGroup';
 import ZombieGroup from '../groups/ZombieGroup';
+import TinyZombieGroup from '../groups/TinyZombieGroup';
 
 export default class GameScene extends Phaser.Scene {
   public player: Player;
@@ -25,6 +26,7 @@ export default class GameScene extends Phaser.Scene {
   private necromancerGroup: NecromancerGroup;
   private bigZombieGroup: BigZombieGroup;
   private zombieGroup: ZombieGroup;
+  private tinyZombieGroup: TinyZombieGroup;
 
   private timerEvents: Phaser.Time.TimerEvent[] = [];
 
@@ -80,6 +82,7 @@ export default class GameScene extends Phaser.Scene {
     this.necromancerGroup = new NecromancerGroup(this);
     this.bigZombieGroup = new BigZombieGroup(this);
     this.zombieGroup = new ZombieGroup(this);
+    this.tinyZombieGroup = new TinyZombieGroup(this);
 
     this.setupOverlaps();
 
@@ -132,6 +135,13 @@ export default class GameScene extends Phaser.Scene {
       bullet.destroy();
       enemy.takeDamage(GLOBALS.BULLET_DAMAGE);
     });
+    this.physics.add.overlap(this.player.playerBullets, this.tinyZombieGroup, (bullet: Bullet, enemy: Enemy) => {
+      if (!bullet.active || !enemy.active)
+        return;
+
+      bullet.destroy();
+      enemy.takeDamage(GLOBALS.BULLET_DAMAGE);
+    });
   }
 
   update(time: number, delta: number): void {
@@ -147,6 +157,7 @@ export default class GameScene extends Phaser.Scene {
     this.necromancerGroup.update(time, delta);
     this.bigZombieGroup.update(time, delta);
     this.zombieGroup.update(time, delta);
+    this.tinyZombieGroup.update(time, delta);
   }
 
   gameOver(){
