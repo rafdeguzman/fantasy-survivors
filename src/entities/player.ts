@@ -159,7 +159,7 @@ export default class Player extends GameEntity {
         this.scene.time.addEvent({
             delay: 5000,
             callback: () => {
-                this.flashWhite();
+                this.flashBlue();
                 this.dashCooldown = false;
                 this.scene.dodgeCdSound.play({volume: 0.5});
             }
@@ -265,7 +265,7 @@ export default class Player extends GameEntity {
         });
     }
 
-    flashWhite(): void{
+    flashBlue(): void{
         this.setTint(0x1f51ff);
         this.scene.time.delayedCall(200, () => {
             this.clearTint();
