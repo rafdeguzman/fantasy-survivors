@@ -77,13 +77,6 @@ export default class Title extends Phaser.Scene {
                 this.scene.start(SceneKeys.Game);
             });
         });
-
-        this.add.text(screenCenterX, screenCenterY + 250, 'How to play', {
-            fontFamily: 'VT323',
-            fontSize: '40px',
-            align: 'center'
-        }).setOrigin(0.5);
-
     }
 
     knightGoLeft(): void {
