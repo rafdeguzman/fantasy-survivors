@@ -7,6 +7,7 @@ enum SceneKeys {
     GameOver='GameOverScene',
     Win='WinScene',
     Upgrade='UpgradeScene',
+    HighScore='HighScoreScene'
 }
 
 export default SceneKeys;
