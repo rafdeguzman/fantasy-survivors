@@ -1,8 +1,12 @@
 import Phaser from 'phaser'
 import SceneKeys from '../enums/SceneKeys'
 export default class Win extends Phaser.Scene {
+    public player: any;
     constructor() {
         super(SceneKeys.Win)
+    }
+    init(data: any){
+        this.player = data.player;
     }
     create() {
         const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
@@ -21,7 +25,7 @@ export default class Win extends Phaser.Scene {
         }).setOrigin(0.5);
 
         this.input.keyboard.on('keydown-ENTER', () => {
-            this.scene.start(SceneKeys.Title)
+            this.scene.start(SceneKeys.HighScore, {player: this.player})
         });
     }
 }

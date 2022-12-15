@@ -27,8 +27,8 @@ export default class Coin extends GameItem {
     }
 
     pickup(): void {
+        super.pickup();
         this.scene.player.addCoin();
         this.scene.coinSound.play({volume: 0.25});
-        super.pickup();
     }
 }

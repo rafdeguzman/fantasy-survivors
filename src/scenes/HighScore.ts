@@ -11,10 +11,10 @@ export default class HighScore extends Phaser.Scene {
     constructor() {
         super(SceneKeys.HighScore)
     }
+    init(data: any){
+        this.score = data.player.coinsPickedUp;
+    }
     create() {
-
-        
-
         this.screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
         this.screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
         let background = this.add.image(this.screenCenterX, this.screenCenterY, "bgWP")
@@ -59,7 +59,6 @@ export default class HighScore extends Phaser.Scene {
         this.input.keyboard.on('keydown-ENTER', () => {
             //get the high score array from local storage
             this.highScoreArray = JSON.parse(localStorage.getItem('highScoreArray'));
-            this.score = Math.floor(Math.random() * 1000);
             this.name = textEntry.text;
             if(this.name.length > 0){
                 //slap the new score on the end of the array

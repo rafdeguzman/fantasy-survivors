@@ -1,8 +1,13 @@
 import Phaser from 'phaser'
+import Player from '../entities/Player';
 import SceneKeys from '../enums/SceneKeys'
 export default class GameOver extends Phaser.Scene {
+    public player: Player;
     constructor() {
         super(SceneKeys.GameOver)
+    }
+    init(data: any){
+        this.player = data.player;
     }
     create() {
         const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
@@ -27,7 +32,7 @@ export default class GameOver extends Phaser.Scene {
         }).setOrigin(0.5);
 
         this.input.keyboard.on('keydown-ENTER', () => {
-            this.scene.start(SceneKeys.Title)
+            this.scene.start(SceneKeys.HighScore, {player: this.player})
         });
     }
 }

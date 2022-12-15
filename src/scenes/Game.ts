@@ -177,7 +177,7 @@ export default class GameScene extends Phaser.Scene {
     this.scene.stop(SceneKeys.Game);
     this.scene.stop(SceneKeys.UI);
     this.scene.stop(SceneKeys.Pause);
-    this.scene.start(SceneKeys.GameOver);
+    this.scene.start(SceneKeys.GameOver, {player: this.player});
   }
 
   pause(){
@@ -283,6 +283,6 @@ export default class GameScene extends Phaser.Scene {
       this.scene.stop(SceneKeys.Game);
       this.scene.stop(SceneKeys.UI);
       this.scene.stop(SceneKeys.Pause);
-      this.scene.start(SceneKeys.Win);
+      this.scene.start(SceneKeys.Win, {player: this.player});
     }
   }

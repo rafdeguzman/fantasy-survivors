@@ -36,6 +36,8 @@ export default class Player extends GameEntity {
     public bonusDashCooldown: number = 0;
     public bonusIFrames: number = 0;
 
+    public coinsPickedUp: number = 0;
+
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'knight');
         
@@ -282,6 +284,7 @@ export default class Player extends GameEntity {
 
     addCoin(): void {
         this.currentCoins++;
+        this.coinsPickedUp++;
     }
 
     addPotion(): void {
