@@ -46,7 +46,7 @@ export default class UI extends Phaser.Scene {
     this.y = 70;
     this.width = 148;
     this.height = 15;
-    
+
     this.add.rectangle(this.screenCenterX/2, this.y, this.width,this.height  , 0x000000);
     this.dBar= this.add.rectangle(this.screenCenterX/2, this.y, 148, this.height, 0x00FFFF); 
     this.dBoarder = this.add.rectangle(this.screenCenterX/2, this.y, this.width, this.height);
@@ -142,17 +142,14 @@ export default class UI extends Phaser.Scene {
         }
 
 
+        this.refreshUIScene();
         this.healthStatus();
+        this.potionNumber();
         
     }
+
     healthStatus() {
-        //remove all images
-        this.children.each(function (child) {
-            if (child instanceof Phaser.GameObjects.Image) {
-                child.destroy();
-            }
-        });
-        let heartOffsetX = [50,0,-50];
+        let heartOffsetX = [40,0,-40];
         let heartOffsetY = 50
         let healthLeft = this.player.health;
 
@@ -174,6 +171,30 @@ export default class UI extends Phaser.Scene {
                 child.setScale(2.5);
             }
         });        
+    }
+
+    potionNumber() {
+        let potionOffsetX = [-40,0,40];
+        let potionOffsetY = 84
+
+        for (let i = 0; i < this.player.potions; i++) {
+            this.add.image(this.screenCenterX + potionOffsetX[i], this.y + potionOffsetY, 'health_pot');
+        }
+
+        // scale all images to 1.5
+        this.children.each(function (child) {
+            if (child instanceof Phaser.GameObjects.Image) {
+                child.setScale(2.5);
+            }
+        });
+    }
+
+    refreshUIScene(): void {
+        this.children.each(function (child) {
+            if (child instanceof Phaser.GameObjects.Image) {
+                child.destroy();
+            }
+        });
     }
 
     timetime() {
