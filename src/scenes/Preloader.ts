@@ -74,6 +74,6 @@ export default class Preloader extends Phaser.Scene {
         if(localStorage.getItem('highScoreArray') == null){
             localStorage.setItem('highScoreArray', '[]')
         }
-        this.scene.start(SceneKeys.Title);
+        this.scene.start(SceneKeys.Win);
     }
 }
