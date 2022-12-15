@@ -17,6 +17,7 @@ import Demon from '../entities/Demon';
 import Zombie from '../entities/Zombie';
 import TinyZombie from '../entities/TinyZombie';
 import Coin from '../objects/Coin';
+import Potion from '../objects/Potion';
 
 export default class GameScene extends Phaser.Scene {
   public player: Player;
@@ -34,6 +35,7 @@ export default class GameScene extends Phaser.Scene {
   private demonGroup: EnemyFactory;
   
   public coinGroup: ItemGroup;
+  public potionGroup: ItemGroup;
 
   private orcTimer: Phaser.Time.TimerEvent;
   private necromancerTimer: Phaser.Time.TimerEvent;
@@ -53,6 +55,8 @@ export default class GameScene extends Phaser.Scene {
   public dodgeSound: Phaser.Sound.BaseSound;
   public dodgeCdSound: Phaser.Sound.BaseSound;
   public coinSound: Phaser.Sound.BaseSound;
+  public potionSound: Phaser.Sound.BaseSound;
+  public potionPickupSound: Phaser.Sound.BaseSound;
 
   private worldX: number = 32;
   private worldY: number = 96;
@@ -79,6 +83,8 @@ export default class GameScene extends Phaser.Scene {
     this.dodgeSound = this.sound.add('dodge');
     this.dodgeCdSound = this.sound.add('dodgeCd');
     this.coinSound = this.sound.add('pickup');
+    this.potionSound = this.sound.add('potion_consume');
+    this.potionPickupSound = this.sound.add('potion_pickup');
 
     this.input.setPollAlways();
 
@@ -105,6 +111,7 @@ export default class GameScene extends Phaser.Scene {
     ]
 
     this.coinGroup = new ItemGroup(this, Coin, 'coin');
+    this.potionGroup = new ItemGroup(this, Potion, 'potion');
 
     // -- Events -- //
     
@@ -137,9 +144,8 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update(time: number, delta: number): void {
-    if(this.player.isDead){
-      this.gameOver();
-    }
+    if(this.player.isDead)  this.gameOver();
+    
 
     this.pause();
     this.upgrade();
@@ -152,6 +158,7 @@ export default class GameScene extends Phaser.Scene {
     });
 
     this.coinGroup.update(time, delta);
+    this.potionGroup.update(time, delta);
   }
 
   gameOver(){

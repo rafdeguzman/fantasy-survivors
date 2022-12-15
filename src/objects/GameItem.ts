@@ -34,7 +34,6 @@ export default class GameItem extends Phaser.Physics.Arcade.Sprite {
     }
 
     pickup(): void {
-
         this.scene.physics.world.disable(this);
         this.setActive(false);
         this.setVisible(false);
