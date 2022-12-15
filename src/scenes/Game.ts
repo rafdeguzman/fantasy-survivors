@@ -171,7 +171,7 @@ export default class GameScene extends Phaser.Scene {
     this.coinGroup.update(time, delta);
     this.potionGroup.update(time, delta);
 
-    // if l key is pressed
+    // // if l key is pressed
     if (this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L).isDown) {
       this.winEvent();
     }
@@ -242,16 +242,6 @@ export default class GameScene extends Phaser.Scene {
           this.factoryGroups[1].spawnEnemy(Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
         }
         break;
-      // case EnemyTypes.BigZombie:
-      // case EnemyTypes.Ogre:
-      // case EnemyTypes.Chort:
-      // case EnemyTypes.Wogol:
-      //   this.factoryGroups.forEach(factory => {
-      //     if(factory.enemyType === type){
-      //       factory.spawnEnemy(Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
-      //     }
-      //   });
-      //   break;
       default:
         this.factoryGroups.forEach(factory => {
           if(factory.enemyType === type){

@@ -8,6 +8,8 @@ export default class HighScore extends Phaser.Scene {
     private highScoreArray: any;
     private screenCenterX : number = 0;
     private screenCenterY : number = 0;
+
+    private backgroundMusic: Phaser.Sound.BaseSound;
     constructor() {
         super(SceneKeys.HighScore)
     }
@@ -15,6 +17,12 @@ export default class HighScore extends Phaser.Scene {
         this.score = data.player.coinsPickedUp;
     }
     create() {
+        this.backgroundMusic = this.sound.add('highscore_music');
+        this.backgroundMusic.play({
+            loop: true,
+            volume: 0.25
+        });
+
         this.screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
         this.screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
         let background = this.add.image(this.screenCenterX, this.screenCenterY, "bgWP")
@@ -79,6 +87,7 @@ export default class HighScore extends Phaser.Scene {
                 this.input.keyboard.removeAllListeners('keydown-ENTER');
                 // expect the escape key to be pressed
                 this.input.keyboard.on('keydown-ESC', () => {
+                    this.backgroundMusic.stop();
                     this.scene.start(SceneKeys.Title)
                 });
             

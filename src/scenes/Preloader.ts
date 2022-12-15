@@ -53,6 +53,7 @@ export default class Preloader extends Phaser.Scene {
         this.load.audio('gameover_music', './assets/sound/music/goat.mp3');  // abc polyphia 8bit ver
         this.load.audio('victory_music', './assets/sound/music/reverie.mp3');  // abc polyphia 8bit ver
         this.load.audio('title_music', './assets/sound/music/playinggod.mp3');  // abc polyphia 8bit ver
+        this.load.audio('highscore_music', './assets/sound/music/goose.mp3');  // abc polyphia 8bit ver
         
         this.load.image('cardbg', './assets/upgrade/cardbg.png');
         this.load.audio('playerHit', './assets/sound/playerHit.wav');
@@ -74,6 +75,6 @@ export default class Preloader extends Phaser.Scene {
         if(localStorage.getItem('highScoreArray') == null){
             localStorage.setItem('highScoreArray', '[]')
         }
-        this.scene.start(SceneKeys.GameOver);
+        this.scene.start(SceneKeys.Title);
     }
 }

@@ -76,6 +76,7 @@ export default class GameOver extends Phaser.Scene {
         }).setOrigin(0.5);
 
         this.input.keyboard.on('keydown-ENTER', () => {
+            this.backgroundMusic.stop();
             this.scene.start(SceneKeys.HighScore, {player: this.player})
         });
     }
