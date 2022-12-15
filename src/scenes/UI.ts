@@ -141,11 +141,9 @@ export default class UI extends Phaser.Scene {
             }
         }
 
-
         this.refreshUIScene();
         this.healthStatus();
         this.potionNumber();
-        
     }
 
     healthStatus() {

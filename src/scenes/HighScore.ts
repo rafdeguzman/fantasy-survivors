@@ -37,17 +37,16 @@ export default class HighScore extends Phaser.Scene {
         this.input.keyboard.on('keydown', function (event) {
     
             // limit the name to 10 characters
-            if (textEntry.text.length < 8)
-            {
-            if (event.keyCode === 8 && textEntry.text.length > 0)
-            {
-                textEntry.text = textEntry.text.substr(0, textEntry.text.length - 1);
-            }
-            else if (event.keyCode === 32 || (event.keyCode >= 48 && event.keyCode < 90))
-            {
-                textEntry.text += event.key;
-            }
-        }
+            if (textEntry.text.length < 8){
+                if (event.keyCode === 8 && textEntry.text.length > 0)
+                {
+                    textEntry.text = textEntry.text.substr(0, textEntry.text.length - 1);
+                }
+                else if (event.keyCode === 32 || (event.keyCode >= 48 && event.keyCode < 90))
+                {
+                    textEntry.text += event.key;
+                }
+            }   
         });
 
         this.input.keyboard.on('keydown-ENTER', () => {

@@ -60,7 +60,8 @@ export default class Preloader extends Phaser.Scene {
         this.load.audio('potion_consume', './assets/sound/potionConsume.wav')
         this.load.audio('potion_pickup', './assets/sound/pickupPotion.wav')
     
-        
+        // Data
+        this.load.json('scores', './scores/scores.json');        
     }
 
     create() {
@@ -68,7 +69,8 @@ export default class Preloader extends Phaser.Scene {
         if(localStorage.getItem('highScoreArray') == null){
             localStorage.setItem('highScoreArray', '[]')
         }
-        this.scene.start(SceneKeys.HighScore)
 
+
+        this.scene.start(SceneKeys.HighScore)
     }
 }
