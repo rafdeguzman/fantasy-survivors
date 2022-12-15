@@ -134,7 +134,7 @@ export default class UI extends Phaser.Scene {
     }
 
     timetime() {
-        this.timerLabel = this.add.text(this.screenCenterX-30, this.y-20, '0', { fontSize: '32px' });
+        this.timerLabel = this.add.text(this.screenCenterX-40, this.y-40, '0', { fontSize: '65px',fontFamily: 'VT323',align: 'center', fill: '#ffffff' });
 
         this.countDown = new CountdownController(this,this.timerLabel);
         this.countDown.start(this.handleCountdownFinished.bind(this),this.timeLimit);
