@@ -9,7 +9,7 @@ export default class Player extends GameEntity {
     public totalHealth: number = 6;
     public dashCooldown: boolean = false;
 
-    private healed: boolean = false;
+    public healed: boolean = false;
 
     private isDashing: boolean = false;
     public isDead: boolean = false;
@@ -29,6 +29,10 @@ export default class Player extends GameEntity {
 
     public maxCoins: number = 15;
     public maxPotions: number = 3;
+
+    public bonusMoveSpeed: number = 0;
+    public bonusFireRate: number = 0;
+    public bonusDamage: number = 0;
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'knight');
@@ -228,13 +232,16 @@ export default class Player extends GameEntity {
             console.log('8 way');
         }
         if (this.keys['R'].isDown && this.potions > 0 && !this.healed)  {
-            console.log('potion used');
-            this.scene.potionSound.play({volume: 0.5});
+            this.consumePotion();
+        }
+    }
+
+    consumePotion(): void {
+        this.scene.potionSound.play({volume: 0.5});
             this.health = 6;
             this.potions--;
             this.healed = true;
             this.potionCounter();
-        }
     }
 
     update(time: number, delta: number): void {

@@ -18,10 +18,16 @@ export default class UI extends Phaser.Scene {
     private fakeCoin : number = 50;
     private fakeMaxCoin : number = 150;
 
+    private pBar: Phaser.GameObjects.Rectangle;
+    private pBoarder: Phaser.GameObjects.Rectangle;
+
     private timeLimit: number = 300000;
     private countDown: CountdownController;
     private timerLabel: Phaser.GameObjects.Text;
     private istweenDash: boolean = false;
+
+    private isPotionTweening: boolean = false;
+
     constructor() {
         super(SceneKeys.UI)
     }
@@ -42,7 +48,7 @@ export default class UI extends Phaser.Scene {
     this.height = 15;
 
     this.add.rectangle(this.screenCenterX/2, this.y, this.width,this.height  , 0x000000);
-    this.dBar= this.add.rectangle(this.screenCenterX/2, this.y, 148, this.height, 0xff6699);
+    this.dBar= this.add.rectangle(this.screenCenterX/2, this.y, 148, this.height, 0x00FF00); 
     this.dBoarder = this.add.rectangle(this.screenCenterX/2, this.y, this.width, this.height);
     this.dBoarder.setStrokeStyle(5, 0x000000);
 
@@ -50,6 +56,11 @@ export default class UI extends Phaser.Scene {
     this.cBar= this.add.rectangle(this.screenCenterX +this.screenCenterX/2, this.y, 148, this.height, 0xFFBF00);
     this.cBoarder = this.add.rectangle(this.screenCenterX +this.screenCenterX/2 , this.y, this.width, this.height);
     this.cBoarder.setStrokeStyle(5, 0x000000);
+
+    this.add.rectangle(this.screenCenterX / 2, this.y * 1.25, this.width,this.height  , 0x000000);
+    this.pBar= this.add.rectangle(this.screenCenterX / 2, this.y * 1.25, 148, this.height, 0xff6699);
+    this.pBoarder = this.add.rectangle(this.screenCenterX / 2, this.y * 1.25, this.width, this.height);
+    this.pBoarder.setStrokeStyle(5, 0x000000);
     
 
     // -- timer -- //
@@ -98,11 +109,43 @@ export default class UI extends Phaser.Scene {
                 this.istweenDash = true;
             }
         }
+
+        // tween the heal
+        if(this.player.healed) {
+            if(!this.isPotionTweening) {
+                this.tweens.add({
+                    targets: this.pBar,
+                    duration: 100,
+                    width: 0.1,
+                    yoyo: false,
+                    repeat: 0,
+                    ease: 'Power0',
+                    onComplete: () => {
+                        this.isPotionTweening = true;
+                        //add new tween effect
+                        this.tweens.add({
+                            targets: this.pBar,
+                            duration: 9900,
+                            width: 148,
+                            yoyo: false,
+                            repeat: 0,
+                            ease: 'Power0',
+                            onComplete: () => {
+                                this.isPotionTweening = false;
+                            }
+                        });
+                    },
+            
+                });
+                this.isPotionTweening = true;
+            }
+        }
+
+
         this.healthStatus();
         
     }
     healthStatus() {
-
         //remove all images
         this.children.each(function (child) {
             if (child instanceof Phaser.GameObjects.Image) {
