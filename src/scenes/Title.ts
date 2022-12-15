@@ -9,7 +9,6 @@ export default class Title extends Phaser.Scene {
     private demonSprite: Phaser.Physics.Arcade.Sprite;
     private chortSprite: Phaser.Physics.Arcade.Sprite;
 
-
     private backgroundMusic: Phaser.Sound.BaseSound;
 
     constructor() {
@@ -155,9 +154,6 @@ export default class Title extends Phaser.Scene {
                 this.chortReset();
             }
         }
-        
-        
-
 
         let playTmp= this.playBtn;
 

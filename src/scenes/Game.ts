@@ -170,6 +170,11 @@ export default class GameScene extends Phaser.Scene {
 
     this.coinGroup.update(time, delta);
     this.potionGroup.update(time, delta);
+
+    // if l key is pressed
+    if (this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L).isDown) {
+      this.winEvent();
+    }
   }
 
   gameOver(){
@@ -280,6 +285,7 @@ export default class GameScene extends Phaser.Scene {
 
     // change to win state
     winEvent(): void {
+      this.backgroundMusic.stop();
       this.scene.stop(SceneKeys.Game);
       this.scene.stop(SceneKeys.UI);
       this.scene.stop(SceneKeys.Pause);
