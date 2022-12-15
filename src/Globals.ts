@@ -1,4 +1,5 @@
 const GLOBALS = {
+    BULLET_SPEED: 500,
     PLAYER_SPEED: 500,
     BULLET_DAMAGE: 1,
     ENEMY_DAMAGE: 1,

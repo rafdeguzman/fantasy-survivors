@@ -16,7 +16,8 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
         });
     }
 
-    fireAimedBullet(shooter: Phaser.GameObjects.GameObject, target: Phaser.GameObjects.GameObject, speed: number = GLOBALS.BULLET_SPEED, texture?: string): void {
+    fireAimedBullet(shooter: Phaser.GameObjects.GameObject, target: Phaser.GameObjects.GameObject, 
+        speed: number = GLOBALS.BULLET_SPEED, texture?: string, damage: number = 1): void {
         this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
 
         let recoilX = target.x + Phaser.Math.Between(-25, 25);
@@ -36,13 +37,14 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
 
         if (bullet) {
             if (texture) bullet.setTexture(texture);
+            bullet.setDamage(damage);
             bullet.setSpeed(speed);
             // this is where you want to change bullet speed
             bullet.shootAimed(userRecoil, temp);
         }
     }
 
-    fireSpreadBullet(shooter: Phaser.GameObjects.GameObject, target: Phaser.GameObjects.GameObject, speed: number = GLOBALS.BULLET_SPEED, texture?: string): void {
+    fireSpreadBullet(shooter: Phaser.GameObjects.GameObject, target: Phaser.GameObjects.GameObject, speed: number = GLOBALS.BULLET_SPEED, texture?: string, damage: number = 1): void {
 
         // create 5 bullets, change shooter x and y to randomize the spread
         for (let i = 0; i < 5; i++) {
@@ -58,13 +60,14 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
             if (bullet) {
                 if (texture) bullet.setTexture(texture);
                 bullet.setSpeed(speed);
+                bullet.setDamage(damage);
                 // we subtract 30 so that the 3rd bullet is the center
                 bullet.shootAngledAimed(shooter, target, (15 * i) - 30);
             }
         }
     }
 
-    fireEightWayRotatingBulletv2(shooter: Phaser.GameObjects.GameObject, speed: number = GLOBALS.BULLET_SPEED, texture?: string): void {
+    fireEightWayRotatingBulletv2(shooter: Phaser.GameObjects.GameObject, speed: number = GLOBALS.BULLET_SPEED, texture?: string, damage: number = 1): void {
         for (let i = 0; i < 8; i++) {
             this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
         }
@@ -102,7 +105,7 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
         }
     }
 
-    fireEightWayRotatingBulletv3(shooter: Phaser.GameObjects.GameObject, speed: number = GLOBALS.BULLET_SPEED, texture?: string): void {
+    fireEightWayRotatingBulletv3(shooter: Phaser.GameObjects.GameObject, speed: number = GLOBALS.BULLET_SPEED, texture?: string, damage: number = 1): void {
         for (let i = 0; i < 8; i++) {
             this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
         }
@@ -121,7 +124,7 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
         }
     }
 
-    fireEightWayBullet(shooter: Phaser.GameObjects.GameObject, speed: number = GLOBALS.BULLET_SPEED, texture?: string): void {
+    fireEightWayBullet(shooter: Phaser.GameObjects.GameObject, speed: number = GLOBALS.BULLET_SPEED, texture?: string, damage: number = 1): void {
 
         for (let i = 0; i < 8; i++) {
             this.create(shooter.x, shooter.y, 'bullet', 0, false, false);
@@ -134,6 +137,7 @@ export default class BulletGroup extends Phaser.Physics.Arcade.Group {
             const bullet = this.getFirstDead(false);
             if (bullet) {
                 if (texture) bullet.setTexture(texture);
+                bullet.setDamage(damage);
                 bullet.setSpeed(speed);
                 bullet.shootAngled(shooter, 45 * i);
             }

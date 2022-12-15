@@ -27,12 +27,14 @@ export default class Player extends GameEntity {
     public currentCoins: number = 0;
     public potions: number = 0;
 
-    public maxCoins: number = 15;
+    public maxCoins: number = 1;
     public maxPotions: number = 3;
 
     public bonusMoveSpeed: number = 0;
     public bonusFireRate: number = 0;
     public bonusDamage: number = 0;
+    public bonusDashCooldown: number = 0;
+    public bonusIFrames: number = 0;
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'knight');
@@ -80,41 +82,45 @@ export default class Player extends GameEntity {
 
         // cardinal directions
         if (this.keys['W'].isDown) {
-            this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation - Math.PI / 2, this.SPEED, this.body.velocity)
+            this.move(-Math.PI / 2)
             !this.anims.isPlaying && this.anims.play('knight_run', true);
         }
         if (this.keys['A'].isDown) {
-            this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation - Math.PI, this.SPEED, this.body.velocity)
+            this.move(-Math.PI)
             this.flipX = true;
             !this.anims.isPlaying && this.anims.play('knight_run', true);
         }
         if (this.keys['S'].isDown) {
-            this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation + Math.PI / 2, this.SPEED, this.body.velocity)
+            this.move(Math.PI / 2)
             !this.anims.isPlaying && this.anims.play('knight_run', true);
         }
         if (this.keys['D'].isDown) {
-            this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation, this.SPEED, this.body.velocity)
+            this.move();
             this.flipX = false;
             !this.anims.isPlaying && this.anims.play('knight_run', true);
         }
 
         // diagonal directions
         if (this.keys['D'].isDown && this.keys['W'].isDown){
-            this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation - Math.PI / 4, this.SPEED, this.body.velocity)
+            this.move(-Math.PI / 4)
         }
         if (this.keys['A'].isDown && this.keys['W'].isDown){
-            this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation - Math.PI * 3 / 4, this.SPEED, this.body.velocity)
+            this.move(-Math.PI * 3 / 4)
         }
         if (this.keys['A'].isDown && this.keys['S'].isDown){
-            this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation + Math.PI * 3 / 4, this.SPEED, this.body.velocity)
+            this.move(Math.PI * 3 / 4)
         }
         if (this.keys['D'].isDown && this.keys['S'].isDown){
-            this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation + Math.PI / 4, this.SPEED, this.body.velocity)
+            this.move(Math.PI / 4)
         }
         // change to idle animation if no keys are down
         if (this.keys['D']?.isUp && this.keys['A'].isUp && this.keys['S'].isUp && this.keys['W'].isUp) {
             !this.anims.isPlaying && this.anims.play('knight_idle', true);
         }
+    }
+
+    move(piAngle: number = 0): void {
+        this.scene.physics.velocityFromRotation(-this.scene.cameras.main.rotation + piAngle, this.SPEED + this.bonusMoveSpeed, this.body.velocity)
     }
 
     handleDash(): void{
@@ -140,11 +146,13 @@ export default class Player extends GameEntity {
     }
 
     dashMovement(): void {
-        this.SPEED *= 7.5;
+        let originalSpeed = this.SPEED;
+        let dashSpeed = (this.SPEED + this.bonusMoveSpeed) * 7.5;
+        this.SPEED = dashSpeed;
             this.scene.time.addEvent({
                 delay: 100,
                 callback: () => {
-                    this.SPEED /= 7.5;
+                    this.SPEED = originalSpeed;
                     
                     this.isDashing = false;
 
@@ -157,7 +165,7 @@ export default class Player extends GameEntity {
 
     invulnerableCounter(): void {
         this.scene.time.addEvent({
-            delay: 1000,
+            delay: 1000 + this.bonusIFrames,
             callback: () => {
                 this.isInvulnerable = false;
             }
@@ -176,7 +184,7 @@ export default class Player extends GameEntity {
 
     dashCooldownTimer(): void {
         this.scene.time.addEvent({
-            delay: 5000,
+            delay: 5000 - this.bonusDashCooldown,
             callback: () => {
                 this.flashBlue();
                 this.dashCooldown = false;
@@ -198,13 +206,13 @@ export default class Player extends GameEntity {
     }
 
     handleShooting(): void {
-        if (this.scene.game.input.activePointer.isDown && this.tick >= this.firerateTick) {
+        if (this.scene.game.input.activePointer.isDown && this.tick >= this.firerateTick - this.bonusFireRate) {
             if (this.currentWeapon == 2)
-                this.playerBullets.fireSpreadBullet(this, this.scene.crosshair, GLOBALS.PLAYER_BULLET_SPEED, 'player_bullet');
+                this.playerBullets.fireSpreadBullet(this, this.scene.crosshair, GLOBALS.PLAYER_BULLET_SPEED, 'player_bullet', GLOBALS.BULLET_DAMAGE + this.bonusDamage);
             else if (this.currentWeapon == 4)
-                this.playerBullets.fireEightWayBullet(this, GLOBALS.PLAYER_BULLET_SPEED, 'player_bullet');
+                this.playerBullets.fireEightWayBullet(this, GLOBALS.PLAYER_BULLET_SPEED, 'player_bullet', GLOBALS.BULLET_DAMAGE + this.bonusDamage);
             else
-                this.playerBullets.fireAimedBullet(this, this.scene.crosshair, GLOBALS.PLAYER_BULLET_SPEED, 'player_bullet');
+                this.playerBullets.fireAimedBullet(this, this.scene.crosshair, GLOBALS.PLAYER_BULLET_SPEED, 'player_bullet', GLOBALS.BULLET_DAMAGE + this.bonusDamage);
                 
             this.tick = 0;
         }

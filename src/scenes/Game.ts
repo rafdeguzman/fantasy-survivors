@@ -190,7 +190,7 @@ export default class GameScene extends Phaser.Scene {
       this.scene.pause(SceneKeys.Game);
       this.scene.pause(SceneKeys.UI);
 
-      this.scene.launch(SceneKeys.Upgrade);
+      this.scene.launch(SceneKeys.Upgrade, {player: this.player});
       this.player.currentCoins = 0;
     }
   }
