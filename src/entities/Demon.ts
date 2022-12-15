@@ -1,3 +1,4 @@
+import GLOBALS from "../Globals";
 import BulletGroup from "../groups/BulletGroup";
 import Enemy from "./Enemy";
 
@@ -5,25 +6,18 @@ import Enemy from "./Enemy";
 export default class Demon extends Enemy {
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 150;
-    private health: number = 300;
-    private scene: any;
-
-    private tick: number = 0;
     private laserTick: number = 0;
-
-    public enemyBullets: BulletGroup;
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
-        super(scene, x, y, 'demon');
-        
-        this.scene = scene;
-
-        this.enemyBullets = new BulletGroup(scene);
-
-        this.initSprite();
-        this.initPhysics();
-        this.initAnimations();
+        super({
+            scene,
+            x,
+            y,
+            texture: 'demon',
+            frame: 0,
+            maxHealth: GLOBALS.DEMON_HEALTH
+        });
     }
 
     initSprite(): void{
@@ -31,11 +25,6 @@ export default class Demon extends Enemy {
         this.body.setCircle(16);
         this.body.setOffset(0, 10);
         this.setDisplaySize(170, 224);
-    }
-
-    initPhysics(): void{
-        this.scene.physics.add.existing(this);
-        this.scene.physics.world.disable(this);
     }
 
     initAnimations(): void{
@@ -48,68 +37,32 @@ export default class Demon extends Enemy {
 
     // walk towards the player
     update(time: number, delta: number): void {
-        this.tick += delta;
+        super.update(time, delta);
+
         this.laserTick += delta;
-        this.scene.physics.moveToObject(this, this.scene.player, this.SPEED);
-
-        if (this.body.velocity.x > 0) { // walking right, facing rght
-            this.setFlipX(false);
-        } else if (this.body.velocity.x < 0) {  // walking left, facing left
-            this.setFlipX(true);
-        } 
-        
-        this.rotation = -this.scene.cameras.main.rotation;
-
         !this.anims.isPlaying && this.anims.play('demon_run', true);
 
         this.handleShooting();
         this.handleLaserShooting();
     }
 
-    spawn(x: number, y: number): void {
-        this.scene.physics.world.enable(this);
-        this.body.reset(x, y);
-
-        this.setActive(true);
-        this.setVisible(true);
-        
-        this.initSprite();
-    }
-
-    takeDamage(damage: number): void {
-        this.health -= damage;
-        this.scene.enemyHitSound.play({volume: 0.5});
-        this.spriteFlicker();
-        if (this.health <= 0) {
-            console.log("demon dead");
-            this.destroy();
-        }
-    }
-
-    spriteFlicker(): void{
-        this.setTint(0xff0000);
-        this.scene.time.delayedCall(100, () => {
-            this.clearTint();
-        });
-    }
-
     handleShooting(): void {
-        if (this.tick > 500) {
+        if (this.firerateTick > GLOBALS.DEMON_FIRERATE) {
             this.shoot();
-            this.tick = 0;
+            this.firerateTick = 0;
         }
     }
 
     shoot(): void {
-        this.enemyBullets.fireEightWayRotatingBullet(this, 500);
+        this.enemyBullets.fireEightWayRotatingBullet(this, GLOBALS.ENEMY_BULLET_SPEED);
     }
 
     shootLaser(): void {
-        this.enemyBullets.fireAimedBullet(this, this.scene.player, 800);
+        this.enemyBullets.fireAimedBullet(this, this.scene.player, GLOBALS.ENEMY_BULLET_SPEED * 1.5);
     }
 
     handleLaserShooting(): void {
-        if (this.laserTick > 50) {
+        if (this.laserTick > GLOBALS.DEMON_LASER_FIRERATE) {
             this.shootLaser();
             this.laserTick = 0;
         }

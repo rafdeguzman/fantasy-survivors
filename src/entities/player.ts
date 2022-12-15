@@ -8,8 +8,6 @@ export default class Player extends GameEntity {
     public health: number = 6;
     public totalHealth: number = 6;
     public dashCooldown: boolean = false;
-    public currentCoins: number = 0;
-    public maxCoins: number = 1;
 
     private isDashing: boolean = false;
     public isDead: boolean = false;
@@ -29,8 +27,6 @@ export default class Player extends GameEntity {
 
     public maxCoins: number = 15;
     public maxPotions: number = 3;
-    // implement coins
-    // implement potions
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'knight');
@@ -40,8 +36,6 @@ export default class Player extends GameEntity {
         this.scene.add.existing(this);
         
         this.playerBullets = new BulletGroup(this.scene);
-
-
 
         this.initState();
         this.initPhysics();
@@ -237,50 +231,21 @@ export default class Player extends GameEntity {
     }    
 
     takeDamage(damage: number): void{
-        if (this.health<= 0){
-            this.health = 0;
+        this.health -= damage;
+
+        if (this.health <= 0){
             this.isDead = true;
             this.scene.backgroundMusic.stop();
+            return;
         }
-        
+
         if (this.isInvulnerable) return
 
-        else{
-            this.health -= damage;
-            this.isInvulnerable = true;
-            this.spriteFlicker();
-            this.tweenAlpha();
-            this.invulnerableCounter();
-            this.scene.playerHitSound.play({volume: 0.25});
-        }
-    }
-
-    spriteFlicker(): void{
-        this.setTint(0xff0000);
-        this.scene.time.delayedCall(100, () => {
-            this.clearTint();
-        });
-    }
-        
-    tweenAlpha(): void{
-        this.scene.tweens.add({
-            targets: this,
-            alpha: 0,
-            duration: 100,
-            ease: 'Linear',
-            repeat: 5,
-            yoyo: true,
-            onComplete: () => {
-                this.alpha = 1;
-            }
-        });
-    }
-
-    flashBlue(): void{
-        this.setTint(0x1f51ff);
-        this.scene.time.delayedCall(200, () => {
-            this.clearTint();
-        });
+        this.isInvulnerable = true;
+        this.spriteFlicker();
+        this.tweenAlpha();
+        this.invulnerableCounter();
+        this.scene.playerHitSound.play({volume: 0.25});    
     }
 
     addCoin(): void{

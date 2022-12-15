@@ -1,28 +1,25 @@
 import BulletGroup from "../groups/BulletGroup";
 import Enemy from "./Enemy";
 import ZombieGroup from "../groups/ZombieGroup";
+import GLOBALS from "../Globals";
 
 export default class BigZombie extends Enemy{
     declare body: Phaser.Physics.Arcade.Body;
     readonly SPEED: number = 75;
-    private health: number = 10;
-    private scene: any;
-
-    private zombieGroup: ZombieGroup;
-
     public enemyBullets: BulletGroup;
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
-        super(scene, x, y, 'big_zombie');
-        
-        this.scene = scene;
-
+        // super(scene, x, y, 'big_zombie');
+        super({
+            scene,
+            x,
+            y,
+            texture: 'big_zombie',
+            frame: 0,
+            maxHealth: GLOBALS.BIG_ZOMBIE_HEALTH
+        });
         this.enemyBullets = new BulletGroup(scene);
-
-        this.initSprite();
-        this.initPhysics();
-        this.initAnimations();
     }
 
     initSprite(): void{
@@ -30,11 +27,6 @@ export default class BigZombie extends Enemy{
         this.body.setCircle(16);
         this.body.setOffset(0, 10);
         this.setDisplaySize(170, 224);
-    }
-
-    initPhysics(): void{
-        this.scene.physics.add.existing(this);
-        this.scene.physics.world.disable(this);
     }
 
     initAnimations(): void{
@@ -60,33 +52,8 @@ export default class BigZombie extends Enemy{
         !this.anims.isPlaying && this.anims.play('big_zombie_run', true);
     }
 
-    spawn(x: number, y: number): void {
-        this.scene.physics.world.enable(this);
-        this.body.reset(x, y);
-
-        this.setActive(true);
-        this.setVisible(true);
-        
-        this.initSprite();
+    onDeath(): void {
+        this.scene.zombieGroup.spawnEnemy(this.x, this.y);
+        this.scene.zombieGroup.spawnEnemy(this.x + 50, this.y + 50);
     }
-
-    takeDamage(damage: number): void {
-        this.health -= damage;
-        this.scene.enemyHitSound.play({volume: 0.5});
-        this.spriteFlicker();
-        if (this.health <= 0) {        
-            this.scene.zombieGroup.spawnEnemy(this.x, this.y);
-            this.scene.zombieGroup.spawnEnemy(this.x + 50, this.y + 50);
-
-            this.destroy();
-        }
-    }
-
-    spriteFlicker(): void{
-        this.setTint(0xff0000);
-        this.scene.time.delayedCall(100, () => {
-            this.clearTint();
-        });
-    }
-
 }
