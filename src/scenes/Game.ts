@@ -5,7 +5,7 @@ import Crosshair from '../objects/Crosshair';
 import GLOBALS from '../Globals';
 import CountdownController from './CountdownController';
 import SceneKeys from '../enums/SceneKeys';
-import CoinGroup from '../groups/CoinGroup';
+import ItemGroup from '../groups/ItemGroup';
 import EnemyTypes from '../enums/EnemyTypes';
 import EnemyFactory from '../groups/EnemyFactory';
 import Orc from '../entities/Orc';
@@ -16,6 +16,7 @@ import Shaman from '../entities/Shaman';
 import Demon from '../entities/Demon';
 import Zombie from '../entities/Zombie';
 import TinyZombie from '../entities/TinyZombie';
+import Coin from '../objects/Coin';
 
 export default class GameScene extends Phaser.Scene {
   public player: Player;
@@ -36,7 +37,7 @@ export default class GameScene extends Phaser.Scene {
   private shamanGroup: EnemyFactory;
   private demonGroup: EnemyFactory;
   
-  public coinGroup: CoinGroup;
+  public coinGroup: ItemGroup;
 
   private orcTimer: Phaser.Time.TimerEvent;
   private necromancerTimer: Phaser.Time.TimerEvent;
@@ -107,7 +108,7 @@ export default class GameScene extends Phaser.Scene {
       this.tinyZombieGroup = new EnemyFactory(this, TinyZombie, EnemyTypes.TinyZombie)
     ]
 
-    this.coinGroup = new CoinGroup(this);
+    this.coinGroup = new ItemGroup(this, Coin, 'coin');
 
     // -- Events -- //
     

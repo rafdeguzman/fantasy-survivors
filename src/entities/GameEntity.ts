@@ -1,4 +1,3 @@
-// import ISpriteConstructor from "../interfaces/ISprite";
 export default class GameEntity extends Phaser.Physics.Arcade.Sprite{
     declare body: Phaser.Physics.Arcade.Body; // set body as arcade body
 
