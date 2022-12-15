@@ -1,5 +1,4 @@
 import GLOBALS from "../Globals";
-import BulletGroup from "../groups/BulletGroup";
 import Enemy from "./Enemy";
 
 

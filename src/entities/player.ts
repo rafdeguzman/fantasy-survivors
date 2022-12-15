@@ -231,21 +231,21 @@ export default class Player extends GameEntity {
     }    
 
     takeDamage(damage: number): void{
+        if (this.isInvulnerable) return;
+
         this.health -= damage;
-
-        if (this.health <= 0){
-            this.isDead = true;
-            this.scene.backgroundMusic.stop();
-            return;
-        }
-
-        if (this.isInvulnerable) return
 
         this.isInvulnerable = true;
         this.spriteFlicker();
         this.tweenAlpha();
         this.invulnerableCounter();
         this.scene.playerHitSound.play({volume: 0.25});    
+
+        if (this.health <= 0){
+            this.isDead = true;
+            this.scene.backgroundMusic.stop();
+            return;
+        }
     }
 
     addCoin(): void{

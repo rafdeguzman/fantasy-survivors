@@ -11,10 +11,10 @@ import Shaman from "../entities/Shaman";
 import Necromancer from "../entities/Necromancer";
 import Orc from "../entities/Orc";
 import Ogre from "../entities/Ogre";
-
-
 export default class FactoryGroup extends Phaser.Physics.Arcade.Group {
+
     public key: string;
+
     constructor(scene: Phaser.Scene,key:string) {
         super(scene.physics.world, scene);
         this.key = key;
