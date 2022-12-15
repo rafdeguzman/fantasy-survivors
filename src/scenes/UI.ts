@@ -46,9 +46,9 @@ export default class UI extends Phaser.Scene {
     this.y = 70;
     this.width = 148;
     this.height = 15;
-
+    
     this.add.rectangle(this.screenCenterX/2, this.y, this.width,this.height  , 0x000000);
-    this.dBar= this.add.rectangle(this.screenCenterX/2, this.y, 148, this.height, 0x00FF00); 
+    this.dBar= this.add.rectangle(this.screenCenterX/2, this.y, 148, this.height, 0x00FFFF); 
     this.dBoarder = this.add.rectangle(this.screenCenterX/2, this.y, this.width, this.height);
     this.dBoarder.setStrokeStyle(5, 0x000000);
 

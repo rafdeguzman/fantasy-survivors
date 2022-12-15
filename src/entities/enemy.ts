@@ -64,12 +64,12 @@ export default class Enemy extends GameEntity{
     }
 
     dropCoin(): void {
-        if (Math.random() < 0.2)
+        if (Math.random() < 0.4)
             this.scene.coinGroup.spawnItem(this.x, this.y);
     }
 
     dropPotion(): void {
-        if (Math.random() < 1)
+        if (Math.random() < 0.2)
             this.scene.potionGroup.spawnItem(this.x, this.y);
     }
 
