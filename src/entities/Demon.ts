@@ -1,3 +1,4 @@
+import EnemyTypes from "../enums/EnemyTypes";
 import GLOBALS from "../Globals";
 import Enemy from "./Enemy";
 
@@ -7,6 +8,8 @@ export default class Demon extends Enemy {
     private SPEED: number = 150;
     private laserTick: number = 0;
     private isShootingLaser: boolean = false;
+    private mobSpawnTimer: Phaser.Time.TimerEvent;
+
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
@@ -18,6 +21,14 @@ export default class Demon extends Enemy {
             frame: 0,
             maxHealth: GLOBALS.DEMON_HEALTH
         });
+
+        this.mobSpawnTimer = this.scene.time.addEvent({
+            delay: 15000,
+            callback: () => {
+                this.scene.addToFactory(EnemyTypes.Necromancer);
+            },
+            loop: true
+        })
     }
 
     initSprite(): void{
@@ -51,7 +62,6 @@ export default class Demon extends Enemy {
             this.isShootingLaser = true;
             this.SPEED = 150;
         }
-            
         
         this.handleShooting();
         this.handleLaserShooting();
@@ -62,7 +72,7 @@ export default class Demon extends Enemy {
     }
 
     isFarFromPlayer() : boolean {
-        return Phaser.Math.Distance.Between(this.x, this.y, this.scene.player.x, this.scene.player.y) < 2000
+        return Phaser.Math.Distance.Between(this.x, this.y, this.scene.player.x, this.scene.player.y) < 1500
     }
 
     handleShooting(): void {

@@ -44,7 +44,7 @@ export default class GameScene extends Phaser.Scene {
   private shamanTimer: Phaser.Time.TimerEvent;
   private demonTimer: Phaser.Time.TimerEvent;
 
-  private factoryGroups: EnemyFactory[] = [];
+  public factoryGroups: EnemyFactory[] = [];
 
   private timerEvents: Phaser.Time.TimerEvent[] = [];
 
