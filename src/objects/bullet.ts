@@ -69,4 +69,7 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
         this.SPEED = speed;
     }
 
+    setDamage(damage: number): void {
+        this.DAMAGE = damage;
+    }
 }

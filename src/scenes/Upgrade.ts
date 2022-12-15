@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import Player from '../entities/Player'
 import SceneKeys from '../enums/SceneKeys'
 export default class Upgrade extends Phaser.Scene {
 
@@ -7,10 +8,16 @@ export default class Upgrade extends Phaser.Scene {
     private increase_firerate_btn:Phaser.GameObjects.Text
     private increase_damage_btn:Phaser.GameObjects.Text
     
+    public player: Player;
 
     constructor() {
         super(SceneKeys.Upgrade)
     }
+
+    init(data: any) {
+        this.player = data.player;
+    }
+
     create() {
         const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
         const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
@@ -50,6 +57,9 @@ export default class Upgrade extends Phaser.Scene {
             align: 'center'
         }).setOrigin(0.5).setInteractive().on('pointerdown', () => {
             // speed upgrade
+            this.player.bonusMoveSpeed += 10;
+            this.player.bonusDashCooldown += 25;
+            this.player.bonusIFrames += 25;
 
             this.scene.resume(SceneKeys.UI)
             this.scene.resume(SceneKeys.Game)
@@ -74,6 +84,7 @@ export default class Upgrade extends Phaser.Scene {
             align: 'center'
         }).setOrigin(0.5).setInteractive().on('pointerdown', () => {
         
+            this.player.bonusFireRate += 25;
             // increase firerate
             
             this.scene.resume(SceneKeys.UI)
@@ -99,6 +110,7 @@ export default class Upgrade extends Phaser.Scene {
             align: 'center'
         }).setOrigin(0.5).setInteractive().on('pointerdown', () => {
             // increase damage
+            this.player.bonusDamage += 0.25;
 
             this.scene.resume(SceneKeys.Game)
             this.scene.resume(SceneKeys.UI)
