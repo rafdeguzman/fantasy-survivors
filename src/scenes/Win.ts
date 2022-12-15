@@ -11,6 +11,11 @@ export default class Win extends Phaser.Scene {
     create() {
         const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
         const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
+
+        let background = this.add.image(screenCenterX, screenCenterY, "victory")
+        
+        background.displayWidth = this.sys.canvas.width +100;
+        background.displayHeight = this.sys.canvas.height +100;
         
         this.add.text(screenCenterX, screenCenterY, 'Victory', {
             fontFamily: 'VT323',

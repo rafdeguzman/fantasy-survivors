@@ -39,6 +39,7 @@ export default class Preloader extends Phaser.Scene {
 
         //ref:https://rare-gallery.com/970611-digital-art-pixel-art-pixels-pixelated-grave-cemetery-.html
         this.load.image('go', './assets/gameover/go.jpg');
+        this.load.image('victory', './assets/victory/victory.jpg');
 
         this.load.image('bgWP', './assets/background/bgWP.jpeg');
         //--Heart--//
@@ -69,6 +70,6 @@ export default class Preloader extends Phaser.Scene {
         if(localStorage.getItem('highScoreArray') == null){
             localStorage.setItem('highScoreArray', '[]')
         }
-        this.scene.start(SceneKeys.Game);
+        this.scene.start(SceneKeys.Title);
     }
 }
