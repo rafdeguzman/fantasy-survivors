@@ -138,13 +138,13 @@ export default class UI extends Phaser.Scene {
 
         this.countDown = new CountdownController(this,this.timerLabel);
         this.countDown.start(this.handleCountdownFinished.bind(this),this.timeLimit);
+    }
     
-      }
-    
-      handleCountdownFinished() {
+      // go to gameover state
+    handleCountdownFinished() {
         this.scene.stop(SceneKeys.Game);
         this.scene.stop(SceneKeys.UI);
         this.scene.stop(SceneKeys.Pause);
-        this.scene.start(SceneKeys.Win);
-      }
+        this.scene.start(SceneKeys.GameOver);
+    }
 }

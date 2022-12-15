@@ -66,5 +66,10 @@ export default class Demon extends Enemy {
             this.laserTick = 0;
         }
     }
+    
+    // win condition
+    onDeath(): void {
+        this.scene.winEvent();
+    }
 
 }

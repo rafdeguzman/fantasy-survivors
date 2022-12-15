@@ -13,7 +13,7 @@ export default class Win extends Phaser.Scene {
             align: 'center'
         }).setOrigin(0.5);
 
-        this.add.text(screenCenterX, screenCenterY + 200, 'PRESS ENTRE TO CONTINUE', {
+        this.add.text(screenCenterX, screenCenterY + 200, 'PRESS ENTER TO CONTINUE', {
             fontSize: '20px',
             align: 'center'
         }).setOrigin(0.5);

@@ -124,7 +124,7 @@ export default class GameScene extends Phaser.Scene {
     this.bigZombieTimer = this.time.addEvent({ delay: 5000, callback: ()=>{this.addToFactory(EnemyTypes.BigZombie)}, callbackScope: this, loop: true });
     this.ogreTimer = this.time.addEvent({ delay: 10000, callback: ()=>{this.addToFactory(EnemyTypes.Ogre)}, callbackScope: this, loop: true });
     this.shamanTimer = this.time.addEvent({ delay: 5000, callback: ()=>{this.addToFactory(EnemyTypes.Shaman)}, callbackScope: this, loop: true });
-    this.demonTimer = this.time.addEvent({ delay: 500000, callback: ()=>{this.addToFactory(EnemyTypes.Demon)}, callbackScope: this, loop: true });
+    this.demonTimer = this.time.addEvent({ delay: 50000, callback: ()=>{this.addToFactory(EnemyTypes.Demon)}, callbackScope: this, loop: true });
 
     this.timerEvents.push(this.orcTimer);
     this.timerEvents.push(this.necromancerTimer);
@@ -239,9 +239,19 @@ export default class GameScene extends Phaser.Scene {
       this.orcTimer.remove();
       this.necromancerTimer.remove();
       this.bigZombieTimer.remove();
-
+      this.demonTimer.remove();
+      this.shamanTimer.remove();
+      
       this.factoryGroups[0].clear(true, true);
       this.factoryGroups[1].clear(true, true);
       this.factoryGroups[2].clear(true, true);
+    }
+
+    // change to win state
+    winEvent(): void {
+      this.scene.stop(SceneKeys.Game);
+      this.scene.stop(SceneKeys.UI);
+      this.scene.stop(SceneKeys.Pause);
+      this.scene.start(SceneKeys.Win);
     }
   }
