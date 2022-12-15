@@ -10,7 +10,28 @@
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "knight_hit_0",
+					"filename": "knight_idle_4",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 28
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 16,
+						"h": 25
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 16,
+						"h": 25
+					}
+				},
+				{
+					"filename": "knight_idle_5",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -94,6 +115,27 @@
 					}
 				},
 				{
+					"filename": "knight_idle_7",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 28
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 6,
+						"w": 16,
+						"h": 22
+					},
+					"frame": {
+						"x": 1,
+						"y": 78,
+						"w": 16,
+						"h": 22
+					}
+				},
+				{
 					"filename": "knight_run_1",
 					"rotated": false,
 					"trimmed": true,
@@ -116,6 +158,27 @@
 				},
 				{
 					"filename": "knight_idle_0",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 28
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 7,
+						"w": 16,
+						"h": 21
+					},
+					"frame": {
+						"x": 1,
+						"y": 126,
+						"w": 16,
+						"h": 21
+					}
+				},
+				{
+					"filename": "knight_idle_6",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
