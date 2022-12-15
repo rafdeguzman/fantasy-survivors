@@ -62,6 +62,10 @@ export default class Preloader extends Phaser.Scene {
     }
 
     create() {
-        this.scene.start(SceneKeys.GameOver)
+        // if the localStorage is empty, create a new one
+        if(localStorage.getItem('highScoreArray') == null){
+            localStorage.setItem('highScoreArray', '[]')
+        }
+        this.scene.start(SceneKeys.HighScore)
     }
 }
