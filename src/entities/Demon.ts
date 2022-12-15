@@ -1,11 +1,15 @@
+import EnemyTypes from "../enums/EnemyTypes";
 import GLOBALS from "../Globals";
 import Enemy from "./Enemy";
 
 
 export default class Demon extends Enemy {
     declare body: Phaser.Physics.Arcade.Body;
-    readonly SPEED: number = 150;
+    private SPEED: number = 150;
     private laserTick: number = 0;
+    private isShootingLaser: boolean = false;
+    private mobSpawnTimer: Phaser.Time.TimerEvent;
+
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
@@ -17,6 +21,16 @@ export default class Demon extends Enemy {
             frame: 0,
             maxHealth: GLOBALS.DEMON_HEALTH
         });
+
+        this.mobSpawnTimer = this.scene.time.addEvent({
+            delay: 15000,
+            callback: () => {
+                this.scene.addToFactory(EnemyTypes.Wogol);
+                this.scene.addToFactory(EnemyTypes.Chort);
+            },
+            loop: true
+        })
+        this.mobSpawnTimer.paused = true;
     }
 
     initSprite(): void{
@@ -34,6 +48,10 @@ export default class Demon extends Enemy {
         });
     }
 
+    initTimer(): void {
+        this.mobSpawnTimer.paused = false;
+    }
+
     // walk towards the player
     update(time: number, delta: number): void {
         super.update(time, delta);
@@ -41,8 +59,26 @@ export default class Demon extends Enemy {
         this.laserTick += delta;
         !this.anims.isPlaying && this.anims.play('demon_run', true);
 
+        if (this.isFarFromPlayer()) {
+            this.isShootingLaser = false;
+            this.SPEED = 300;
+        }
+            
+        if (this.isCloseToPlayer()) {
+            this.isShootingLaser = true;
+            this.SPEED = 150;
+        }
+        
         this.handleShooting();
         this.handleLaserShooting();
+    }
+
+    isCloseToPlayer(): boolean {
+        return Phaser.Math.Distance.Between(this.x, this.y, this.scene.player.x, this.scene.player.y) <= 500
+    }
+
+    isFarFromPlayer() : boolean {
+        return Phaser.Math.Distance.Between(this.x, this.y, this.scene.player.x, this.scene.player.y) > 500
     }
 
     handleShooting(): void {
@@ -61,6 +97,8 @@ export default class Demon extends Enemy {
     }
 
     handleLaserShooting(): void {
+        if (!this.isShootingLaser) return;
+
         if (this.laserTick > GLOBALS.DEMON_LASER_FIRERATE) {
             this.shootLaser();
             this.laserTick = 0;

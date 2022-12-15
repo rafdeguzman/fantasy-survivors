@@ -64,12 +64,12 @@ export default class Enemy extends GameEntity{
     }
 
     dropCoin(): void {
-        if (Math.random() < 0.4)
+        if (Math.random() < 0.33)
             this.scene.coinGroup.spawnItem(this.x, this.y);
     }
 
     dropPotion(): void {
-        if (Math.random() < 0.2)
+        if (Math.random() < 0.1)
             this.scene.potionGroup.spawnItem(this.x, this.y);
     }
 
@@ -101,7 +101,7 @@ export default class Enemy extends GameEntity{
     update(time: number, delta: number): void {
         this.firerateTick += delta;
 
-        this.scene.physics.moveToObject(this, this.scene.player, this.SPEED);
+        this.handleMovement();
 
         if (this.body.velocity.x > 0) { // walking right, facing rght
             this.setFlipX(false);
@@ -110,5 +110,9 @@ export default class Enemy extends GameEntity{
         } 
         
         this.rotation = -this.scene.cameras.main.rotation;
+    }
+
+    handleMovement(): void {
+        this.scene.physics.moveToObject(this, this.scene.player, this.SPEED);
     }
 }

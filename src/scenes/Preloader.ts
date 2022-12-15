@@ -19,6 +19,8 @@ export default class Preloader extends Phaser.Scene {
         this.load.atlas('zombie', './assets/zombie/medium/zombie.png', './assets/zombie/medium/zombie.json'); // atlas
         this.load.atlas('shaman', './assets/orc_shaman/shaman.png', './assets/orc_shaman/shaman.json');
         this.load.atlas('demon', './assets/demon/demon.png', './assets/demon/demon.json'); // atlas
+        this.load.atlas('wogol', './assets/wogol/wogol.png', './assets/wogol/wogol.json'); // atlas
+        this.load.atlas('chort', './assets/chort/chort.png', './assets/chort/chort.json'); // atlas
 
         // Items
         this.load.image('bullet', './assets/bullets/bullet.png');
@@ -58,7 +60,8 @@ export default class Preloader extends Phaser.Scene {
         this.load.audio('potion_consume', './assets/sound/potionConsume.wav')
         this.load.audio('potion_pickup', './assets/sound/pickupPotion.wav')
     
-        
+        // Data
+        this.load.json('scores', './scores/scores.json');        
     }
 
     create() {
@@ -66,6 +69,6 @@ export default class Preloader extends Phaser.Scene {
         if(localStorage.getItem('highScoreArray') == null){
             localStorage.setItem('highScoreArray', '[]')
         }
-        this.scene.start(SceneKeys.HighScore)
+        this.scene.start(SceneKeys.Title);
     }
 }

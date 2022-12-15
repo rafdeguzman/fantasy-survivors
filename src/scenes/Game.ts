@@ -18,6 +18,8 @@ import Zombie from '../entities/Zombie';
 import TinyZombie from '../entities/TinyZombie';
 import Coin from '../objects/Coin';
 import Potion from '../objects/Potion';
+import Wogol from '../entities/Wogol';
+import Chort from '../entities/Chort';
 
 export default class GameScene extends Phaser.Scene {
   public player: Player;
@@ -33,6 +35,8 @@ export default class GameScene extends Phaser.Scene {
   private ogreGroup: EnemyFactory;
   private shamanGroup: EnemyFactory;
   private demonGroup: EnemyFactory;
+  private wogolGroup: EnemyFactory;
+  private chortGroup: EnemyFactory;
   
   public coinGroup: ItemGroup;
   public potionGroup: ItemGroup;
@@ -43,8 +47,10 @@ export default class GameScene extends Phaser.Scene {
   private ogreTimer: Phaser.Time.TimerEvent;
   private shamanTimer: Phaser.Time.TimerEvent;
   private demonTimer: Phaser.Time.TimerEvent;
-
-  private factoryGroups: EnemyFactory[] = [];
+  private wogolTimer: Phaser.Time.TimerEvent;
+  private chortTimer: Phaser.Time.TimerEvent;
+  
+  public factoryGroups: EnemyFactory[] = [];
 
   private timerEvents: Phaser.Time.TimerEvent[] = [];
 
@@ -107,7 +113,9 @@ export default class GameScene extends Phaser.Scene {
       this.shamanGroup = new EnemyFactory(this, Shaman, EnemyTypes.Shaman),
       this.demonGroup = new EnemyFactory(this, Demon, EnemyTypes.Demon),
       this.zombieGroup = new EnemyFactory(this, Zombie, EnemyTypes.Zombie),
-      this.tinyZombieGroup = new EnemyFactory(this, TinyZombie, EnemyTypes.TinyZombie)
+      this.tinyZombieGroup = new EnemyFactory(this, TinyZombie, EnemyTypes.TinyZombie),
+      this.wogolGroup = new EnemyFactory(this, Wogol, EnemyTypes.Wogol),
+      this.chortGroup = new EnemyFactory(this, Chort, EnemyTypes.Chort),
     ]
 
     this.coinGroup = new ItemGroup(this, Coin, 'coin');
@@ -121,12 +129,14 @@ export default class GameScene extends Phaser.Scene {
 
     // -- Timers -- //
     
-    this.orcTimer = this.time.addEvent({ delay: 3000, callback: ()=>{this.addToFactory(EnemyTypes.Orc)}, callbackScope: this, loop: true })
-    this.necromancerTimer = this.time.addEvent({ delay: 10000, callback: ()=>{this.addToFactory(EnemyTypes.Necromancer)}, callbackScope: this, loop: true });
-    this.bigZombieTimer = this.time.addEvent({ delay: 5000, callback: ()=>{this.addToFactory(EnemyTypes.BigZombie)}, callbackScope: this, loop: true });
-    this.ogreTimer = this.time.addEvent({ delay: 10000, callback: ()=>{this.addToFactory(EnemyTypes.Ogre)}, callbackScope: this, loop: true });
-    this.shamanTimer = this.time.addEvent({ delay: 5000, callback: ()=>{this.addToFactory(EnemyTypes.Shaman)}, callbackScope: this, loop: true });
-    this.demonTimer = this.time.addEvent({ delay: 50000, callback: ()=>{this.addToFactory(EnemyTypes.Demon)}, callbackScope: this, loop: true });
+    this.orcTimer = this.time.addEvent({ delay: GLOBALS.ORC_SPAWN_TIME, callback: ()=>{this.addToFactory(EnemyTypes.Orc)}, callbackScope: this, loop: true })
+    this.necromancerTimer = this.time.addEvent({ delay: GLOBALS.NECROMANCER_SPAWN_TIME, callback: ()=>{this.addToFactory(EnemyTypes.Necromancer)}, callbackScope: this, loop: true });
+    this.bigZombieTimer = this.time.addEvent({ delay: GLOBALS.BIG_ZOMBIE_SPAWN_TIME, callback: ()=>{this.addToFactory(EnemyTypes.BigZombie)}, callbackScope: this, loop: true });
+    this.ogreTimer = this.time.addEvent({ delay: GLOBALS.OGRE_SPAWN_TIME, callback: ()=>{this.addToFactory(EnemyTypes.Ogre)}, callbackScope: this, loop: true });
+    this.shamanTimer = this.time.addEvent({ delay: GLOBALS.SHAMAN_SPAWN_TIME, callback: ()=>{this.addToFactory(EnemyTypes.Shaman)}, callbackScope: this, loop: true });
+    this.demonTimer = this.time.addEvent({ delay: GLOBALS.DEMON_SPAWN_TIME, callback: ()=>{this.addToFactory(EnemyTypes.Demon)}, callbackScope: this, loop: true });
+    this.wogolTimer = this.time.addEvent({ delay: GLOBALS.WOGOL_SPAWN_TIME, callback: ()=>{this.addToFactory(EnemyTypes.Wogol)}, callbackScope: this, loop: true });
+    this.chortTimer = this.time.addEvent({ delay: GLOBALS.CHORT_SPAWN_TIME, callback: ()=>{this.addToFactory(EnemyTypes.Chort)}, callbackScope: this, loop: true });
 
     this.timerEvents.push(this.orcTimer);
     this.timerEvents.push(this.necromancerTimer);
@@ -137,6 +147,8 @@ export default class GameScene extends Phaser.Scene {
 
     this.scene.sendToBack(SceneKeys.Game);
     this.scene.launch(SceneKeys.UI,{player :this.player});
+
+    this.initEnemySpawn();
   }
 
   setupMap() {
@@ -146,7 +158,6 @@ export default class GameScene extends Phaser.Scene {
   update(time: number, delta: number): void {
     if(this.player.isDead)  this.gameOver();
     
-
     this.pause();
     this.upgrade();
 
@@ -190,7 +201,7 @@ export default class GameScene extends Phaser.Scene {
       this.scene.pause(SceneKeys.Game);
       this.scene.pause(SceneKeys.UI);
 
-      this.scene.launch(SceneKeys.Upgrade);
+      this.scene.launch(SceneKeys.Upgrade, {player: this.player});
       this.player.currentCoins = 0;
     }
   }
@@ -206,31 +217,54 @@ export default class GameScene extends Phaser.Scene {
   }
 
   addToFactory(type: string){
-
     switch(type){
       case EnemyTypes.Orc:
-        for(let i = 0; i < 3; i++){
+        for(let i = 0; i < 4; i++){
           this.factoryGroups[0].spawnEnemy(Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
         }
         break;
       case EnemyTypes.Demon:
+        this.demonEvent();  
         this.factoryGroups[5].spawnEnemy(Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
-        this.demonEvent();
+        break;
+      case EnemyTypes.Shaman:
+        for(let i = 0; i < 2; i++){
+          this.factoryGroups[4].spawnEnemy(Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
+        }
         break;
       case EnemyTypes.Necromancer:
-      case EnemyTypes.BigZombie:
-      case EnemyTypes.Ogre:
-      case EnemyTypes.Shaman:
+        for(let i = 0; i < 2; i++){
+          this.factoryGroups[1].spawnEnemy(Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
+        }
+        break;
+      // case EnemyTypes.BigZombie:
+      // case EnemyTypes.Ogre:
+      // case EnemyTypes.Chort:
+      // case EnemyTypes.Wogol:
+      //   this.factoryGroups.forEach(factory => {
+      //     if(factory.enemyType === type){
+      //       factory.spawnEnemy(Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
+      //     }
+      //   });
+      //   break;
+      default:
         this.factoryGroups.forEach(factory => {
           if(factory.enemyType === type){
             factory.spawnEnemy(Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
           }
         });
         break;
-      default:
       }
     }
 
+    initEnemySpawn(): void {
+      console.log("initEnemySpawn");
+      for (let i = 0; i < 2; i++) {
+        this.addToFactory(EnemyTypes.Orc);
+      }
+    }
+
+    // clear all the enemies and stop the timer
     demonEvent(): void {
       this.ogreTimer.remove();
       this.orcTimer.remove();
@@ -239,9 +273,9 @@ export default class GameScene extends Phaser.Scene {
       this.demonTimer.remove();
       this.shamanTimer.remove();
       
-      this.factoryGroups[0].clear(true, true);
-      this.factoryGroups[1].clear(true, true);
-      this.factoryGroups[2].clear(true, true);
+      this.factoryGroups.forEach(group => {
+        group.clear(true, true);
+      });
     }
 
     // change to win state

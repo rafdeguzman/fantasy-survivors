@@ -40,7 +40,6 @@ export default class HighScore extends Phaser.Scene {
 
         this.input.keyboard.on('keydown', function (event) {
 
-
             //limit the number of characters
             if (textEntry.text.length < 3) {
             // let user input only letters
@@ -53,6 +52,7 @@ export default class HighScore extends Phaser.Scene {
             if (event.keyCode == 8 && textEntry.text.length > 0) {
                 textEntry.text = textEntry.text.substr(0, textEntry.text.length - 1);
             }
+
 
         });
 

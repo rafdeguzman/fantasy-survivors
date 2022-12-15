@@ -1,0 +1,104 @@
+{
+	"textures": [
+		{
+			"image": "wogol",
+			"format": "RGBA8888",
+			"size": {
+				"w": 58,
+				"h": 20
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "wogol_run_anim_f1",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 20
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 1,
+						"w": 14,
+						"h": 18
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 14,
+						"h": 18
+					}
+				},
+				{
+					"filename": "wogol_run_anim_f2",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 20
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 2,
+						"w": 12,
+						"h": 18
+					},
+					"frame": {
+						"x": 17,
+						"y": 1,
+						"w": 12,
+						"h": 18
+					}
+				},
+				{
+					"filename": "wogol_run_anim_f0",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 20
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 3,
+						"w": 12,
+						"h": 17
+					},
+					"frame": {
+						"x": 31,
+						"y": 1,
+						"w": 12,
+						"h": 17
+					}
+				},
+				{
+					"filename": "wogol_run_anim_f3",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 16,
+						"h": 20
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 5,
+						"w": 12,
+						"h": 15
+					},
+					"frame": {
+						"x": 45,
+						"y": 1,
+						"w": 12,
+						"h": 15
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:6643955b5047711a6b71d9d391d8643c:74cd113bf7066a185e0c5c8f21e7b47f:cedc593e79652b417a17a8214f6f8154$"
+	}
+}

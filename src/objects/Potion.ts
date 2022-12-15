@@ -8,7 +8,7 @@ export default class Potion extends GameItem {
     }
 
     initSprite(): void {
-        this.setDisplaySize(32, 32);
+        this.setDisplaySize(36, 36);
         this.setOrigin(0.5, 0.5);
         this.body.setSize(18, 18);
     }
