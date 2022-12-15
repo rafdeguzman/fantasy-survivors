@@ -53,6 +53,9 @@ export default class Preloader extends Phaser.Scene {
         this.load.audio('pickup', './assets/sound/pickup.wav');
         this.load.audio('dodge', './assets/sound/dodge.wav')
         this.load.audio('dodgeCd', './assets/sound/dodgeBack.wav')
+
+        this.load.audio('potion_consume', './assets/sound/potionConsume.wav')
+        this.load.audio('potion_pickup', './assets/sound/pickupPotion.wav')
     
         
     }

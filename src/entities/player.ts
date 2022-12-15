@@ -9,6 +9,8 @@ export default class Player extends GameEntity {
     public totalHealth: number = 6;
     public dashCooldown: boolean = false;
 
+    private healed: boolean = false;
+
     private isDashing: boolean = false;
     public isDead: boolean = false;
 
@@ -23,7 +25,7 @@ export default class Player extends GameEntity {
     public playerBullets: BulletGroup;
 
     public currentCoins: number = 0;
-    public potionCount: number = 0;
+    public potions: number = 0;
 
     public maxCoins: number = 15;
     public maxPotions: number = 3;
@@ -158,6 +160,16 @@ export default class Player extends GameEntity {
         });
     }
 
+    // so you can't spam potions
+    potionCounter(): void {
+        this.scene.time.addEvent({
+            delay: 10000,
+            callback: () => {
+                this.healed = false;
+            }
+        });
+    }
+
     dashCooldownTimer(): void {
         this.scene.time.addEvent({
             delay: 5000,
@@ -215,8 +227,13 @@ export default class Player extends GameEntity {
             this.currentWeapon = 4;
             console.log('8 way');
         }
-        if (this.keys['R'].isDown)  {
+        if (this.keys['R'].isDown && this.potions > 0 && !this.healed)  {
+            console.log('potion used');
+            this.scene.potionSound.play({volume: 0.5});
             this.health = 6;
+            this.potions--;
+            this.healed = true;
+            this.potionCounter();
         }
     }
 
@@ -248,7 +265,11 @@ export default class Player extends GameEntity {
         }
     }
 
-    addCoin(): void{
+    addCoin(): void {
         this.currentCoins++;
+    }
+
+    addPotion(): void {
+        this.potions++;
     }
 }

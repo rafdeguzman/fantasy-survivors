@@ -65,12 +65,17 @@ export default class Enemy extends GameEntity{
 
     dropCoin(): void {
         if (Math.random() < 0.2)
+            this.scene.coinGroup.spawnItem(this.x, this.y);
+    }
 
-        this.scene.coinGroup.spawnItem(this.x, this.y);
+    dropPotion(): void {
+        if (Math.random() < 1)
+            this.scene.potionGroup.spawnItem(this.x, this.y);
     }
 
     destroy(): void {
         this.dropCoin();
+        this.dropPotion();
         this.scene.physics.world.disable(this);
         this.setActive(false);
         this.setVisible(false);
