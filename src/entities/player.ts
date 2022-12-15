@@ -233,13 +233,17 @@ export default class Player extends GameEntity {
     takeDamage(damage: number): void{
         this.health -= damage;
 
+
         if (this.health <= 0){
             this.isDead = true;
             this.scene.backgroundMusic.stop();
             return;
         }
 
-        if (this.isInvulnerable) return
+        if (this.isInvulnerable) {
+            console.log('invulnerable');
+            return;
+        }
 
         this.isInvulnerable = true;
         this.spriteFlicker();
