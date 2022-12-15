@@ -67,5 +67,6 @@ export default class Preloader extends Phaser.Scene {
             localStorage.setItem('highScoreArray', '[]')
         }
         this.scene.start(SceneKeys.HighScore)
+
     }
 }
