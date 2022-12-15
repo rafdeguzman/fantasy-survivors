@@ -112,11 +112,9 @@ export default class UI extends Phaser.Scene {
         let heartOffsetX = [50,0,-50];
         let heartOffsetY = 50
         let healthLeft = this.player.health;
-        console.log(this.player.health)
 
         for (let i = 0; i < this.player.totalHealth / 2; i++) {
                 if (healthLeft > 1) {
-                    console.log("full")
                     this.add.image(this.screenCenterX-heartOffsetX[i], this.y+heartOffsetY, 'heart');
                 }
                 else if (healthLeft === 1) {
