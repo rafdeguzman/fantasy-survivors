@@ -15,12 +15,14 @@ export default class GameOver extends Phaser.Scene {
         background.setTint(0x808080)
 
         this.add.text(screenCenterX, screenCenterY, 'GameOver', {
-            fontSize: '40px',
+            fontFamily: 'VT323',
+            fontSize: '80px',
             align: 'center',
         }).setOrigin(0.5);
 
         this.add.text(screenCenterX, screenCenterY + 200, 'PRESS ENTER TO CONTINUE', {
-            fontSize: '20px',
+            fontFamily: 'VT323',
+            fontSize: '50px',
             align: 'center',
         }).setOrigin(0.5);
 

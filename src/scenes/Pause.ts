@@ -7,14 +7,23 @@ export default class Pause extends Phaser.Scene {
     create() {
         const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
         const screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
+        let background = this.add.image(screenCenterX, screenCenterY, "bgWP")
+
+        background.setAlpha(0.5)
+        
+        background.displayWidth = this.sys.canvas.width +100;
+        background.displayHeight = this.sys.canvas.height +100;
+
         
         this.add.text(screenCenterX, screenCenterY, 'GAME PAUSED', {
-            fontSize: '40px',
+            fontFamily: 'VT323',
+            fontSize: '80px',
             align: 'center'
         }).setOrigin(0.5);
 
         this.add.text(screenCenterX, screenCenterY + 200, 'PRESS ESC TO CONTINUE', {
-            fontSize: '20px',
+            fontFamily: 'VT323',
+            fontSize: '50px',
             align: 'center'
         }).setOrigin(0.5);
 

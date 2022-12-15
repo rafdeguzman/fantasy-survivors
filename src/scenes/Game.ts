@@ -24,10 +24,6 @@ export default class GameScene extends Phaser.Scene {
 
   private crosshair: Crosshair;
 
-  //** @type {countdownController} */
-  private countDown: CountdownController;
-  private timerLabel: Phaser.GameObjects.Text;
-
   private orcGroup: EnemyFactory;
   private necromancerGroup: EnemyFactory;
   private bigZombieGroup: EnemyFactory;
@@ -168,22 +164,19 @@ export default class GameScene extends Phaser.Scene {
 
   pause(){
     if(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC).isDown){
-      //change the tranparency of the current scene 
-      this.cameras.main.alpha = 0.5;  
+      //change the tranparency of the current scene   
       this.scene.sendToBack(SceneKeys.UI);
       this.scene.sendToBack(SceneKeys.Game);
+      
       this.scene.pause(SceneKeys.Game);
       this.scene.pause(SceneKeys.UI);
 
-      this.scene.launch(SceneKeys.Pause);
-    }else{
-      this.cameras.main.alpha = 1;
+      this.scene.launch(SceneKeys.Pause)
     }
   }
   upgrade(){
     if(this.player.currentCoins >= this.player.maxCoins){
       //change the tranparency of the of scene UI and 0.5
-      this.cameras.main.alpha = 0.5;  
       this.scene.sendToBack(SceneKeys.UI);
       this.scene.sendToBack(SceneKeys.Game);
       
@@ -192,8 +185,6 @@ export default class GameScene extends Phaser.Scene {
 
       this.scene.launch(SceneKeys.Upgrade);
       this.player.currentCoins = 0;
-    }else{
-      this.cameras.main.alpha = 1;
     }
   }
 
