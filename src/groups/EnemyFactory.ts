@@ -35,7 +35,7 @@ export default class EnemyFactory extends Phaser.Physics.Arcade.Group {
             
             bullet.destroy();
             enemy.takeDamage(GLOBALS.BULLET_DAMAGE);
-            });
+        });
     }
 
     spawnEnemy(x: number, y: number): void {
