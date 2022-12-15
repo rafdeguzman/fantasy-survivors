@@ -8,10 +8,11 @@ import Title from './scenes/Title';
 import GameOver from './scenes/GameOver';
 import Win from './scenes/Win';
 import Upgrade from './scenes/Upgrade';
+import HighScore from './scenes/HighScore';
 
 
 new Phaser.Game(
   Object.assign(config, {
-    scene: [Preloader,Title,GameScene,UI,Upgrade,Pause,GameOver,Win]
+    scene: [Preloader,Title,GameScene,UI,Upgrade,Pause,GameOver,Win,HighScore]
   })
 );
