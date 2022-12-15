@@ -24,6 +24,7 @@ export default class Preloader extends Phaser.Scene {
         this.load.image('bullet', './assets/bullets/bullet.png');
         this.load.image('player_bullet', './assets/bullets/bullet1.png');
         this.load.atlas('coin', './assets/coin/coin.png', './assets/coin/coin.json');
+        this.load.image('health_pot', './assets/potion/healthpot.png');
         
         // Map
         this.load.image('map', './assets/map/map.png');

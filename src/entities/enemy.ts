@@ -5,6 +5,7 @@ import GLOBALS from "../Globals";
 
 export default class Enemy extends GameEntity{
     declare body: Phaser.Physics.Arcade.Body;
+
     private health: number;
     readonly SPEED: number = 100;
     public readonly scene: Phaser.Scene;
@@ -51,7 +52,7 @@ export default class Enemy extends GameEntity{
     }
     
     spawn(x: number, y: number): void {
-        this.health = this.maxHealth;
+        this.health = this.maxHealth;   // reset the health
 
         this.scene.physics.world.enable(this);
         this.body.reset(x, y);
@@ -65,7 +66,7 @@ export default class Enemy extends GameEntity{
     dropCoin(): void {
         if (Math.random() < 0.2)
 
-        this.scene.coinGroup.spawnCoin(this.x, this.y);
+        this.scene.coinGroup.spawnItem(this.x, this.y);
     }
 
     destroy(): void {

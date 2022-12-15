@@ -1,16 +1,10 @@
-export default class Coin extends Phaser.Physics.Arcade.Sprite {
+import GameItem from "./GameItem";
+
+export default class Coin extends GameItem {
     declare body: Phaser.Physics.Arcade.Body;
 
-    constructor(scene: Phaser.Scene, x: number, y: number,
-        texture: string = 'coin', frame?: string | number) {
-        super(scene, x, y, 'coin', frame);
-
-        this.scene = scene;
-        this.scene.add.existing(this);
-        this.scene.physics.add.existing(this);
-
-        this.initSprite();
-        this.initAnimations();
+    constructor(scene: Phaser.Scene, x: number, y: number) {
+        super(scene, x, y, 'coin');
     }
 
     initSprite(): void {
@@ -28,23 +22,13 @@ export default class Coin extends Phaser.Physics.Arcade.Sprite {
     }
 
     update(time: number, delta: number): void {
+        super.update(time, delta);
         !this.anims.isPlaying && this.anims.play('coin_spin', true);
-
-        this.rotation = -this.scene.cameras.main.rotation;
-    }
-
-    spawn(x: number, y: number): void {
-        this.scene.physics.world.enable(this);
-        this.body.reset(x, y);
-
-        this.initSprite();
-        this.initAnimations();
-
-        this.setActive(true);
-        this.setVisible(true);
     }
 
     pickup(): void {
-        this.destroy();
+        this.scene.player.addCoin();
+        this.scene.coinSound.play({volume: 0.25});
+        super.pickup();
     }
 }
