@@ -27,7 +27,8 @@ export default class Title extends Phaser.Scene {
         });
 
         // background
-        let background = this.add.image(screenCenterX, screenCenterY, "bgMap");
+        let background = this.add.image(screenCenterX, screenCenterY, "bgMap").setScale(4);
+        background.y = screenCenterY + 75
         
         this.knightSprite = this.physics.add.sprite(-200 , screenCenterY / 1.5, 'knight_idle_')
             .setScale(4);
@@ -58,10 +59,6 @@ export default class Title extends Phaser.Scene {
             repeat: -1
         });
         this.chortSprite.anims.play('chort_run', true);
-
-        
-        background.displayWidth = this.sys.canvas.width + 500;
-        background.displayHeight = this.sys.canvas.height + 500;
     
         this.add.text(screenCenterX, screenCenterY, ' DUNGEON \nSURVIVORS', {
             fontFamily: 'VT323',
@@ -124,6 +121,11 @@ export default class Title extends Phaser.Scene {
         this.chortSprite.body.position.x = -25;
     }
 
+    chortGoLeft(): void {
+        this.chortSprite.setVelocityX(-350);
+        this.chortSprite.flipX = true;
+    }
+
     knightReset(): void {
         console.log('knight reset')
         this.knightSprite.setVelocityX(0);
@@ -137,15 +139,16 @@ export default class Title extends Phaser.Scene {
         if (!this.knightFlipDirection){
             this.knightGoRight();
             this.chortGoRight();
-            if (this.knightSprite.body.position.x >= this.sys.canvas.width + 90){
+            if (this.knightSprite.body.position.x >= this.sys.canvas.width + 150){
                 this.knightFlipDirection = true;
             }
         } 
         if (this.knightFlipDirection){
-            console.log(this.demonSprite.body.position.x)
+            this.chortSprite.body.position.x = this.demonSprite.body.position.x + 300;
             this.knightGoLeft();
             this.demonGoLeft();
-            if (this.demonSprite.body.position.x <= - 300){
+            this.chortGoLeft();
+            if (this.chortSprite.body.position.x <= - 100){
                 this.knightFlipDirection = false;
                 this.demonReset();
                 this.knightReset();

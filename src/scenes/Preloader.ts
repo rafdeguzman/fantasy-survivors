@@ -40,7 +40,7 @@ export default class Preloader extends Phaser.Scene {
         //ref:https://rare-gallery.com/970611-digital-art-pixel-art-pixels-pixelated-grave-cemetery-.html
         this.load.image('go', './assets/gameover/go.jpg');
         this.load.image('victory', './assets/victory/victory.jpg');
-        this.load.image('bgMap', './assets/background/map.png');
+        this.load.image('bgMap', './assets/background/map2.png');
 
         this.load.image('bgWP', './assets/background/bgWP.jpeg');
         //--Heart--//
