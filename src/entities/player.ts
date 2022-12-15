@@ -27,7 +27,7 @@ export default class Player extends GameEntity {
     public currentCoins: number = 0;
     public potions: number = 0;
 
-    public maxCoins: number = 1;
+    public maxCoins: number = 15;
     public maxPotions: number = 3;
 
     public bonusMoveSpeed: number = 0;

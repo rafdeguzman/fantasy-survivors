@@ -71,6 +71,5 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 
     setDamage(damage: number): void {
         this.DAMAGE = damage;
-        console.log(this.DAMAGE)
     }
 }

@@ -62,6 +62,6 @@ export default class Preloader extends Phaser.Scene {
     }
 
     create() {
-        this.scene.start(SceneKeys.GameOver)
+        this.scene.start(SceneKeys.Title)
     }
 }

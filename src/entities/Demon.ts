@@ -4,8 +4,9 @@ import Enemy from "./Enemy";
 
 export default class Demon extends Enemy {
     declare body: Phaser.Physics.Arcade.Body;
-    readonly SPEED: number = 150;
+    private SPEED: number = 150;
     private laserTick: number = 0;
+    private isShootingLaser: boolean = false;
 
     constructor(scene: Phaser.Scene, x: number,
         y: number) {
@@ -41,8 +42,27 @@ export default class Demon extends Enemy {
         this.laserTick += delta;
         !this.anims.isPlaying && this.anims.play('demon_run', true);
 
+        if (this.isFarFromPlayer()) {
+            this.isShootingLaser = false;
+            this.SPEED = 500;
+        }
+            
+        if (this.isCloseToPlayer()) {
+            this.isShootingLaser = true;
+            this.SPEED = 150;
+        }
+            
+        
         this.handleShooting();
         this.handleLaserShooting();
+    }
+
+    isCloseToPlayer(): boolean {
+        return Phaser.Math.Distance.Between(this.x, this.y, this.scene.player.x, this.scene.player.y) < 1000
+    }
+
+    isFarFromPlayer() : boolean {
+        return Phaser.Math.Distance.Between(this.x, this.y, this.scene.player.x, this.scene.player.y) < 2000
     }
 
     handleShooting(): void {
@@ -61,6 +81,8 @@ export default class Demon extends Enemy {
     }
 
     handleLaserShooting(): void {
+        if (!this.isShootingLaser) return;
+
         if (this.laserTick > GLOBALS.DEMON_LASER_FIRERATE) {
             this.shootLaser();
             this.laserTick = 0;
