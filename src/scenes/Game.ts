@@ -18,6 +18,8 @@ import Zombie from '../entities/Zombie';
 import TinyZombie from '../entities/TinyZombie';
 import Coin from '../objects/Coin';
 import Potion from '../objects/Potion';
+import Wogol from '../entities/Wogol';
+import Chort from '../entities/Chort';
 
 export default class GameScene extends Phaser.Scene {
   public player: Player;
@@ -33,6 +35,8 @@ export default class GameScene extends Phaser.Scene {
   private ogreGroup: EnemyFactory;
   private shamanGroup: EnemyFactory;
   private demonGroup: EnemyFactory;
+  private wogolGroup: EnemyFactory;
+  private chortGroup: EnemyFactory;
   
   public coinGroup: ItemGroup;
   public potionGroup: ItemGroup;
@@ -43,7 +47,9 @@ export default class GameScene extends Phaser.Scene {
   private ogreTimer: Phaser.Time.TimerEvent;
   private shamanTimer: Phaser.Time.TimerEvent;
   private demonTimer: Phaser.Time.TimerEvent;
-
+  private wogolTimer: Phaser.Time.TimerEvent;
+  private chortTimer: Phaser.Time.TimerEvent;
+  
   public factoryGroups: EnemyFactory[] = [];
 
   private timerEvents: Phaser.Time.TimerEvent[] = [];
@@ -107,7 +113,9 @@ export default class GameScene extends Phaser.Scene {
       this.shamanGroup = new EnemyFactory(this, Shaman, EnemyTypes.Shaman),
       this.demonGroup = new EnemyFactory(this, Demon, EnemyTypes.Demon),
       this.zombieGroup = new EnemyFactory(this, Zombie, EnemyTypes.Zombie),
-      this.tinyZombieGroup = new EnemyFactory(this, TinyZombie, EnemyTypes.TinyZombie)
+      this.tinyZombieGroup = new EnemyFactory(this, TinyZombie, EnemyTypes.TinyZombie),
+      this.wogolGroup = new EnemyFactory(this, Wogol, EnemyTypes.Wogol),
+      this.chortGroup = new EnemyFactory(this, Chort, EnemyTypes.Chort),
     ]
 
     this.coinGroup = new ItemGroup(this, Coin, 'coin');
@@ -127,6 +135,8 @@ export default class GameScene extends Phaser.Scene {
     this.ogreTimer = this.time.addEvent({ delay: GLOBALS.OGRE_SPAWN_TIME, callback: ()=>{this.addToFactory(EnemyTypes.Ogre)}, callbackScope: this, loop: true });
     this.shamanTimer = this.time.addEvent({ delay: GLOBALS.SHAMAN_SPAWN_TIME, callback: ()=>{this.addToFactory(EnemyTypes.Shaman)}, callbackScope: this, loop: true });
     this.demonTimer = this.time.addEvent({ delay: GLOBALS.DEMON_SPAWN_TIME, callback: ()=>{this.addToFactory(EnemyTypes.Demon)}, callbackScope: this, loop: true });
+    this.wogolTimer = this.time.addEvent({ delay: GLOBALS.WOGOL_SPAWN_TIME, callback: ()=>{this.addToFactory(EnemyTypes.Wogol)}, callbackScope: this, loop: true });
+    this.chortTimer = this.time.addEvent({ delay: GLOBALS.CHORT_SPAWN_TIME, callback: ()=>{this.addToFactory(EnemyTypes.Chort)}, callbackScope: this, loop: true });
 
     this.timerEvents.push(this.orcTimer);
     this.timerEvents.push(this.necromancerTimer);
@@ -206,7 +216,6 @@ export default class GameScene extends Phaser.Scene {
   }
 
   addToFactory(type: string){
-
     switch(type){
       case EnemyTypes.Orc:
         for(let i = 0; i < 4; i++){
@@ -229,6 +238,8 @@ export default class GameScene extends Phaser.Scene {
         break;
       case EnemyTypes.BigZombie:
       case EnemyTypes.Ogre:
+      case EnemyTypes.Chort:
+      case EnemyTypes.Wogol:
         this.factoryGroups.forEach(factory => {
           if(factory.enemyType === type){
             factory.spawnEnemy(Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));

@@ -7,6 +7,8 @@ enum EnemyTypes {
     Orc = 'orc',
     Demon = 'demon',
     Shaman = 'shaman',
+    Wogol = 'wogol',
+    Chort = 'chort'
 }
 
 export default EnemyTypes;

@@ -1,7 +1,7 @@
 {
 	"textures": [
 		{
-			"image": "wogol.png",
+			"image": "wogol",
 			"format": "RGBA8888",
 			"size": {
 				"w": 58,
@@ -10,7 +10,7 @@
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "wogol_run_anim_f1.png",
+					"filename": "wogol_run_anim_f1",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -31,7 +31,7 @@
 					}
 				},
 				{
-					"filename": "wogol_run_anim_f2.png",
+					"filename": "wogol_run_anim_f2",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -52,7 +52,7 @@
 					}
 				},
 				{
-					"filename": "wogol_run_anim_f0.png",
+					"filename": "wogol_run_anim_f0",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -73,7 +73,7 @@
 					}
 				},
 				{
-					"filename": "wogol_run_anim_f3.png",
+					"filename": "wogol_run_anim_f3",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
