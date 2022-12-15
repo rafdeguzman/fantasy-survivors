@@ -147,6 +147,8 @@ export default class GameScene extends Phaser.Scene {
 
     this.scene.sendToBack(SceneKeys.Game);
     this.scene.launch(SceneKeys.UI,{player :this.player});
+
+    this.initEnemySpawn();
   }
 
   setupMap() {
@@ -156,7 +158,6 @@ export default class GameScene extends Phaser.Scene {
   update(time: number, delta: number): void {
     if(this.player.isDead)  this.gameOver();
     
-
     this.pause();
     this.upgrade();
 
@@ -236,17 +237,30 @@ export default class GameScene extends Phaser.Scene {
           this.factoryGroups[1].spawnEnemy(Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
         }
         break;
-      case EnemyTypes.BigZombie:
-      case EnemyTypes.Ogre:
-      case EnemyTypes.Chort:
-      case EnemyTypes.Wogol:
+      // case EnemyTypes.BigZombie:
+      // case EnemyTypes.Ogre:
+      // case EnemyTypes.Chort:
+      // case EnemyTypes.Wogol:
+      //   this.factoryGroups.forEach(factory => {
+      //     if(factory.enemyType === type){
+      //       factory.spawnEnemy(Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
+      //     }
+      //   });
+      //   break;
+      default:
         this.factoryGroups.forEach(factory => {
           if(factory.enemyType === type){
             factory.spawnEnemy(Phaser.Math.Between(this.worldX, 2501), Phaser.Math.Between(this.worldY, 2496));
           }
         });
         break;
-      default:
+      }
+    }
+
+    initEnemySpawn(): void {
+      console.log("initEnemySpawn");
+      for (let i = 0; i < 2; i++) {
+        this.addToFactory(EnemyTypes.Orc);
       }
     }
 

@@ -25,10 +25,12 @@ export default class Demon extends Enemy {
         this.mobSpawnTimer = this.scene.time.addEvent({
             delay: 15000,
             callback: () => {
-                this.scene.addToFactory(EnemyTypes.Necromancer);
+                this.scene.addToFactory(EnemyTypes.Wogol);
+                this.scene.addToFactory(EnemyTypes.Chort);
             },
             loop: true
         })
+        this.mobSpawnTimer.paused = true;
     }
 
     initSprite(): void{
@@ -46,6 +48,10 @@ export default class Demon extends Enemy {
         });
     }
 
+    initTimer(): void {
+        this.mobSpawnTimer.paused = false;
+    }
+
     // walk towards the player
     update(time: number, delta: number): void {
         super.update(time, delta);
@@ -55,7 +61,7 @@ export default class Demon extends Enemy {
 
         if (this.isFarFromPlayer()) {
             this.isShootingLaser = false;
-            this.SPEED = 500;
+            this.SPEED = 300;
         }
             
         if (this.isCloseToPlayer()) {
@@ -68,11 +74,11 @@ export default class Demon extends Enemy {
     }
 
     isCloseToPlayer(): boolean {
-        return Phaser.Math.Distance.Between(this.x, this.y, this.scene.player.x, this.scene.player.y) < 1000
+        return Phaser.Math.Distance.Between(this.x, this.y, this.scene.player.x, this.scene.player.y) <= 500
     }
 
     isFarFromPlayer() : boolean {
-        return Phaser.Math.Distance.Between(this.x, this.y, this.scene.player.x, this.scene.player.y) < 1500
+        return Phaser.Math.Distance.Between(this.x, this.y, this.scene.player.x, this.scene.player.y) > 500
     }
 
     handleShooting(): void {
