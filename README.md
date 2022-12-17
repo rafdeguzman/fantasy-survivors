@@ -1,5 +1,3 @@
-#Dungeon Survivors
-
 Dungeon Survivors is a game made by Rafael Vincent de Guzman and Gorav Karwer for the Game Programming Class.
 It was made in Phaser 3 and TypeScript
 
